@@ -1,0 +1,8 @@
+{
+  "serviceName": "RP Admin Tool (prototype)",
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

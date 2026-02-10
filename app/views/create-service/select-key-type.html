@@ -1,0 +1,88 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/redirect-urls" method="post">
+        <p>
+          {% set staticKeyHtml %}
+          {{ govukInput({
+            id: "static-key",
+            name: "staticKey",
+            type: "key",
+            autocomplete: "key",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+              text: "Public key"
+            }
+          }) }}
+          {% endset -%}
+          {% set clientSecretHtml %}
+          {{ govukInput({
+            id: "client-secret",
+            name: "clientSecret",
+            type: "secret",
+            autocomplete: "secret",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+              text: "Client secret"
+            }
+          }) }}
+          {% endset -%}
+          {{ govukRadios({
+            name: "publicKeyType",
+            fieldset: {
+              legend: {
+                text: "How will your service authenticate with OneLogin?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: [
+              {
+                value: "JWKS URL",
+                text: "Public key URL (JWKS) - Recommended",
+                hint: "We'll automatically fetch your public keys from a URL you provide"
+              },
+              {
+                value: "Static Key",
+                text: "Upload a public key",
+                conditional: {
+                  html: staticKeyHtml
+                }
+              },
+              {
+                value: "Client Secret",
+                text: "Client secret",
+                conditional: {
+                  html: clientSecretHtml
+                }
+              }
+            ]
+          }) }}
+        </p>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/confirm" method="post">
+
+        <p>
+          {{ govukCheckboxes({
+            name: "selectedScopes",
+            fieldset: {
+              legend: {
+                text: "Which scopes would you like to send?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            hint: {
+              text: "Select all that apply"
+            },
+            items: [
+              {
+                value: "Openid",
+                text: "Openid"
+              },
+              {
+                value: "Email address",
+                text: "Email address"
+              },
+              {
+                value: "Phone number",
+                text: "Phone number"
+              },
+              {
+                value: "Wallet subject ID",
+                text: "Wallet subject ID"
+              }
+            ]
+          }) }}
+        </p>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

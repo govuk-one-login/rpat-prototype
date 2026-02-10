@@ -1,0 +1,124 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Check your answers template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-xl">
+        Check these details before creating your service
+      </h1>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Service Name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['clientName']}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/enter-client-name">Change<span class="govuk-visually-hidden"> name</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Public key type
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['publicKeyType']}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> public key type</span></a>
+          </dd>
+        </div>
+        {% if data['publicKeyType'] === 'Client Secret' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Client Secret
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['clientSecret']}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
+          </dd>
+        </div> 
+        {% endif %}
+        {% if data['publicKeyType'] === 'Static Key' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Static Key
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['staticKey']}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
+          </dd>
+        </div> 
+        {% endif %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Redirect url(s)
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% set urlList = data['redirectUrls'].split(',') %}
+            {% for url in urlList %}
+              {{ url | trim }}<br>
+            {% endfor %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Scopes
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['selectedScopes'].join(', ')}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/create-service/select-scopes">Change<span class="govuk-visually-hidden"> scopes</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <form action="/confirmation" method="post" novalidate>
+
+        {{ govukButton({
+          text: "Create"
+        }) }}
+
+      </form>
+
+      <form action="/confirmation" method="post" novalidate>
+
+        {{ govukButton({
+          text: "Add identity journey configuration"
+        }) }}
+
+      </form>
+
+      <form action="/confirmation" method="post" novalidate>
+
+        {{ govukButton({
+          text: "Add additional configuration"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

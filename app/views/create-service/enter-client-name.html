@@ -1,0 +1,44 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/select-key-type" method="post">
+        <p>
+          {{ govukInput({
+            label: {
+              text: "Enter your service name",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            }, 
+            hint: {
+              text: "Use a descriptive name, avoiding acronyms"
+            },
+            id: "client-name",
+            name: "clientName",
+            value: data['clientName']
+          }) }}
+        </p>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
