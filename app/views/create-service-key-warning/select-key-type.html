@@ -1,0 +1,122 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/create-service-key-warning/redirect-urls" method="post">
+
+        <h1 class="govuk-heading-l">
+          Token authentication method
+        </h1>
+
+        {{ govukWarningText({
+          text: "If client secret is selected, you will be unable to request identity verification",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {% set jwksEndpointHtml %}
+          {{ govukInput({
+            id: "jwks-endpoint",
+            name: "jwksEndpoint",
+            autocomplete: "url",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+              text: "JWKS endpoint URL"
+            }
+          }) }}
+        {% endset -%}
+
+        {% set staticKeyHtml %}
+          {{ govukInput({
+            id: "static-key",
+            name: "staticKey",
+            type: "key",
+            autocomplete: "key",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+              text: "Public key"
+            }
+          }) }}
+        {% endset -%}
+
+        {% set clientSecretHtml %}
+          {{ govukInput({
+            id: "client-secret",
+            name: "clientSecret",
+            type: "secret",
+            autocomplete: "secret",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+              text: "Client secret"
+            }
+          }) }}
+        {% endset -%}
+
+        {{ govukRadios({
+          name: "publicKeyType",
+          fieldset: {
+            legend: {
+              text: "How do you want to authenticate?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "Public key URL (JWKS)",
+              text: "Public key URL (JWKS)",
+              hint: {
+                text: "Recommended. Use private_key_jwt authentication with a JSON Web Key Set endpoint."
+              },
+              conditional: {
+                html: jwksEndpointHtml
+              }
+            },
+            {
+              value: "Fixed public key",
+              text: "Fixed public key",
+              hint: {
+                text: "Use private_key_jwt authentication with a single uploaded public key."
+              },
+              conditional: {
+                html: staticKeyHtml
+              }
+            },
+            {
+              value: "Client secret",
+              text: "Client secret",
+              hint: {
+                text: "Use client_secret_post authentication."
+              },
+              conditional: {
+                html: clientSecretHtml
+              }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
