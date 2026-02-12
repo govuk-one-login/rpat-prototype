@@ -42,41 +42,56 @@
             <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> public key type</span></a>
           </dd>
         </div>
-        {% if data['publicKeyType'] === 'Client Secret' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Client Secret
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['clientSecret']}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
-          </dd>
-        </div> 
+        {% if data['publicKeyType'] === 'Public key URL (JWKS)' %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              JWKS Endpoint
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['jwksEndpoint']}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> JWKS endpoint</span></a>
+            </dd>
+          </div> 
         {% endif %}
-        {% if data['publicKeyType'] === 'Static Key' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Static Key
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['staticKey']}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
-          </dd>
-        </div> 
+        {% if data['publicKeyType'] === 'Client secret' %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Client Secret
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['clientSecret']}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
+            </dd>
+          </div> 
+        {% endif %}
+        {% if data['publicKeyType'] === 'Fixed public key' %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Static Key
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['staticKey']}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
+            </dd>
+          </div> 
         {% endif %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Redirect url(s)
           </dt>
           <dd class="govuk-summary-list__value">
-            {% set urlList = data['redirectUrls'].split(',') %}
-            {% for url in urlList %}
-              {{ url | trim }}<br>
-            {% endfor %}
+            {% if data['redirectUrls'].length > 0 %}
+              {% set urlList = data['redirectUrls'].split(',') %}
+              {% for url in urlList %}
+                {{ url | trim }}<br>
+              {% endfor %}
+            {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/create-service/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
@@ -87,7 +102,12 @@
             Scopes
           </dt>
           <dd class="govuk-summary-list__value">
-            {{data['selectedScopes'].join(', ')}}
+            OpenID
+            {% if data['selectedScopes'].length > 0 %}
+              {% for scope in data['selectedScopes'] %}
+                <br>{{ scope | trim }}
+              {% endfor %}
+            {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/create-service/select-scopes">Change<span class="govuk-visually-hidden"> scopes</span></a>

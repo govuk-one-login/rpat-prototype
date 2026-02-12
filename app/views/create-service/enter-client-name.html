@@ -16,21 +16,19 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/create-service/select-key-type" method="post">
-        <p>
-          {{ govukInput({
-            label: {
-              text: "Enter your service name",
-              classes: "govuk-label--l",
-              isPageHeading: true
-            }, 
-            hint: {
-              text: "Use a descriptive name, avoiding acronyms"
-            },
-            id: "client-name",
-            name: "clientName",
-            value: data['clientName']
-          }) }}
-        </p>
+        {{ govukInput({
+          label: {
+            text: "Enter your service name",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          }, 
+          hint: {
+            text: "Use a descriptive name, avoiding acronyms"
+          },
+          id: "client-name",
+          name: "clientName",
+          value: data['clientName']
+        }) }}
 
         {{ govukButton({
           text: "Continue"
