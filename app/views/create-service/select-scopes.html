@@ -17,39 +17,39 @@
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/create-service/confirm" method="post">
 
-        <p>
-          {{ govukCheckboxes({
-            name: "selectedScopes",
-            fieldset: {
-              legend: {
-                text: "Which scopes would you like to send?",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
-              }
+        {{ govukCheckboxes({
+          name: "selectedScopes",
+          fieldset: {
+            legend: {
+              text: "Which scope(s) does your service require?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select all that apply"
+          },
+          items: [
+            {
+              value: "Openid",
+              text: "Openid",
+              checked: true,
+              disabled: true
             },
-            hint: {
-              text: "Select all that apply"
+            {
+              value: "Email address",
+              text: "Email address"
             },
-            items: [
-              {
-                value: "Openid",
-                text: "Openid"
-              },
-              {
-                value: "Email address",
-                text: "Email address"
-              },
-              {
-                value: "Phone number",
-                text: "Phone number"
-              },
-              {
-                value: "Wallet subject ID",
-                text: "Wallet subject ID"
-              }
-            ]
-          }) }}
-        </p>
+            {
+              value: "Phone number",
+              text: "Phone number"
+            },
+            {
+              value: "Wallet subject ID",
+              text: "Wallet subject ID"
+            }
+          ]
+        }) }}
 
         {{ govukButton({
           text: "Continue"
