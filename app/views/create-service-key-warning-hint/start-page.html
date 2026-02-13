@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Start page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+{{ govukBreadcrumbs({
+  items: [
+    {
+      text: "Home",
+      href: "/"
+    },
+    {
+      text: "Create a service"
+    }
+  ]
+}) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      {{ serviceName }}
+    </h1>
+
+    <p>Use this service to create a configuration for your integration service</p>
+
+    <p>Registering takes around 5 minutes.</p>
+
+    {{ govukButton({
+      text: "Start now",
+      href: "/create-service-key-warning-hint/enter-client-name",
+      isStartButton: true
+    }) }}
+
+    <h2 class="govuk-heading-m">
+      Before you start
+    </h2>
+
+    <p>
+      You will need:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>service name</li>
+      <li>either a JWKS endpoint url (recommended), public static key, or client secret</li>
+      <li>redirect url(s)</li>
+      <li>scopes your service requires</li>
+    </ul>
+
+  </div>
+</div>
+
+{% endblock %}
