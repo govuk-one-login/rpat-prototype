@@ -86,12 +86,9 @@
             Redirect url(s)
           </dt>
           <dd class="govuk-summary-list__value">
-            {% if data['redirectUrls'].length > 0 %}
-              {% set urlList = data['redirectUrls'].split(',') %}
-              {% for url in urlList %}
-                {{ url | trim }}<br>
-              {% endfor %}
-            {% endif %}
+            {% for url in redirectUrls %}
+              {{ url | trim }}<br>
+            {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/create-service/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
