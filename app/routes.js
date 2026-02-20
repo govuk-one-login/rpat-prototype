@@ -17,6 +17,20 @@ router.get("/create-service/redirect-urls", (req, res) => {
 router.post("/create-service/redirect-urls", (req, res) => {
   const existingUrls = req.cookies.redirectUrls || [];
   let allUrls = existingUrls;
+  const newRedirectUrl = req.body.redirectUrl;
+  try {
+    const _url = new URL(newRedirectUrl);
+  } catch (_) {
+    res.render("/create-service/redirect-urls.html", {
+      redirectUrls: req.cookies.redirectUrls,
+      redirectUrlTableEntries: req.cookies.redirectUrlTableEntries,
+      errorMessage: {
+        text: "Invalid URL",
+      },
+    });
+    return;
+  }
+
   if (req.body.redirectUrl) {
     allUrls.push(req.body.redirectUrl);
   }
