@@ -7,14 +7,14 @@ const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
 // Add your routes here
-router.get("/create-service/redirect-urls", (req, res) => {
-  res.render("/create-service/redirect-urls.html", {
+router.get("/create-service-redirect-url-table/redirect-urls", (req, res) => {
+  res.render("/create-service-redirect-url-table/redirect-urls.html", {
     redirectUrls: req.cookies.redirectUrls,
     redirectUrlTableEntries: req.cookies.redirectUrlTableEntries,
   });
 });
 
-router.post("/create-service/redirect-urls", (req, res) => {
+router.post("/create-service-redirect-url-table/redirect-urls", (req, res) => {
   const existingUrls = req.cookies.redirectUrls || [];
   let allUrls = existingUrls;
   if (req.body.redirectUrl) {
@@ -23,20 +23,23 @@ router.post("/create-service/redirect-urls", (req, res) => {
 
   res.cookie("redirectUrls", allUrls);
   res.cookie("redirectUrlTableEntries", createTableEntries(allUrls));
-  res.redirect("/create-service/redirect-urls");
+  res.redirect("/create-service-redirect-url-table/redirect-urls");
 });
 
-router.get("/create-service/redirect-urls/delete/:id", (req, res) => {
-  let allUrls = req.cookies.redirectUrls;
-  allUrls.splice(req.params.id, 1);
-  res.cookie("redirectUrls", allUrls);
-  res.cookie("redirectUrlTableEntries", createTableEntries(allUrls));
-  res.redirect("/create-service/redirect-urls");
-});
+router.get(
+  "/create-service-redirect-url-table/redirect-urls/delete/:id",
+  (req, res) => {
+    let allUrls = req.cookies.redirectUrls;
+    allUrls.splice(req.params.id, 1);
+    res.cookie("redirectUrls", allUrls);
+    res.cookie("redirectUrlTableEntries", createTableEntries(allUrls));
+    res.redirect("/create-service-redirect-url-table/redirect-urls");
+  }
+);
 
-router.get("/create-service/confirm", (req, res) => {
+router.get("/create-service-redirect-url-table/confirm", (req, res) => {
   const redirectUrls = req.cookies.redirectUrls;
-  res.render("/create-service/confirm.html", {
+  res.render("/create-service-redirect-url-table/confirm.html", {
     redirectUrls: redirectUrls,
   });
 });
@@ -48,7 +51,7 @@ const createTableEntries = (allUrls) => {
       },
       {
         html:
-          '<a href="/create-service/redirect-urls/delete/' +
+          '<a href="/create-service-redirect-url-table/redirect-urls/delete/' +
           index +
           '">Delete</a>',
       },

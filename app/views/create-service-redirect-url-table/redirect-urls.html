@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service-redirect-url-table/redirect-urls" method="post">
+        {{ govukTable({
+              caption: "Redirect URLs",
+              captionClasses: "govuk-table__caption--m",
+
+              head: [],
+              rows:  redirectUrlTableEntries
+            })
+          }}
+          {{ govukInput({
+            label: {
+              text: "Add a redirect URL",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            }, 
+            id: "redirectUrl",
+            name: "redirectUrl",
+            errorMessage: errorMessage
+          }) }}
+          {{ govukButton({
+            text: "Add"
+          }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          href: "/create-service-redirect-url-table/select-scopes"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

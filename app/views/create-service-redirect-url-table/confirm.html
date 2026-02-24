@@ -28,7 +28,7 @@
             {{data['clientName']}}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-service/enter-client-name">Change<span class="govuk-visually-hidden"> name</span></a>
+            <a class="govuk-link" href="/create-service-redirect-url-table/enter-client-name">Change<span class="govuk-visually-hidden"> name</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -39,7 +39,7 @@
             {{data['publicKeyType']}}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> public key type</span></a>
+            <a class="govuk-link" href="/create-service-redirect-url-table/select-key-type">Change<span class="govuk-visually-hidden"> public key type</span></a>
           </dd>
         </div>
         {% if data['publicKeyType'] === 'Public key URL (JWKS)' %}
@@ -51,7 +51,7 @@
               {{data['jwksEndpoint']}}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> JWKS endpoint</span></a>
+              <a class="govuk-link" href="/create-service-redirect-url-table/select-key-type">Change<span class="govuk-visually-hidden"> JWKS endpoint</span></a>
             </dd>
           </div> 
         {% endif %}
@@ -64,7 +64,7 @@
               {{data['clientSecret']}}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
+              <a class="govuk-link" href="/create-service-redirect-url-table/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
             </dd>
           </div> 
         {% endif %}
@@ -77,7 +77,7 @@
               {{data['staticKey']}}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/create-service/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
+              <a class="govuk-link" href="/create-service-redirect-url-table/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
             </dd>
           </div> 
         {% endif %}
@@ -86,15 +86,12 @@
             Redirect url(s)
           </dt>
           <dd class="govuk-summary-list__value">
-            {% if data['redirectUrls'].length > 0 %}
-              {% set urlList = data['redirectUrls'].split(',') %}
-              {% for url in urlList %}
-                {{ url | trim }}<br>
-              {% endfor %}
-            {% endif %}
+            {% for url in redirectUrls %}
+              {{ url | trim }}<br>
+            {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-service/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
+            <a class="govuk-link" href="/create-service-redirect-url-table/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
