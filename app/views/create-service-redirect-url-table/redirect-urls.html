@@ -16,20 +16,24 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/create-service-redirect-url-table/redirect-urls" method="post">
+        {% if redirectUrls | length > 0 %}
         {{ govukTable({
               caption: "Redirect URLs",
               captionClasses: "govuk-table__caption--m",
-
               head: [],
               rows:  redirectUrlTableEntries
             })
           }}
+          {% endif %}
           {{ govukInput({
             label: {
               text: "Add a redirect URL",
               classes: "govuk-label--l",
               isPageHeading: true
             }, 
+            hint:{
+              text: "You need at least one redirect URL for your service to work"
+            },
             id: "redirectUrl",
             name: "redirectUrl"
           }) }}
@@ -37,13 +41,13 @@
             text: "Add"
           }) }}
 
-        {{ govukButton({
-          text: "Continue",
-          href: "/create-service-redirect-url-table/select-scopes"
-        }) }}
-
+        {% if redirectUrls | length > 0 %}
+          {{ govukButton({
+            text: "Continue",
+            href: "/create-service-redirect-url-table/select-scopes"
+          }) }}
+        {% endif %}
       </form>
-
     </div>
   </div>
 
