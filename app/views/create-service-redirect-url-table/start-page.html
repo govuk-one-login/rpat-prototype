@@ -1,0 +1,53 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Start page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+  <!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Create a service"
+      }
+    ]
+  }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+      <h1 class="govuk-heading-xl">
+        {{ serviceName }}
+      </h1>
+
+      <p>To use this service you will at minimum need:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>service name</li>
+        <li>an approach to authenticate with OneLogin <i>(public key url, public key, or client secret)</i></li>
+        <li>redirect url(s)</li>
+        <li>scopes your service requires</li>
+      </ul>
+
+      <p>Registering takes around 5 minutes.</p>
+
+      {{ govukButton({
+        text: "Start now",
+        href: "/create-service-redirect-url-table/enter-client-name.html",
+        isStartButton: true
+      }) }}
+  </div>
+
+{% endblock %}
