@@ -37,16 +37,20 @@
             id: "redirectUrl",
             name: "redirectUrl"
           }) }}
-          {{ govukButton({
-            text: "Add"
-          }) }}
-
-        {% if redirectUrls | length > 0 %}
-          {{ govukButton({
-            text: "Continue",
-            href: "/create-service-redirect-url-table/select-scopes"
-          }) }}
-        {% endif %}
+          {% if redirectUrls | length > 0 %}
+            {{ govukButton({
+              text: "Add",
+              classes: "govuk-button--secondary"
+            }) }}
+            {{ govukButton({
+              text: "Continue",
+              href: "/create-service-redirect-url-table/select-scopes"
+            }) }}
+          {% else %}
+            {{ govukButton({
+              text: "Add"
+            }) }}
+          {% endif %}
       </form>
     </div>
   </div>
