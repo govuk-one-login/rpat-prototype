@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName="Create Service Home" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
+
+    <h1 class="govuk-heading-xl">
+      {{ serviceName }}
+    </h1>
+
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "Create Service (Basic)",
+        href: "/create-service/start-page.html",
+        isStartButton: true
+      }) }}
+    </div>
+
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "Create Service (With Warning)",
+        href: "/create-service-key-warning/start-page.html",
+        isStartButton: true
+      }) }}
+    </div>
+
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "Create Service (With Warning As Hint)",
+        href: "/create-service-key-warning-hint/start-page.html",
+        isStartButton: true
+      }) }}
+    </div>
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "Create Service (With Redirect URL improvements)",
+        href: "/create-service-redirect-url-table/start-page.html",
+        isStartButton: true
+      }) }}
+    </div>
+    {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
+  </div>
+</div>
+
+{% endblock %}

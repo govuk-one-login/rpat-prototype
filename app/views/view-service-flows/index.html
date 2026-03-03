@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName="Home" %}
+{% set pageName="View Service Home" %}
 
 {% block content %}
 
@@ -14,19 +14,12 @@
     </h1>
 
     <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "All Create Service Flows",
-        href: "/create-service-flows/index.html",
-        isStartButton: true
-      }) }}
-    </div>
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "All View Service Flows",
-        href: "/view-service-flows/index.html",
-        isStartButton: true
-      }) }}
-    </div>
+        {{ govukButton({
+          text: "View Service Details",
+          href: "/view-service/view-all-details.html",
+          isStartButton: true
+        }) }}
+      </div>
     {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
   </div>
 </div>
