@@ -8,5 +8,9 @@ const router = govukPrototypeKit.requests.setupRouter();
 const {
   setupRoutes,
 } = require("./views/create-service-redirect-url-table/setup-routes");
+const {
+  setupViewServiceEditableRoutes,
+} = require("./views/view-service-editable/setup-routes");
 
 setupRoutes(router);
+setupViewServiceEditableRoutes(router);
