@@ -17,10 +17,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-l">View Client Details</h1>
-      {{ govukDetails({
-        summaryText: "Core fields",
-        open: true,
-        html: govukTable({
+       {{govukTable({
           firstCellIsHeader: true,
           head: [],
           rows: [
@@ -32,8 +29,7 @@
             [{ text: "Redirect URLs" }, { html: "http://example1.com<br/>http://example2.com<br/>http://example3.com" }],
             [{ text: "Token Authentication Method" }, { text: "Private key JWT" }]
           ]
-        })
-      })}}
+        })}}
         {{ govukDetails({
             summaryText: "Identity fields",
             html: govukTable({
