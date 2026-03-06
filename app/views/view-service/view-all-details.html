@@ -1,0 +1,226 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  View Service – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {{ govukTable({
+        caption: "View Client Details",
+        captionClasses: "govuk-table__caption--l",
+        firstCellIsHeader: true,
+        head: [],
+        rows:  [
+            [
+                {
+                    text: "Client Name"
+                },
+                {
+                    text: "My Custom Service"
+                }
+            ],
+            [
+                {
+                    text: "Client ID"
+                },
+                {
+                    text: "abcd1234"
+                }
+            ],
+            [
+                {
+                    text: "Public Key Type"
+                },
+                {
+                    text: "JWKS"
+                }
+            ],
+            [
+                {
+                    text: "JWKS URL"
+                },
+                {
+                    text: "http://example.com/.well-known/jwks.json"
+                }
+            ],
+            [
+                {
+                    text: "Scopes"
+                },
+                {
+                    html: "openid<br>email"
+                }
+            ],
+            [
+                {
+                    text: "Redirect URLs"
+                },
+                {
+                    html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+                }
+            ],
+            [
+                {
+                    text: "Token Authentication Method"
+                },
+                {
+                    text: "Private key JWT"
+                }
+            ],
+            [
+                {
+                    text: "ID Token Signing Algorithm"
+                },
+                {
+                    text: "RS256"
+                }
+            ],
+            [
+                {
+                    text: "Contacts"
+                },
+                {
+                    html: "person1@email.com<br/>person2@email.com"
+                }
+            ],
+            [
+                {
+                    text: "Is Active"
+                },
+                {
+                    text: "Yes"
+                }
+            ],
+            [
+                {
+                    text: "Identity Verification Supported"
+                },
+                {
+                    text: "Yes"
+                }
+            ],
+            [
+                {
+                    text: "Claims"
+                },
+                {
+                    html: "https://vocab.account.gov.uk/v1/passport<br>https://vocab.account.gov.uk/v1/coreIdentityJWT<br>https://vocab.account.gov.uk/v1/address<br>https://vocab.account.gov.uk/v1/drivingPermit"
+                }
+            ],
+            [
+                {
+                    text: "Landing Page URL"
+                },
+                {
+                    text: "http://example.com"
+                }
+            ],
+            [
+                {
+                    text: "Level of Confidence values"
+                },
+                {
+                    html: "P1<br>P2"
+                }
+            ],
+            [
+                {
+                    text: "Post Logout Redirect URLs"
+                },
+                {
+                    html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+                }
+            ],
+            [
+                {
+                    text: "Back Channel Logout URLs"
+                },
+                {
+                    html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+                }
+            ],
+            [
+                {
+                    text: "Sector Identifier URI"
+                },
+                {
+                    text: "http://example.com"
+                }
+            ],
+            [
+                {
+                    text: "Service Type"
+                },
+                {
+                    text: "MANDATORY"
+                }
+            ],
+            [
+                {
+                    text: "JAR Validation Required"
+                },
+                {
+                    text: "Yes"
+                }
+            ],
+            [
+                {
+                    text: "Channel"
+                },
+                {
+                    text: "web"
+                }
+            ],
+            [
+                {
+                    text: "PKCE Enforced"
+                },
+                {
+                    text: "Yes"
+                }
+            ],
+            [
+                {
+                    text: "Max Age Enabled"
+                },
+                {
+                    text: "No"
+                }
+            ],
+            [
+                {
+                    text: "Permit Missing Nonce"
+                },
+                {
+                    text: "Yes"
+                }
+            ],
+            [
+                {
+                    text: "Rate Limit"
+                },
+                {
+                    text: "2000 requests per minute"
+                }
+            ]
+        ]
+      })
+    }}
+    {{ govukButton({
+        text: "Back"
+      }) }}
+      {{ govukButton({
+        text: "Edit",
+        classes: "govuk-button--secondary"
+      }) }}
+{% endblock %}
