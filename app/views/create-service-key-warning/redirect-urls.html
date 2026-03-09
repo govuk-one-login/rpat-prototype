@@ -6,37 +6,53 @@
 
 {% block beforeContent %}
   {{ govukBackLink({
-    text: "Back",
-    href: "javascript:window.history.back()"
-  }) }}
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
 {% endblock %}
 
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <form class="form" action="/create-service-key-warning/select-scopes" method="post">
-
-      {{ govukTextarea({
-        name: "redirectUrls",
-        id: "redirect-urls",
-        label: {
-          text: "Redirect URLs",
-          classes: "govuk-label--l",
-          isPageHeading: true
-        },
-        hint: {
-          text: "Enter the URLs where users will be sent after signing in. Separate multiple URLs with a comma."
-        }
-      }) }}
-
-      {{ govukButton({
-        text: "Continue"
-      }) }}
-
-    </form>
-
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service-key-warning/redirect-urls" method="post">
+        {% if redirectUrls | length > 0 %}
+        {{ govukTable({
+              caption: "Redirect URLs",
+              captionClasses: "govuk-table__caption--m",
+              head: [],
+              rows:  redirectUrlTableEntries
+            })
+          }}
+          {% endif %}
+          {{ govukInput({
+            label: {
+              text: "Add a redirect URL",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            }, 
+            hint:{
+              text: "You need at least one redirect URL for your service to work"
+            },
+            id: "redirectUrl",
+            name: "redirectUrl"
+          }) }}
+          {% if redirectUrls | length > 0 %}
+            {{ govukButton({
+              text: "Add",
+              classes: "govuk-button--secondary"
+            }) }}
+            {{ govukButton({
+              text: "Continue",
+              href: "/create-service-key-warning/select-scopes"
+            }) }}
+          {% else %}
+            {{ govukButton({
+              text: "Add"
+            }) }}
+          {% endif %}
+      </form>
+    </div>
   </div>
-</div>
 
 {% endblock %}

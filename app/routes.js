@@ -6,7 +6,11 @@
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
 const {
-  setupRoutes,
-} = require("./views/create-service-redirect-url-table/setup-routes");
+  setupKeyWarningRoutes,
+} = require("./views/create-service-key-warning/setup-routes");
+const {
+  setupKeyWarningHintRoutes,
+} = require("./views/create-service-key-warning-hint/setup-routes");
 
-setupRoutes(router);
+setupKeyWarningRoutes(router);
+setupKeyWarningHintRoutes(router);

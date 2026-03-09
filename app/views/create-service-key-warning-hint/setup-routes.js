@@ -1,14 +1,14 @@
-function setupRoutes(router) {
+function setupKeyWarningHintRoutes(router) {
   // Add your routes here
-  router.get("/create-service-redirect-url-table/redirect-urls", (req, res) => {
-    res.render("/create-service-redirect-url-table/redirect-urls.html", {
+  router.get("/create-service-key-warning-hint/redirect-urls", (req, res) => {
+    res.render("/create-service-key-warning-hint/redirect-urls.html", {
       redirectUrls: req.cookies.redirectUrls,
       redirectUrlTableEntries: req.cookies.redirectUrlTableEntries,
     });
   });
 
   router.post(
-    "/create-service-redirect-url-table/redirect-urls",
+    "/create-service-key-warning-hint/redirect-urls",
     (req, res) => {
       const existingUrls = req.cookies.redirectUrls || [];
       let allUrls = existingUrls;
@@ -19,24 +19,24 @@ function setupRoutes(router) {
 
       res.cookie("redirectUrls", allUrls);
       res.cookie("redirectUrlTableEntries", createTableEntries(allUrls));
-      res.redirect("/create-service-redirect-url-table/redirect-urls");
+      res.redirect("/create-service-key-warning-hint/redirect-urls");
     }
   );
 
   router.get(
-    "/create-service-redirect-url-table/redirect-urls/delete/:id",
+    "/create-service-key-warning-hint/redirect-urls/delete/:id",
     (req, res) => {
       let allUrls = req.cookies.redirectUrls;
       allUrls.splice(req.params.id, 1);
       res.cookie("redirectUrls", allUrls);
       res.cookie("redirectUrlTableEntries", createTableEntries(allUrls));
-      res.redirect("/create-service-redirect-url-table/redirect-urls");
+      res.redirect("/create-service-key-warning-hint/redirect-urls");
     }
   );
 
-  router.get("/create-service-redirect-url-table/confirm", (req, res) => {
+  router.get("/create-service-key-warning-hint/confirm", (req, res) => {
     const redirectUrls = req.cookies.redirectUrls;
-    res.render("/create-service-redirect-url-table/confirm.html", {
+    res.render("/create-service-key-warning-hint/confirm.html", {
       redirectUrls: redirectUrls,
     });
   });
@@ -48,7 +48,7 @@ function setupRoutes(router) {
         },
         {
           html:
-            '<a href="/create-service-redirect-url-table/redirect-urls/delete/' +
+            '<a href="/create-service-key-warning-hint/redirect-urls/delete/' +
             index +
             '">Delete</a>',
         },
@@ -58,5 +58,5 @@ function setupRoutes(router) {
 }
 
 module.exports = {
-  setupRoutes,
+  setupKeyWarningHintRoutes,
 };
