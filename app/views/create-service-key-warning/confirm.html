@@ -114,26 +114,23 @@
 
     <h2 class="govuk-heading-m">Now create your service</h2>
 
-    <form action="/confirmation" method="post" novalidate>
+    <div class="govuk-button-group">
+      {{ govukButton({
+        text: "Create service",
+        href: "/view-service/view-all-details-with-sections"
+      }) }}
 
-      <div class="govuk-button-group">
-        {{ govukButton({
-          text: "Create service"
-        }) }}
+      {{ govukButton({
+        text: "Add identity journey configuration",
+        classes: "govuk-button--secondary",
+        disabled: data['publicKeyType'] === 'Client secret'
+      }) }}
 
-        {{ govukButton({
-          text: "Add identity journey configuration",
-          classes: "govuk-button--secondary",
-          disabled: data['publicKeyType'] === 'Client secret'
-        }) }}
-
-        {{ govukButton({
-          text: "Add additional configuration",
-          classes: "govuk-button--secondary"
-        }) }}
-      </div>
-
-    </form>
+      {{ govukButton({
+        text: "Add additional configuration",
+        classes: "govuk-button--secondary"
+      }) }}
+    </div>
 
   </div>
 </div>
