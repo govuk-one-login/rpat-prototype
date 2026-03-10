@@ -1,0 +1,48 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/view-service-editable-wizard/view-all-details"method="post">
+        
+        <h1 class="govuk-heading-l">
+          Sector Identifier URI
+        </h1>
+
+        {{ govukWarningText({
+          text: "Changing this will change all user IDs for users of your service",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "What is your service’s sector identifier?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          name: "sector-identifier-uri",
+          value: data['sector-identifier-uri']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

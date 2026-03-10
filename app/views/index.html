@@ -48,7 +48,15 @@
     <div class="govuk-grid-row">
       {{ govukButton({
         text: "View Service Details (Editable)",
-        href: "/view-service-editable/view-all-details.html",
+        href: "/view-service-editable/view-all-details",
+        isStartButton: true
+      }) }}
+    </div>
+
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "View Service Details (Editable with identity wizard)",
+        href: "/view-service-editable-wizard/view-all-details",
         isStartButton: true
       }) }}
     </div>
