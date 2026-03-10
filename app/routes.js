@@ -11,6 +11,10 @@ const {
 const {
   setupKeyWarningHintRoutes,
 } = require("./views/create-service-key-warning-hint/setup-routes");
+const {
+  setupViewServiceEditableRoutes,
+} = require("./views/view-service-editable/setup-routes");
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
+setupViewServiceEditableRoutes(router);
