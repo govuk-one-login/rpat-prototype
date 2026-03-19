@@ -15,6 +15,11 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       {{govukSummaryList({
+        card: {
+          title: {
+            text: "Core fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
@@ -101,12 +106,12 @@
         ]
       })}}
 
-      <h1 class="govuk-heading-l">
-        Identity fields
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      </h1>
-
       {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Identity fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
@@ -145,12 +150,12 @@
         ]
       }) }}
 
-      <h1 class="govuk-heading-l">
-        Optional fields
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      </h1>
-
       {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Optional fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
