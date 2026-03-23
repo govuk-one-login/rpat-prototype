@@ -39,7 +39,7 @@
 
     <div class="govuk-grid-row">
       {{ govukButton({
-        text: "View Service Details with sections",
+        text: "View Service Details (sections)",
         href: "/view-service/view-all-details-with-sections",
         isStartButton: true
       }) }}
@@ -47,7 +47,7 @@
 
     <div class="govuk-grid-row">
       {{ govukButton({
-        text: "View Service Details with sections as cards",
+        text: "View Service Details (card sections)",
         href: "/view-service/view-all-details-with-sections-cards",
         isStartButton: true
       }) }}
@@ -55,7 +55,7 @@
 
     <div class="govuk-grid-row">
       {{ govukButton({
-        text: "View Service Details with collapsible sections",
+        text: "View Service Details (collapsible sections)",
         href: "/view-service/view-all-details-with-sections-collapsible",
         isStartButton: true
       }) }}
@@ -63,7 +63,7 @@
 
     <div class="govuk-grid-row">
       {{ govukButton({
-        text: "View Service Details (Editable)",
+        text: "Edit Service Details (collapsible)",
         href: "/view-service-editable/view-all-details",
         isStartButton: true
       }) }}
@@ -71,7 +71,15 @@
 
     <div class="govuk-grid-row">
       {{ govukButton({
-        text: "View Service Details (Editable with identity wizard)",
+        text: "Edit Service Details (error)",
+        href: "/view-service/edit-all-details-with-sections-validation",
+        isStartButton: true
+      }) }}
+    </div>
+
+    <div class="govuk-grid-row">
+      {{ govukButton({
+        text: "Edit Service Details (identity wizard)",
         href: "/view-service-editable-wizard/view-all-details",
         isStartButton: true
       }) }}
