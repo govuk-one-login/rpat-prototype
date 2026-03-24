@@ -117,13 +117,14 @@
     <div class="govuk-button-group">
       {{ govukButton({
         text: "Create service",
-        href: "/view-service/view-all-details-with-sections-cards"
+        href: "/view-service/view-all-details-with-sections-cards-post-create"
       }) }}
 
       {{ govukButton({
         text: "Add identity journey configuration",
         classes: "govuk-button--secondary",
-        disabled: data['publicKeyType'] === 'Client secret'
+        disabled: data['publicKeyType'] === 'Client secret',
+        href: "/view-service-editable-wizard/edit-identity-verification-supported"
       }) }}
 
       {{ govukButton({
