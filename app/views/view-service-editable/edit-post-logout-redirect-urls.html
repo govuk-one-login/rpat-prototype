@@ -15,7 +15,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/view-service-editable/view-all-details"method="post">
+      <form class="form" action="/view-service/edit-all-details-with-sections-validation"method="post">
         {% if tableList | length > 0 %}
         {{ govukTable({
               caption: "Post Logout Redirect URLs",
@@ -40,7 +40,7 @@
               classes: "govuk-button--secondary"
             }) }}
             {{ govukButton({
-              text: "Continue",
+              text: "Confirm",
               href: "/create-service-redirect-url-table/select-scopes"
             }) }}
           {% else %}
