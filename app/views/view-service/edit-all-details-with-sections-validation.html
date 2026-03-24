@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  View Service – {{ serviceName }} – GOV.UK Prototype Kit
+  Edit Service – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -19,19 +19,10 @@
       <h1 class="govuk-heading-l">Edit Client Details</h1>
 
       {{ govukErrorSummary({
-        titleText: "There is a problem",
+        titleText: "There is a problem with the following fields",
         errorList: [
           {
-            text: "You've selected both identity verification support and client secret."
-          }
-        ]
-      }) }}
-
-      {{ govukErrorSummary({
-        titleText: "You've made a change that requires changes to other fields",
-        errorList: [
-          {
-            text: "Public key type",
+            text: "Public Key Type",
             href: "/view-service-editable/edit-public-key-type"
           },
           {
@@ -44,6 +35,11 @@
       {{govukSummaryList({
         firstCellIsHeader: true,
         head: [],
+        card: {
+          title: {
+            text: "Core fields"
+          }
+        },
         rows: [
           { 
             key: {
@@ -54,6 +50,9 @@
             },
             actions: {
               items: [
+                { 
+                  html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                },
                 {
                   href: "/view-service-editable/edit-client-name",
                   text: "Change",
@@ -164,11 +163,14 @@
         ]
       })}}
 
-      {{ govukDetails({
-        summaryText: "Identity fields",
-        html: govukSummaryList({
+      {{ govukSummaryList({
           firstCellIsHeader: true,
           head: [],
+          card: {
+            title: {
+              text: "Identity fields"
+            }
+          },
           rows: [
             {
               key: {
@@ -196,6 +198,9 @@
               },
               actions: {
                 items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                  },
                   {
                     href: "/view-service-editable/edit-claims",
                     text: "Change",
@@ -240,13 +245,16 @@
             }
           ]
         })
-      }) }}
+      }}
 
-      {{ govukDetails({
-        summaryText: "Optional fields",
-        html: govukSummaryList({
+      {{ govukSummaryList({
           firstCellIsHeader: true,
-          head: [],
+          head: [],        
+          card: {
+            title: {
+              text: "Additional fields"
+            }
+          },
           rows: [
             {
               key: {
@@ -471,7 +479,7 @@
             }
           ]
         })
-      }) }}
+      }}
       
       {{ govukButton({
           text: "Save"
