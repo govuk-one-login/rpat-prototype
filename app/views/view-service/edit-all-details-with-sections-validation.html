@@ -105,6 +105,23 @@
           },
           {
             key: {
+              text: "Token Authentication Method"
+            },
+            value: {
+              text: "Private key JWT"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-token-auth-method",
+                  text: "Change",
+                  visuallyHiddenText: "token auth method"
+                }
+              ]
+            }
+          },    
+          {
+            key: {
               text: "Public key type"
             },
             value: {
@@ -142,20 +159,54 @@
                 }
               ]
             }
-          },
+          },      
           {
             key: {
-              text: "Token Authentication Method"
+              text: "Sector Identifier URI"
             },
             value: {
-              text: "Private key JWT"
+              text: "http://example.com"
             },
             actions: {
               items: [
                 {
-                  href: "/view-service-editable/edit-token-auth-method",
+                  href: "/view-service-editable/edit-sector-identifier-uri",
                   text: "Change",
-                  visuallyHiddenText: "token auth method"
+                  visuallyHiddenText: "sector identifier uri"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "ID Token Signing Algorithm"
+            },
+            value: {
+              text: "RS256"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-id-token-signing-algorithm",
+                  text: "Change",
+                  visuallyHiddenText: "id token signing algorithm"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Is Active"
+            },
+            value: {
+              text: "true"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-is-active",
+                  text: "Change",
+                  visuallyHiddenText: "is active"
                 }
               ]
             }
@@ -258,23 +309,6 @@
           rows: [
             {
               key: {
-                text: "ID Token Signing Algorithm"
-              },
-              value: {
-                text: "RS256"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-id-token-signing-algorithm",
-                    text: "Change",
-                    visuallyHiddenText: "id token signing algorithm"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
                 text: "Contacts"
               },
               value: {
@@ -286,23 +320,6 @@
                     href: "/view-service-editable/edit-contacts",
                     text: "Change",
                     visuallyHiddenText: "contacts"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Is Active"
-              },
-              value: {
-                text: "true"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-is-active",
-                    text: "Change",
-                    visuallyHiddenText: "is active"
                   }
                 ]
               }
@@ -337,23 +354,6 @@
                     href: "/view-service-editable/edit-back-channel-logout-urls",
                     text: "Change",
                     visuallyHiddenText: "back channel logout urls"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Sector Identifier URI"
-              },
-              value: {
-                text: "http://example.com"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-sector-identifier-uri",
-                    text: "Change",
-                    visuallyHiddenText: "sector identifier uri"
                   }
                 ]
               }
@@ -468,13 +468,7 @@
                 text: "2000 per minute"
               },
               actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-rate-limit",
-                    text: "Change",
-                    visuallyHiddenText: "rate limit"
-                  }
-                ]
+                items: []
               }
             }
           ]
@@ -482,12 +476,14 @@
       }}
       
       {{ govukButton({
-          text: "Save"
+          text: "Save",
+          href: "/view-service/view-all-details-with-sections-cards"
       }) }}
 
       {{ govukButton({
         text: "Cancel",
-        classes: "govuk-button--secondary"
+        classes: "govuk-button--secondary",
+        href: "/view-service/view-all-details-with-sections-cards"
       }) }}
     </div>
 </div>
