@@ -86,7 +86,7 @@
           Redirect url(s)
         </dt>
         <dd class="govuk-summary-list__value">
-          % for url in redirectUrls %}
+          {% for url in redirectUrls %}
               {{ url | trim }}<br>
             {% endfor %}
         </dd>
