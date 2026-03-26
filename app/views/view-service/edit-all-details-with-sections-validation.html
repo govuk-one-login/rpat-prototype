@@ -28,6 +28,26 @@
           {
             text: "Identity verification supported",
             href: "/view-service-editable/edit-identity-verification-supported"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
+          }
+        ]
+      }) }}
+
+      {{ govukErrorSummary({
+        titleText: "There is a problem with the following fields",
+        errorList: [
+          {
+            text: "Public Key Type",
+            href: "/view-service-editable/edit-public-key-type"
+          },
+          {
+            text: "Token Authentication Method",
+            href: "/view-service-editable/edit-token-auth-method"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
           }
         ]
       }) }}
