@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  View Service – {{ serviceName }} – GOV.UK Prototype Kit
+  Edit Service – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -19,24 +19,35 @@
       <h1 class="govuk-heading-l">Edit Client Details</h1>
 
       {{ govukErrorSummary({
-        titleText: "There is a problem",
+        titleText: "There is a problem with the following fields",
         errorList: [
           {
-            text: "You've selected both identity verification support and client secret."
-          }
-        ]
-      }) }}
-
-      {{ govukErrorSummary({
-        titleText: "You've made a change that requires changes to other fields",
-        errorList: [
-          {
-            text: "Public key type",
+            text: "Public Key Type",
             href: "/view-service-editable/edit-public-key-type"
           },
           {
             text: "Identity verification supported",
             href: "/view-service-editable/edit-identity-verification-supported"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
+          }
+        ]
+      }) }}
+
+      {{ govukErrorSummary({
+        titleText: "There is a problem with the following fields",
+        errorList: [
+          {
+            text: "Public Key Type",
+            href: "/view-service-editable/edit-public-key-type"
+          },
+          {
+            text: "Token Authentication Method",
+            href: "/view-service-editable/edit-token-auth-method"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
           }
         ]
       }) }}
@@ -44,6 +55,11 @@
       {{govukSummaryList({
         firstCellIsHeader: true,
         head: [],
+        card: {
+          title: {
+            text: "Core fields"
+          }
+        },
         rows: [
           { 
             key: {
@@ -54,6 +70,9 @@
             },
             actions: {
               items: [
+                { 
+                  html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                },
                 {
                   href: "/view-service-editable/edit-client-name",
                   text: "Change",
@@ -106,6 +125,23 @@
           },
           {
             key: {
+              text: "Token Authentication Method"
+            },
+            value: {
+              text: "Private key JWT"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-token-auth-method",
+                  text: "Change",
+                  visuallyHiddenText: "token auth method"
+                }
+              ]
+            }
+          },    
+          {
+            key: {
               text: "Public key type"
             },
             value: {
@@ -143,20 +179,54 @@
                 }
               ]
             }
-          },
+          },      
           {
             key: {
-              text: "Token Authentication Method"
+              text: "Sector Identifier URI"
             },
             value: {
-              text: "Private key JWT"
+              text: "http://example.com"
             },
             actions: {
               items: [
                 {
-                  href: "/view-service-editable/edit-token-auth-method",
+                  href: "/view-service-editable/edit-sector-identifier-uri",
                   text: "Change",
-                  visuallyHiddenText: "token auth method"
+                  visuallyHiddenText: "sector identifier uri"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "ID Token Signing Algorithm"
+            },
+            value: {
+              text: "RS256"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-id-token-signing-algorithm",
+                  text: "Change",
+                  visuallyHiddenText: "id token signing algorithm"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Is Active"
+            },
+            value: {
+              text: "true"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-service-editable/edit-is-active",
+                  text: "Change",
+                  visuallyHiddenText: "is active"
                 }
               ]
             }
@@ -164,11 +234,14 @@
         ]
       })}}
 
-      {{ govukDetails({
-        summaryText: "Identity fields",
-        html: govukSummaryList({
+      {{ govukSummaryList({
           firstCellIsHeader: true,
           head: [],
+          card: {
+            title: {
+              text: "Identity fields"
+            }
+          },
           rows: [
             {
               key: {
@@ -196,6 +269,9 @@
               },
               actions: {
                 items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                  },
                   {
                     href: "/view-service-editable/edit-claims",
                     text: "Change",
@@ -240,31 +316,17 @@
             }
           ]
         })
-      }) }}
+      }}
 
-      {{ govukDetails({
-        summaryText: "Optional fields",
-        html: govukSummaryList({
+      {{ govukSummaryList({
           firstCellIsHeader: true,
-          head: [],
+          head: [],        
+          card: {
+            title: {
+              text: "Additional fields"
+            }
+          },
           rows: [
-            {
-              key: {
-                text: "ID Token Signing Algorithm"
-              },
-              value: {
-                text: "RS256"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-id-token-signing-algorithm",
-                    text: "Change",
-                    visuallyHiddenText: "id token signing algorithm"
-                  }
-                ]
-              }
-            },
             {
               key: {
                 text: "Contacts"
@@ -278,23 +340,6 @@
                     href: "/view-service-editable/edit-contacts",
                     text: "Change",
                     visuallyHiddenText: "contacts"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Is Active"
-              },
-              value: {
-                text: "true"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-is-active",
-                    text: "Change",
-                    visuallyHiddenText: "is active"
                   }
                 ]
               }
@@ -329,23 +374,6 @@
                     href: "/view-service-editable/edit-back-channel-logout-urls",
                     text: "Change",
                     visuallyHiddenText: "back channel logout urls"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Sector Identifier URI"
-              },
-              value: {
-                text: "http://example.com"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-sector-identifier-uri",
-                    text: "Change",
-                    visuallyHiddenText: "sector identifier uri"
                   }
                 ]
               }
@@ -460,26 +488,22 @@
                 text: "2000 per minute"
               },
               actions: {
-                items: [
-                  {
-                    href: "/view-service-editable/edit-rate-limit",
-                    text: "Change",
-                    visuallyHiddenText: "rate limit"
-                  }
-                ]
+                items: []
               }
             }
           ]
         })
-      }) }}
+      }}
       
       {{ govukButton({
-          text: "Save"
+          text: "Save",
+          href: "/view-service/view-all-details-with-sections-cards"
       }) }}
 
       {{ govukButton({
         text: "Cancel",
-        classes: "govuk-button--secondary"
+        classes: "govuk-button--secondary",
+        href: "/view-service/view-all-details-with-sections-cards"
       }) }}
     </div>
 </div>

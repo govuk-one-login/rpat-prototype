@@ -14,7 +14,17 @@
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+      {{ govukNotificationBanner({
+        html: "Your service has been created successfully",
+        type: "success"
+      }) }}
+      <h1 class="govuk-heading-l">View Client Details</h1>
       {{govukSummaryList({
+        card: {
+          title: {
+            text: "Core fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
@@ -101,12 +111,12 @@
         ]
       })}}
 
-      <h1 class="govuk-heading-l">
-        Identity fields
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      </h1>
-
       {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Identity fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
@@ -145,12 +155,12 @@
         ]
       }) }}
 
-      <h1 class="govuk-heading-l">
-        Optional fields
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      </h1>
-
       {{ govukSummaryList({
+        card: {
+          title: {
+            text: "Additional fields"
+          }
+        },
         firstCellIsHeader: true,
         head: [],
         rows: [
@@ -238,6 +248,8 @@
       }) }}
 
       {{ govukButton({
-        text: "Back"
+        text: "Edit",
+        classes: "govuk-button--secondary",
+        href: "/view-service/edit-all-details-with-sections-validation"
       }) }}
 {% endblock %}

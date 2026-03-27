@@ -86,7 +86,7 @@
           Redirect url(s)
         </dt>
         <dd class="govuk-summary-list__value">
-          % for url in redirectUrls %}
+          {% for url in redirectUrls %}
               {{ url | trim }}<br>
             {% endfor %}
         </dd>
@@ -118,7 +118,7 @@
     <div class="govuk-button-group">
       {{ govukButton({
         text: "Create service",
-        href: "/view-service/view-all-details-with-sections"
+        href: "/view-service/view-all-details-with-sections-cards-post-create"
       }) }}
 
       {{ govukButton({
