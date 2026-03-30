@@ -35,16 +35,20 @@
         {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 1"
+                text: "My Custom Service"
               },
               actions: {
                 items: [
+                { 
+                  html: '<strong class="govuk-tag govuk-tag--red">Production</strong>',
+                  href: "#"
+                },
                   {
-                    href: "#",
+                    href: "/view-service/view-all-details-with-sections-cards",
                     text: "View"
                   },
                   {
-                    href: "#",
+                    href: "/view-service/edit-all-details-with-sections-validation",
                     text: "Edit"
                   }
                 ]
@@ -73,10 +77,14 @@
           {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 2"
+                text: "My Custom Service"
               },
               actions: {
                 items: [
+                { 
+                  html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>',
+                  href: "#"
+                },
                   {
                     href: "#",
                     text: "View"
@@ -111,10 +119,14 @@
           {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 3"
+                text: "My Service 2"
               },
               actions: {
                 items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>',
+                    href: "#"
+                  },
                   {
                     href: "#",
                     text: "View"
