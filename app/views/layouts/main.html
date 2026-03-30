@@ -1,16 +1,99 @@
-{#
-For guidance on how to use layouts see:
-https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
-#}
-
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
-{% block header %}
 
-    {{ govukHeader() }}
-    {{ govukServiceNavigation({
-        serviceName: serviceName
-    })}}
+{% block header %}
+ {{ govukHeader({
+   homepageUrl: "create-service-key-warning/start-page",
+   productName: "One Login Admin",
+   classes: "govuk-header--with-sign-out-link",
+   navigation: [
+     {
+       href: "#",
+       text: "Sign out"
+     }
+   ]
+ }) }}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+   {{ govukServiceNavigation({
+       serviceName: serviceName
+   })}}
+ {% endblock %}
+
+
+
+
+{% block beforeContent %}
+{% include "app/views/_includes/phase-banner.html" %}
+
 
 {% endblock %}
+
+
+{% block footer %}
+
+
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+
+
+{{ govukFooter({
+ navigation: [
+   {
+     title: "About",
+     width: "one-half",
+     items: [
+       {
+         href: "#",
+         text: "About how One Login"
+       },
+       {
+         href: "#",
+         text: "Documenation"
+       },
+       {
+         href: "#",
+         text: "Blog"
+       }
+     ]
+   },
+   {
+     title: "Support",
+     width: "one-half",
+     items: [
+       {
+         href: "#",
+         text: "Contact us"
+       },
+       {
+         href: "#",
+         text: "Chat to us on Slack"
+       },
+       {
+         href: "#",
+         text: "Status page"
+       }
+     ]
+   }
+ ],
+ meta: {
+   items: [
+     {
+       href: "#",
+       text: "Accessibility"
+     },
+     {
+       href: "#",
+       text: "Privacy"
+     },
+     {
+       href: "#",
+       text: "Cookies"
+     }
+   ],
+   html: 'Built by the <a href="#" class="govuk-footer__link">Government Digital Service</a>'
+ }
+}) }}
+
+
+{% endblock %}
+

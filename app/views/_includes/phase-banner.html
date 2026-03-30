@@ -1,0 +1,19 @@
+{% set html %}
+This is a new service – your
+
+
+<a class="govuk-link" href="https://home.account.gov.uk/contact-gov-uk-one-login">feedback (opens in a new tab)</a>
+
+
+will help us to improve it.
+
+
+{% endset -%}
+
+
+{{ govukPhaseBanner({
+ tag: {
+ text: "BETA"
+},
+ html: html
+}) }}
