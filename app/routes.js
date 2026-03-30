@@ -12,6 +12,9 @@ const {
   setupKeyWarningHintRoutes,
 } = require("./views/create-service-key-warning-hint/setup-routes");
 const {
+  setupCreateServiceIdentityFlowRoutes,
+} = require("./views/create-service-identity-flow/setup-routes");
+const {
   setupViewServiceEditableRoutes,
 } = require("./views/view-service-editable/setup-routes");
 const {
@@ -20,5 +23,6 @@ const {
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
+setupCreateServiceIdentityFlowRoutes(router);
 setupViewServiceEditableRoutes(router);
 setupViewServiceEditableWizardRoutes(router);
