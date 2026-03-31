@@ -35,37 +35,36 @@
         {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 1"
+                text: "Prod Service"
               },
               actions: {
                 items: [
-                  {
-                    href: "#",
-                    text: "View"
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--red">Production</strong>'
                   },
                   {
-                    href: "#",
-                    text: "Edit"
+                    href: "/view-service/view-all-details-with-sections-cards",
+                    text: "View"
                   }
                 ]
               }
             },
             rows: [
                 {
-                    key: {
-                        text: "Is active"
-                    },
-                    value: {
-                        text: "Yes"
-                    }
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
                 },
                 {
-                    key: {
-                        text: "Identity supported"
-                    },
-                    value: {
-                        text: "No"
-                    }
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "No"
+                  }
                 }
             ]
           }) }}
@@ -73,16 +72,19 @@
           {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 2"
+                text: "Integration Service 1"
               },
               actions: {
                 items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>'
+                  },
                   {
-                    href: "#",
+                    href: "/view-service/edit-all-details-with-sections-cards",
                     text: "View"
                   },
                   {
-                    href: "#",
+                    href: "/view-service/edit-all-details-with-sections-validation",
                     text: "Edit"
                   }
                 ]
@@ -90,20 +92,20 @@
             },
             rows: [
                 {
-                    key: {
-                        text: "Is active"
-                    },
-                    value: {
-                        text: "Yes"
-                    }
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
                 },
                 {
-                    key: {
-                        text: "Identity supported"
-                    },
-                    value: {
-                        text: "Yes"
-                    }
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
                 }
             ]
           }) }}
@@ -111,16 +113,19 @@
           {{ govukSummaryList({
             card: {
               title: {
-                text: "My Service 3"
+                text: "Integration Service 2"
               },
               actions: {
                 items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>'
+                  },
                   {
-                    href: "#",
+                    href: "/view-service/edit-all-details-with-sections-cards",
                     text: "View"
                   },
                   {
-                    href: "#",
+                    href: "/view-service/edit-all-details-with-sections-validation",
                     text: "Edit"
                   }
                 ]
@@ -128,20 +133,20 @@
             },
             rows: [
                 {
-                    key: {
-                        text: "Is active"
-                    },
-                    value: {
-                        text: "No"
-                    }
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "No"
+                  }
                 },
                 {
-                    key: {
-                        text: "Identity supported"
-                    },
-                    value: {
-                        text: "No"
-                    }
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "No"
+                  }
                 }
             ]
           }) }}
