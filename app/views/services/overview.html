@@ -1,8 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% block pageTitle %}
-  {{ service.name }} – {{ serviceName }} – GOV.UK
-{% endblock %}
+{% set pageName = service.name %}
 
 {% block beforeContent %}
   {{ govukPhaseBanner({
@@ -18,97 +16,87 @@
 {% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
-    {% if success %}
-      {{ govukNotificationBanner({
-        html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
-        type: "success"
+      {% if success %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
+          type: "success"
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">{{ service.name }}</h1>
+      <p class="govuk-body">{{ service.description }}</p>
+
+      <h2 class="govuk-heading-m">Production</h2>
+
+      {% if service.production %}
+        {{ govukSummaryList({
+          card: {
+            title: { text: service.production.name },
+            actions: {
+              items: [
+                {
+                  href: "/services/" + service.id + "/production/" + service.production.id,
+                  text: "View",
+                  visuallyHiddenText: "production configuration"
+                }
+              ]
+            }
+          },
+          rows: [
+            {
+              key: { text: "Status" },
+              value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' }
+            },
+            {
+              key: { text: "Identity verification" },
+              value: { text: "Yes" if service.production.identityVerificationSupported else "No" }
+            }
+          ]
+        }) }}
+
+        {{ govukInsetText({
+          text: "Production configuration is read-only. Contact support if you need to make changes."
+        }) }}
+      {% else %}
+        {{ govukInsetText({
+          text: "There is no production configuration yet. You can request production access when your integration is ready."
+        }) }}
+      {% endif %}
+
+      <h2 class="govuk-heading-m">Integration</h2>
+
+      {% for config in service.integration %}
+        {{ govukSummaryList({
+          card: {
+            title: { text: config.name },
+            actions: {
+              items: [
+                {
+                  href: "/services/" + service.id + "/integration/" + config.id,
+                  text: "Manage",
+                  visuallyHiddenText: config.name + " configuration"
+                }
+              ]
+            }
+          },
+          rows: [
+            {
+              key: { text: "Identity verification" },
+              value: { text: "Yes" if config.identityVerificationSupported else "No" }
+            }
+          ]
+        }) }}
+      {% endfor %}
+
+      {{ govukButton({
+        text: "Add a new integration configuration",
+        href: "/services/" + service.id + "/create-config",
+        classes: "govuk-button--secondary"
       }) }}
-    {% endif %}
 
-    <h1 class="govuk-heading-l">{{ service.name }}</h1>
-    <p class="govuk-body">{{ service.description }}</p>
-
-    {# Production #}
-    <h2 class="govuk-heading-m">Production</h2>
-
-    {% if service.production %}
-      <div class="govuk-summary-card">
-        <div class="govuk-summary-card__title-wrapper">
-          <h3 class="govuk-summary-card__title">
-            {{ service.production.name }}
-          </h3>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="/services/{{ service.id }}/production/{{ service.production.id }}">
-                View<span class="govuk-visually-hidden"> production configuration</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: { text: "Status" },
-                value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' }
-              },
-              {
-                key: { text: "Identity verification" },
-                value: { text: "Yes" if service.production.identityVerificationSupported else "No" }
-              }
-            ]
-          }) }}
-        </div>
-      </div>
-
-      {{ govukInsetText({
-        text: "Production configuration is read-only. Contact support if you need to make changes."
-      }) }}
-    {% else %}
-      {{ govukInsetText({
-        text: "No production configuration yet. You'll be able to request production access once your integration is ready."
-      }) }}
-    {% endif %}
-
-    {# Integration #}
-    <h2 class="govuk-heading-m">Integration</h2>
-
-    {% for config in service.integration %}
-      <div class="govuk-summary-card">
-        <div class="govuk-summary-card__title-wrapper">
-          <h3 class="govuk-summary-card__title">
-            {{ config.name }}
-          </h3>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="/services/{{ service.id }}/integration/{{ config.id }}">
-                Manage<span class="govuk-visually-hidden"> {{ config.name }} configuration</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: { text: "Identity verification" },
-                value: { text: "Yes" if config.identityVerificationSupported else "No" }
-              }
-            ]
-          }) }}
-        </div>
-      </div>
-    {% endfor %}
-
-    {{ govukButton({
-      text: "Add a new integration configuration",
-      href: "/services/" + service.id + "/create-config",
-      classes: "govuk-button--secondary"
-    }) }}
-
+    </div>
   </div>
-</div>
 {% endblock %}

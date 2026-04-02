@@ -4,10 +4,7 @@
 {% set envLabel = "Integration" if isIntegration else "Production" %}
 {% set tagColour = "govuk-tag--blue" if isIntegration else "govuk-tag--green" %}
 {% set editBase = "/services/" + service.id + "/integration/" + config.id + "/edit/" %}
-
-{% block pageTitle %}
-  {{ config.name }} ({{ envLabel }}) – {{ service.name }} – {{ serviceName }} – GOV.UK
-{% endblock %}
+{% set pageName = config.name + " (" + envLabel + ") – " + service.name %}
 
 {% block beforeContent %}
   {{ govukPhaseBanner({
@@ -24,168 +21,168 @@
 {% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
 
-    {% if success %}
-      {{ govukNotificationBanner({
-        html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
-        type: "success"
+      {% if success %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
+          type: "success"
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">
+        {{ config.name }}
+        <strong class="govuk-tag {{ tagColour }} govuk-!-margin-left-2">{{ envLabel }}</strong>
+      </h1>
+
+      {% if not isIntegration %}
+        {{ govukInsetText({
+          text: "This is your production configuration. It is read-only. Contact support if you need to make changes."
+        }) }}
+      {% endif %}
+
+      {# Core configuration #}
+      {% set coreRows = [
+        {
+          key: { text: "Service name" },
+          value: { text: config.serviceName },
+          actions: { items: [{ href: editBase + "service-name", text: "Change", visuallyHiddenText: "service name" }] } if isIntegration
+        },
+        {
+          key: { text: "Scopes" },
+          value: { html: config.scopes | join("<br>") },
+          actions: { items: [{ href: editBase + "scopes", text: "Change", visuallyHiddenText: "scopes" }] } if isIntegration
+        },
+        {
+          key: { text: "Redirect URLs" },
+          value: { html: config.redirectUrls | join("<br>") },
+          actions: { items: [{ href: editBase + "redirect-urls", text: "Change", visuallyHiddenText: "redirect URLs" }] } if isIntegration
+        },
+        {
+          key: { text: "Token authentication method" },
+          value: { text: config.tokenAuthMethod },
+          actions: { items: [{ href: editBase + "token-auth-method", text: "Change", visuallyHiddenText: "token authentication method" }] } if isIntegration
+        },
+        {
+          key: { text: "Public key type" },
+          value: { text: config.publicKeyType },
+          actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "public key type" }] } if isIntegration
+        },
+        {
+          key: { text: "JWKS URL" },
+          value: { text: config.jwksUrl },
+          actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "JWKS URL" }] } if isIntegration
+        } if config.publicKeyType == "JWKS",
+        {
+          key: { text: "ID token signing algorithm" },
+          value: { text: config.idTokenSigningAlgorithm },
+          actions: { items: [{ href: editBase + "id-token-signing-algorithm", text: "Change", visuallyHiddenText: "ID token signing algorithm" }] } if isIntegration
+        },
+        {
+          key: { text: "Sector identifier URI" },
+          value: { text: config.sectorIdentifierUri },
+          actions: { items: [{ href: editBase + "sector-identifier-uri", text: "Change", visuallyHiddenText: "sector identifier URI" }] } if isIntegration
+        },
+        {
+          key: { text: "Active" },
+          value: { text: "Yes" if config.isActive else "No" },
+          actions: { items: [{ href: editBase + "is-active", text: "Change", visuallyHiddenText: "active status" }] } if isIntegration
+        }
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Core configuration" } },
+        rows: coreRows | reject("falsy")
       }) }}
-    {% endif %}
 
-    <h1 class="govuk-heading-l">
-      {{ config.name }}
-      <strong class="govuk-tag {{ tagColour }} govuk-!-margin-left-2">{{ envLabel }}</strong>
-    </h1>
+      {# Identity configuration #}
+      {% set identityRows = [
+        {
+          key: { text: "Identity verification" },
+          value: { text: "Yes" if config.identityVerificationSupported else "No" },
+          actions: { items: [{ href: editBase + "identity-verification", text: "Change", visuallyHiddenText: "identity verification" }] } if isIntegration
+        },
+        {
+          key: { text: "Claims" },
+          value: { html: config.claims | join("<br>") if config.claims.length else "None" },
+          actions: { items: [{ href: editBase + "claims", text: "Change", visuallyHiddenText: "claims" }] } if isIntegration
+        } if config.identityVerificationSupported,
+        {
+          key: { text: "Landing page URL" },
+          value: { text: config.landingPageUrl or "Not set" },
+          actions: { items: [{ href: editBase + "landing-page-url", text: "Change", visuallyHiddenText: "landing page URL" }] } if isIntegration
+        } if config.identityVerificationSupported,
+        {
+          key: { text: "Levels of confidence" },
+          value: { html: config.levelsOfConfidence | join("<br>") if config.levelsOfConfidence.length else "None" },
+          actions: { items: [{ href: editBase + "levels-of-confidence", text: "Change", visuallyHiddenText: "levels of confidence" }] } if isIntegration
+        } if config.identityVerificationSupported
+      ] %}
 
-    {% if not isIntegration %}
-      {{ govukInsetText({
-        text: "This is your production configuration. It is read-only. Contact support if you need to make changes."
+      {{ govukSummaryList({
+        card: { title: { text: "Identity configuration" } },
+        rows: identityRows | reject("falsy")
       }) }}
-    {% endif %}
 
-    {# Core configuration #}
-    {% set coreRows = [
-      {
-        key: { text: "Service name" },
-        value: { text: config.serviceName },
-        actions: { items: [{ href: editBase + "service-name", text: "Change", visuallyHiddenText: "service name" }] } if isIntegration
-      },
-      {
-        key: { text: "Scopes" },
-        value: { html: config.scopes | join("<br>") },
-        actions: { items: [{ href: editBase + "scopes", text: "Change", visuallyHiddenText: "scopes" }] } if isIntegration
-      },
-      {
-        key: { text: "Redirect URLs" },
-        value: { html: config.redirectUrls | join("<br>") },
-        actions: { items: [{ href: editBase + "redirect-urls", text: "Change", visuallyHiddenText: "redirect URLs" }] } if isIntegration
-      },
-      {
-        key: { text: "Token authentication method" },
-        value: { text: config.tokenAuthMethod },
-        actions: { items: [{ href: editBase + "token-auth-method", text: "Change", visuallyHiddenText: "token authentication method" }] } if isIntegration
-      },
-      {
-        key: { text: "Public key type" },
-        value: { text: config.publicKeyType },
-        actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "public key type" }] } if isIntegration
-      },
-      {
-        key: { text: "JWKS URL" },
-        value: { text: config.jwksUrl },
-        actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "JWKS URL" }] } if isIntegration
-      } if config.publicKeyType == "JWKS",
-      {
-        key: { text: "ID token signing algorithm" },
-        value: { text: config.idTokenSigningAlgorithm },
-        actions: { items: [{ href: editBase + "id-token-signing-algorithm", text: "Change", visuallyHiddenText: "ID token signing algorithm" }] } if isIntegration
-      },
-      {
-        key: { text: "Sector identifier URI" },
-        value: { text: config.sectorIdentifierUri },
-        actions: { items: [{ href: editBase + "sector-identifier-uri", text: "Change", visuallyHiddenText: "sector identifier URI" }] } if isIntegration
-      },
-      {
-        key: { text: "Active" },
-        value: { text: "Yes" if config.isActive else "No" },
-        actions: { items: [{ href: editBase + "is-active", text: "Change", visuallyHiddenText: "active status" }] } if isIntegration
-      }
-    ] %}
+      {# Additional configuration #}
+      {% set additionalRows = [
+        {
+          key: { text: "Contacts" },
+          value: { html: config.contacts | join("<br>") if config.contacts.length else "None" },
+          actions: { items: [{ href: editBase + "contacts", text: "Change", visuallyHiddenText: "contacts" }] } if isIntegration
+        },
+        {
+          key: { text: "Post logout redirect URLs" },
+          value: { html: config.postLogoutRedirectUrls | join("<br>") if config.postLogoutRedirectUrls.length else "None" },
+          actions: { items: [{ href: editBase + "post-logout-redirect-urls", text: "Change", visuallyHiddenText: "post logout redirect URLs" }] } if isIntegration
+        },
+        {
+          key: { text: "Back channel logout URLs" },
+          value: { html: config.backChannelLogoutUrls | join("<br>") if config.backChannelLogoutUrls.length else "None" },
+          actions: { items: [{ href: editBase + "back-channel-logout-urls", text: "Change", visuallyHiddenText: "back channel logout URLs" }] } if isIntegration
+        },
+        {
+          key: { text: "Service type" },
+          value: { text: config.serviceType },
+          actions: { items: [{ href: editBase + "service-type", text: "Change", visuallyHiddenText: "service type" }] } if isIntegration
+        },
+        {
+          key: { text: "JAR validation required" },
+          value: { text: "Yes" if config.jarValidationRequired else "No" },
+          actions: { items: [{ href: editBase + "jar-validation-required", text: "Change", visuallyHiddenText: "JAR validation required" }] } if isIntegration
+        },
+        {
+          key: { text: "Channel" },
+          value: { text: config.channel },
+          actions: { items: [{ href: editBase + "channel", text: "Change", visuallyHiddenText: "channel" }] } if isIntegration
+        },
+        {
+          key: { text: "PKCE enforced" },
+          value: { text: "Yes" if config.pkceEnforced else "No" },
+          actions: { items: [{ href: editBase + "pkce-enforced", text: "Change", visuallyHiddenText: "PKCE enforced" }] } if isIntegration
+        },
+        {
+          key: { text: "Max age enabled" },
+          value: { text: "Yes" if config.maxAgeEnabled else "No" },
+          actions: { items: [{ href: editBase + "max-age-enabled", text: "Change", visuallyHiddenText: "max age enabled" }] } if isIntegration
+        },
+        {
+          key: { text: "Permit missing nonce" },
+          value: { text: "Yes" if config.permitMissingNonce else "No" },
+          actions: { items: [{ href: editBase + "permit-missing-nonce", text: "Change", visuallyHiddenText: "permit missing nonce" }] } if isIntegration
+        },
+        {
+          key: { text: "Rate limit" },
+          value: { text: config.rateLimit }
+        }
+      ] %}
 
-    {{ govukSummaryList({
-      card: { title: { text: "Core configuration" } },
-      rows: coreRows | reject("falsy")
-    }) }}
+      {{ govukSummaryList({
+        card: { title: { text: "Additional configuration" } },
+        rows: additionalRows | reject("falsy")
+      }) }}
 
-    {# Identity configuration #}
-    {% set identityRows = [
-      {
-        key: { text: "Identity verification" },
-        value: { text: "Yes" if config.identityVerificationSupported else "No" },
-        actions: { items: [{ href: editBase + "identity-verification", text: "Change", visuallyHiddenText: "identity verification" }] } if isIntegration
-      },
-      {
-        key: { text: "Claims" },
-        value: { html: config.claims | join("<br>") if config.claims.length else "None" },
-        actions: { items: [{ href: editBase + "claims", text: "Change", visuallyHiddenText: "claims" }] } if isIntegration
-      } if config.identityVerificationSupported,
-      {
-        key: { text: "Landing page URL" },
-        value: { text: config.landingPageUrl or "Not set" },
-        actions: { items: [{ href: editBase + "landing-page-url", text: "Change", visuallyHiddenText: "landing page URL" }] } if isIntegration
-      } if config.identityVerificationSupported,
-      {
-        key: { text: "Levels of confidence" },
-        value: { html: config.levelsOfConfidence | join("<br>") if config.levelsOfConfidence.length else "None" },
-        actions: { items: [{ href: editBase + "levels-of-confidence", text: "Change", visuallyHiddenText: "levels of confidence" }] } if isIntegration
-      } if config.identityVerificationSupported
-    ] %}
-
-    {{ govukSummaryList({
-      card: { title: { text: "Identity configuration" } },
-      rows: identityRows | reject("falsy")
-    }) }}
-
-    {# Additional configuration #}
-    {% set additionalRows = [
-      {
-        key: { text: "Contacts" },
-        value: { html: config.contacts | join("<br>") if config.contacts.length else "None" },
-        actions: { items: [{ href: editBase + "contacts", text: "Change", visuallyHiddenText: "contacts" }] } if isIntegration
-      },
-      {
-        key: { text: "Post logout redirect URLs" },
-        value: { html: config.postLogoutRedirectUrls | join("<br>") if config.postLogoutRedirectUrls.length else "None" },
-        actions: { items: [{ href: editBase + "post-logout-redirect-urls", text: "Change", visuallyHiddenText: "post logout redirect URLs" }] } if isIntegration
-      },
-      {
-        key: { text: "Back channel logout URLs" },
-        value: { html: config.backChannelLogoutUrls | join("<br>") if config.backChannelLogoutUrls.length else "None" },
-        actions: { items: [{ href: editBase + "back-channel-logout-urls", text: "Change", visuallyHiddenText: "back channel logout URLs" }] } if isIntegration
-      },
-      {
-        key: { text: "Service type" },
-        value: { text: config.serviceType },
-        actions: { items: [{ href: editBase + "service-type", text: "Change", visuallyHiddenText: "service type" }] } if isIntegration
-      },
-      {
-        key: { text: "JAR validation required" },
-        value: { text: "Yes" if config.jarValidationRequired else "No" },
-        actions: { items: [{ href: editBase + "jar-validation-required", text: "Change", visuallyHiddenText: "JAR validation required" }] } if isIntegration
-      },
-      {
-        key: { text: "Channel" },
-        value: { text: config.channel },
-        actions: { items: [{ href: editBase + "channel", text: "Change", visuallyHiddenText: "channel" }] } if isIntegration
-      },
-      {
-        key: { text: "PKCE enforced" },
-        value: { text: "Yes" if config.pkceEnforced else "No" },
-        actions: { items: [{ href: editBase + "pkce-enforced", text: "Change", visuallyHiddenText: "PKCE enforced" }] } if isIntegration
-      },
-      {
-        key: { text: "Max age enabled" },
-        value: { text: "Yes" if config.maxAgeEnabled else "No" },
-        actions: { items: [{ href: editBase + "max-age-enabled", text: "Change", visuallyHiddenText: "max age enabled" }] } if isIntegration
-      },
-      {
-        key: { text: "Permit missing nonce" },
-        value: { text: "Yes" if config.permitMissingNonce else "No" },
-        actions: { items: [{ href: editBase + "permit-missing-nonce", text: "Change", visuallyHiddenText: "permit missing nonce" }] } if isIntegration
-      },
-      {
-        key: { text: "Rate limit" },
-        value: { text: config.rateLimit }
-      }
-    ] %}
-
-    {{ govukSummaryList({
-      card: { title: { text: "Additional configuration" } },
-      rows: additionalRows | reject("falsy")
-    }) }}
-
+    </div>
   </div>
-</div>
 {% endblock %}
