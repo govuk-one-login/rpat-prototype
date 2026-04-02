@@ -76,6 +76,19 @@ router.get("/create-service/review", (req, res) => {
   });
 });
 
+// Compare integration config with production
+router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const config = service.integration.find(c => c.id === req.params.configId);
+  if (!config || !service.production) return res.redirect("/services/" + service.id);
+  res.render("services/compare.html", {
+    service,
+    config,
+    prodConfig: service.production
+  });
+});
+
 // Edit routes for integration configs
 const editFields = ["service-name", "scopes", "public-key-type", "redirect-urls"];
 

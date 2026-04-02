@@ -42,6 +42,12 @@
         }) }}
       {% endif %}
 
+      {% if isIntegration and service.production %}
+        <p class="govuk-body">
+          <a href="/services/{{ service.id }}/integration/{{ config.id }}/compare" class="govuk-link">Compare with production configuration</a>
+        </p>
+      {% endif %}
+
       {# Core configuration #}
       {% set coreRows = [
         {
