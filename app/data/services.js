@@ -1,111 +1,201 @@
+// Mock data based on DfE example
+// 3 services with varying integration/production configs
+
+const baseConfig = {
+  scopes: ["openid", "email"],
+  tokenAuthMethod: "private_key_jwt",
+  publicKeyType: "JWKS",
+  idTokenSigningAlgorithm: "ES256",
+  isActive: true,
+  contacts: ["team@education.gov.uk"],
+  postLogoutRedirectUrls: [],
+  backChannelLogoutUrls: [],
+  serviceType: "MANDATORY",
+  jarValidationRequired: true,
+  channel: "web",
+  pkceEnforced: true,
+  maxAgeEnabled: true,
+  permitMissingNonce: false,
+  rateLimit: "2000 per minute"
+};
+
 module.exports = {
   services: [
     {
-      id: "find-a-tender",
-      name: "Find a Tender",
-      description: "Digital service for finding and applying for public sector contracts",
-      environments: {
-        integration: {
-          status: "active",
-          config: {
-            serviceName: "Find a Tender",
-            scopes: ["openid", "email"],
-            redirectUrls: ["https://integration.find-a-tender.service.gov.uk/callback"],
-            tokenAuthMethod: "private_key_jwt",
-            publicKeyType: "JWKS",
-            jwksUrl: "https://integration.find-a-tender.service.gov.uk/.well-known/jwks.json",
-            idTokenSigningAlgorithm: "ES256",
-            sectorIdentifierUri: "https://find-a-tender.service.gov.uk",
-            isActive: true,
-            identityVerificationSupported: true,
-            claims: [
-              "https://vocab.account.gov.uk/v1/coreIdentityJWT",
-              "https://vocab.account.gov.uk/v1/address"
-            ],
-            landingPageUrl: "https://integration.find-a-tender.service.gov.uk/landing",
-            levelsOfConfidence: ["P2"],
-            contacts: ["team@find-a-tender.service.gov.uk"],
-            postLogoutRedirectUrls: ["https://integration.find-a-tender.service.gov.uk/signed-out"],
-            backChannelLogoutUrls: [],
-            serviceType: "MANDATORY",
-            jarValidationRequired: true,
-            channel: "web",
-            pkceEnforced: true,
-            maxAgeEnabled: true,
-            permitMissingNonce: false,
-            rateLimit: "2000 per minute"
-          }
+      id: "apprenticeship-digital-cert",
+      name: "Apprenticeship service - Digital certification",
+      description: "Digital certification for apprenticeship end-point assessments",
+      integration: [
+        {
+          id: "dev-options-1",
+          name: "DEV (options 1)",
+          ...baseConfig,
+          serviceName: "Apprenticeship service - Digital certification",
+          jwksUrl: "https://dev1.apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://dev1.apprenticeship-cert.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
+          landingPageUrl: "https://dev1.apprenticeship-cert.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
         },
-        production: {
-          status: "active",
-          config: {
-            serviceName: "Find a Tender",
-            scopes: ["openid", "email"],
-            redirectUrls: ["https://find-a-tender.service.gov.uk/callback"],
-            tokenAuthMethod: "private_key_jwt",
-            publicKeyType: "JWKS",
-            jwksUrl: "https://find-a-tender.service.gov.uk/.well-known/jwks.json",
-            idTokenSigningAlgorithm: "ES256",
-            sectorIdentifierUri: "https://find-a-tender.service.gov.uk",
-            isActive: true,
-            identityVerificationSupported: true,
-            claims: [
-              "https://vocab.account.gov.uk/v1/coreIdentityJWT",
-              "https://vocab.account.gov.uk/v1/address"
-            ],
-            landingPageUrl: "https://find-a-tender.service.gov.uk/landing",
-            levelsOfConfidence: ["P2"],
-            contacts: ["team@find-a-tender.service.gov.uk"],
-            postLogoutRedirectUrls: ["https://find-a-tender.service.gov.uk/signed-out"],
-            backChannelLogoutUrls: [],
-            serviceType: "MANDATORY",
-            jarValidationRequired: true,
-            channel: "web",
-            pkceEnforced: true,
-            maxAgeEnabled: true,
-            permitMissingNonce: false,
-            rateLimit: "2000 per minute"
-          }
+        {
+          id: "dev-options-2",
+          name: "DEV (options 2)",
+          ...baseConfig,
+          serviceName: "Apprenticeship service - Digital certification",
+          jwksUrl: "https://dev2.apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://dev2.apprenticeship-cert.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
+          landingPageUrl: "https://dev2.apprenticeship-cert.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
+        },
+        {
+          id: "sit",
+          name: "SIT",
+          ...baseConfig,
+          serviceName: "Apprenticeship service - Digital certification",
+          jwksUrl: "https://sit.apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://sit.apprenticeship-cert.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
+          landingPageUrl: "https://sit.apprenticeship-cert.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
+        },
+        {
+          id: "uat",
+          name: "UAT",
+          ...baseConfig,
+          serviceName: "Apprenticeship service - Digital certification",
+          jwksUrl: "https://uat.apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://uat.apprenticeship-cert.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
+          landingPageUrl: "https://uat.apprenticeship-cert.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
+        },
+        {
+          id: "preprod",
+          name: "PreProd",
+          ...baseConfig,
+          serviceName: "Apprenticeship service - Digital certification",
+          jwksUrl: "https://preprod.apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://preprod.apprenticeship-cert.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
+          landingPageUrl: "https://preprod.apprenticeship-cert.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
         }
+      ],
+      production: {
+        id: "prod-options-2",
+        name: "options 2",
+        ...baseConfig,
+        serviceName: "Apprenticeship service - Digital certification",
+        jwksUrl: "https://apprenticeship-cert.education.gov.uk/.well-known/jwks.json",
+        redirectUrls: ["https://apprenticeship-cert.education.gov.uk/callback"],
+        sectorIdentifierUri: "https://apprenticeship-cert.education.gov.uk",
+        identityVerificationSupported: true,
+        claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
+        landingPageUrl: "https://apprenticeship-cert.education.gov.uk/landing",
+        levelsOfConfidence: ["P2"]
       }
     },
     {
-      id: "apply-for-legal-aid",
-      name: "Apply for legal aid",
-      description: "Service for citizens to check eligibility and apply for legal aid",
-      environments: {
-        integration: {
-          status: "active",
-          config: {
-            serviceName: "Apply for legal aid",
-            scopes: ["openid", "email", "phone"],
-            redirectUrls: [
-              "https://integration.apply-for-legal-aid.service.gov.uk/callback",
-              "https://integration.apply-for-legal-aid.service.gov.uk/callback2"
-            ],
-            tokenAuthMethod: "private_key_jwt",
-            publicKeyType: "JWKS",
-            jwksUrl: "https://integration.apply-for-legal-aid.service.gov.uk/.well-known/jwks.json",
-            idTokenSigningAlgorithm: "RS256",
-            sectorIdentifierUri: "https://apply-for-legal-aid.service.gov.uk",
-            isActive: true,
-            identityVerificationSupported: false,
-            claims: [],
-            landingPageUrl: "",
-            levelsOfConfidence: [],
-            contacts: ["team@apply-for-legal-aid.service.gov.uk"],
-            postLogoutRedirectUrls: ["https://integration.apply-for-legal-aid.service.gov.uk/signed-out"],
-            backChannelLogoutUrls: [],
-            serviceType: "OPTIONAL",
-            jarValidationRequired: false,
-            channel: "web",
-            pkceEnforced: true,
-            maxAgeEnabled: false,
-            permitMissingNonce: true,
-            rateLimit: "1000 per minute"
-          }
+      id: "find-teacher-training",
+      name: "Find teacher training courses",
+      description: "Search and apply for postgraduate teacher training courses in England",
+      integration: [
+        {
+          id: "dev",
+          name: "DEV",
+          ...baseConfig,
+          serviceName: "Find teacher training courses",
+          jwksUrl: "https://dev.find-teacher-training.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://dev.find-teacher-training.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://find-teacher-training.education.gov.uk",
+          identityVerificationSupported: false,
+          claims: [],
+          landingPageUrl: "",
+          levelsOfConfidence: []
+        }
+      ],
+      production: {
+        id: "prod",
+        name: "Find teacher training courses",
+        ...baseConfig,
+        serviceName: "Find teacher training courses",
+        jwksUrl: "https://find-teacher-training.education.gov.uk/.well-known/jwks.json",
+        redirectUrls: ["https://find-teacher-training.education.gov.uk/callback"],
+        sectorIdentifierUri: "https://find-teacher-training.education.gov.uk",
+        identityVerificationSupported: false,
+        claims: [],
+        landingPageUrl: "",
+        levelsOfConfidence: []
+      }
+    },
+    {
+      id: "claim-additional-payments",
+      name: "Claim Additional Payments for Teaching Early Years",
+      description: "Claim additional payments for teaching certain early years subjects",
+      integration: [
+        {
+          id: "dev",
+          name: "DEV",
+          ...baseConfig,
+          serviceName: "Claim Additional Payments for Teaching Early Years",
+          jwksUrl: "https://dev.claim-additional-payments.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://dev.claim-additional-payments.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://claim-additional-payments.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
+          landingPageUrl: "https://dev.claim-additional-payments.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
         },
-        production: null
+        {
+          id: "sit",
+          name: "SIT",
+          ...baseConfig,
+          serviceName: "Claim Additional Payments for Teaching Early Years",
+          jwksUrl: "https://sit.claim-additional-payments.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://sit.claim-additional-payments.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://claim-additional-payments.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
+          landingPageUrl: "https://sit.claim-additional-payments.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
+        },
+        {
+          id: "uat",
+          name: "UAT",
+          ...baseConfig,
+          serviceName: "Claim Additional Payments for Teaching Early Years",
+          jwksUrl: "https://uat.claim-additional-payments.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://uat.claim-additional-payments.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://claim-additional-payments.education.gov.uk",
+          identityVerificationSupported: true,
+          claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
+          landingPageUrl: "https://uat.claim-additional-payments.education.gov.uk/landing",
+          levelsOfConfidence: ["P2"]
+        }
+      ],
+      production: {
+        id: "prod",
+        name: "Claim Additional Payments for Teaching Early Years",
+        ...baseConfig,
+        serviceName: "Claim Additional Payments for Teaching Early Years",
+        jwksUrl: "https://claim-additional-payments.education.gov.uk/.well-known/jwks.json",
+        redirectUrls: ["https://claim-additional-payments.education.gov.uk/callback"],
+        sectorIdentifierUri: "https://claim-additional-payments.education.gov.uk",
+        identityVerificationSupported: true,
+        claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
+        landingPageUrl: "https://claim-additional-payments.education.gov.uk/landing",
+        levelsOfConfidence: ["P2"]
       }
     }
   ]

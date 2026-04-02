@@ -31,19 +31,19 @@
     <h1 class="govuk-heading-l">{{ service.name }}</h1>
     <p class="govuk-body">{{ service.description }}</p>
 
-    <h2 class="govuk-heading-m">Environments</h2>
+    {# Production #}
+    <h2 class="govuk-heading-m">Production</h2>
 
-    {# Integration environment #}
-    {% if service.environments.integration %}
+    {% if service.production %}
       <div class="govuk-summary-card">
         <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
-            Integration
+            {{ service.production.name }}
           </h3>
           <ul class="govuk-summary-card__actions">
             <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="/services/{{ service.id }}/integration">
-                View and edit configuration<span class="govuk-visually-hidden"> for integration environment</span>
+              <a class="govuk-link" href="/services/{{ service.id }}/production/{{ service.production.id }}">
+                View<span class="govuk-visually-hidden"> production configuration</span>
               </a>
             </li>
           </ul>
@@ -53,62 +53,61 @@
             rows: [
               {
                 key: { text: "Status" },
-                value: { html: '<strong class="govuk-tag govuk-tag--blue">Active</strong>' if service.environments.integration.status == "active" else '<strong class="govuk-tag govuk-tag--grey">Inactive</strong>' }
+                value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' }
               },
               {
                 key: { text: "Identity verification" },
-                value: { text: "Yes" if service.environments.integration.config.identityVerificationSupported else "No" }
+                value: { text: "Yes" if service.production.identityVerificationSupported else "No" }
               }
             ]
           }) }}
         </div>
       </div>
-    {% endif %}
 
-    {# Production environment #}
-    {% if service.environments.production %}
-      <div class="govuk-summary-card">
-        <div class="govuk-summary-card__title-wrapper">
-          <h3 class="govuk-summary-card__title">
-            Production
-          </h3>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="/services/{{ service.id }}/production">
-                View configuration<span class="govuk-visually-hidden"> for production environment</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: { text: "Status" },
-                value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if service.environments.production.status == "active" else '<strong class="govuk-tag govuk-tag--grey">Inactive</strong>' }
-              },
-              {
-                key: { text: "Identity verification" },
-                value: { text: "Yes" if service.environments.production.config.identityVerificationSupported else "No" }
-              }
-            ]
-          }) }}
-        </div>
-      </div>
+      {{ govukInsetText({
+        text: "Production configuration is read-only. Contact support if you need to make changes."
+      }) }}
     {% else %}
+      {{ govukInsetText({
+        text: "No production configuration yet. You'll be able to request production access once your integration is ready."
+      }) }}
+    {% endif %}
+
+    {# Integration #}
+    <h2 class="govuk-heading-m">Integration</h2>
+
+    {% for config in service.integration %}
       <div class="govuk-summary-card">
         <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
-            Production
+            {{ config.name }}
           </h3>
+          <ul class="govuk-summary-card__actions">
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="/services/{{ service.id }}/integration/{{ config.id }}">
+                Manage<span class="govuk-visually-hidden"> {{ config.name }} configuration</span>
+              </a>
+            </li>
+          </ul>
         </div>
         <div class="govuk-summary-card__content">
-          {{ govukInsetText({
-            text: "No production environment yet. You'll be able to request production access once your integration is ready."
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: { text: "Identity verification" },
+                value: { text: "Yes" if config.identityVerificationSupported else "No" }
+              }
+            ]
           }) }}
         </div>
       </div>
-    {% endif %}
+    {% endfor %}
+
+    {{ govukButton({
+      text: "Add a new integration configuration",
+      href: "/services/" + service.id + "/create-config",
+      classes: "govuk-button--secondary"
+    }) }}
 
   </div>
 </div>

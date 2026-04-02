@@ -19,16 +19,22 @@ router.get("/services/:serviceId", (req, res) => {
   res.render("services/overview.html", { service, success: req.query.success });
 });
 
-// Environment config (Level 3)
-router.get("/services/:serviceId/:envName", (req, res) => {
+// Config detail (Level 3)
+router.get("/services/:serviceId/:envType/:configId", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
   if (!service) return res.redirect("/services");
-  const env = service.environments[req.params.envName];
-  if (!env) return res.redirect("/services/" + service.id);
-  res.render("services/environment.html", {
+  const { envType, configId } = req.params;
+  let config;
+  if (envType === "production" && service.production && service.production.id === configId) {
+    config = service.production;
+  } else if (envType === "integration") {
+    config = service.integration.find(c => c.id === configId);
+  }
+  if (!config) return res.redirect("/services/" + service.id);
+  res.render("services/config.html", {
     service,
-    envName: req.params.envName,
-    config: env.config,
+    envType,
+    config,
     success: req.query.success
   });
 });

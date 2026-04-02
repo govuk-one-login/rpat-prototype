@@ -35,15 +35,12 @@
           {{ govukSummaryList({
             rows: [
               {
-                key: { text: "Description" },
-                value: { text: service.description }
+                key: { text: "Integration configurations" },
+                value: { text: service.integration | length | string }
               },
               {
-                key: { text: "Environments" },
-                value: {
-                  html: ('<strong class="govuk-tag govuk-tag--blue">Integration</strong>' if service.environments.integration) +
-                        (' <strong class="govuk-tag govuk-tag--green">Production</strong>' if service.environments.production)
-                }
+                key: { text: "Production" },
+                value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if service.production else '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>' }
               }
             ]
           }) }}
