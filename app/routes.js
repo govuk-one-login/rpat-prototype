@@ -76,6 +76,101 @@ router.get("/create-service/review", (req, res) => {
   });
 });
 
+// Edit routes for integration configs
+const editFields = ["service-name", "scopes", "public-key-type", "redirect-urls"];
+
+function findServiceAndConfig(req) {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return null;
+  const config = service.integration.find(c => c.id === req.params.configId);
+  if (!config) return null;
+  return { service, config };
+}
+
+// Edit: service name
+router.get("/services/:serviceId/integration/:configId/edit/service-name", (req, res) => {
+  const found = findServiceAndConfig(req);
+  if (!found) return res.redirect("/services");
+  res.render("services/edit/service-name.html", {
+    serviceId: req.params.serviceId,
+    configId: req.params.configId,
+    currentValue: found.config.serviceName
+  });
+});
+
+router.post("/services/:serviceId/integration/:configId/edit/service-name", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "?success=Service name updated");
+});
+
+// Edit: scopes
+router.get("/services/:serviceId/integration/:configId/edit/scopes", (req, res) => {
+  const found = findServiceAndConfig(req);
+  if (!found) return res.redirect("/services");
+  res.render("services/edit/scopes.html", {
+    serviceId: req.params.serviceId,
+    configId: req.params.configId,
+    currentValue: found.config.scopes
+  });
+});
+
+router.post("/services/:serviceId/integration/:configId/edit/scopes", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "?success=Scopes updated");
+});
+
+// Edit: public key type
+router.get("/services/:serviceId/integration/:configId/edit/public-key-type", (req, res) => {
+  const found = findServiceAndConfig(req);
+  if (!found) return res.redirect("/services");
+  res.render("services/edit/public-key-type.html", {
+    serviceId: req.params.serviceId,
+    configId: req.params.configId,
+    currentValue: found.config.publicKeyType,
+    currentJwksUrl: found.config.jwksUrl
+  });
+});
+
+router.post("/services/:serviceId/integration/:configId/edit/public-key-type", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "?success=Public key type updated");
+});
+
+// Edit: redirect URLs
+router.get("/services/:serviceId/integration/:configId/edit/redirect-urls", (req, res) => {
+  const found = findServiceAndConfig(req);
+  if (!found) return res.redirect("/services");
+  const urls = req.session.data.editRedirectUrls || found.config.redirectUrls.slice();
+  req.session.data.editRedirectUrls = urls;
+  res.render("services/edit/redirect-urls.html", {
+    serviceId: req.params.serviceId,
+    configId: req.params.configId,
+    editRedirectUrls: urls,
+    editRedirectUrlTableEntries: urls.map((url, i) => [
+      { html: url },
+      { html: '<a href="/services/' + req.params.serviceId + '/integration/' + req.params.configId + '/edit/redirect-urls/delete/' + i + '" class="govuk-link">Remove<span class="govuk-visually-hidden"> ' + url + '</span></a>' }
+    ])
+  });
+});
+
+router.post("/services/:serviceId/integration/:configId/edit/redirect-urls", (req, res) => {
+  const urls = req.session.data.editRedirectUrls || [];
+  if (req.body["new-redirect-url"]) {
+    urls.push(req.body["new-redirect-url"]);
+  }
+  req.session.data.editRedirectUrls = urls;
+  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "/edit/redirect-urls");
+});
+
+router.get("/services/:serviceId/integration/:configId/edit/redirect-urls/delete/:index", (req, res) => {
+  const urls = req.session.data.editRedirectUrls || [];
+  urls.splice(req.params.index, 1);
+  req.session.data.editRedirectUrls = urls;
+  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "/edit/redirect-urls");
+});
+
+// Catch-all: unbuilt edit screens
+router.get("/services/:serviceId/integration/:configId/edit/:field", (req, res) => {
+  res.render("not-yet-built.html");
+});
+
 // Config detail (Level 3)
 router.get("/services/:serviceId/:envType/:configId", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
