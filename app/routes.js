@@ -5,6 +5,12 @@
 
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
+const { services } = require("./data/services");
+
+// Services list (Level 1)
+router.get("/services", (req, res) => {
+  res.render("services/list.html", { services });
+});
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");

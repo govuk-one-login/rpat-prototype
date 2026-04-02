@@ -1,0 +1,62 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Your services – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Your services</h1>
+
+    {% for service in services %}
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            {{ service.name }}
+          </h2>
+          <ul class="govuk-summary-card__actions">
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="/services/{{ service.id }}">
+                Manage<span class="govuk-visually-hidden"> {{ service.name }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-summary-card__content">
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: { text: "Description" },
+                value: { text: service.description }
+              },
+              {
+                key: { text: "Environments" },
+                value: {
+                  html: ('<strong class="govuk-tag govuk-tag--blue">Integration</strong>' if service.environments.integration) +
+                        (' <strong class="govuk-tag govuk-tag--green">Production</strong>' if service.environments.production)
+                }
+              }
+            ]
+          }) }}
+        </div>
+      </div>
+    {% endfor %}
+
+    {{ govukButton({
+      text: "Add a new service",
+      href: "/create-service/start",
+      classes: "govuk-button--secondary"
+    }) }}
+
+  </div>
+</div>
+{% endblock %}
