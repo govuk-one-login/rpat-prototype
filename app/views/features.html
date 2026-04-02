@@ -1,0 +1,124 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Features" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Features</h1>
+
+      {# Current features #}
+      <h2 class="govuk-heading-l">What you can do now</h2>
+
+      <p class="govuk-body">The RP Admin Tool lets you manage your service's connection to GOV.UK One Login.</p>
+
+      {{ govukSummaryList({
+        card: { title: { text: "Create and configure" } },
+        rows: [
+          {
+            key: { text: "Create a service" },
+            value: { text: "Register a new service and set up your first integration configuration." }
+          },
+          {
+            key: { text: "Authentication" },
+            value: { text: "Configure sign-in for your users using GOV.UK One Login." }
+          },
+          {
+            key: { text: "Identity verification" },
+            value: { text: "Add identity verification to your service, including claims, levels of confidence, and landing page URL." }
+          }
+        ]
+      }) }}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Manage" } },
+        rows: [
+          {
+            key: { text: "Multiple services" },
+            value: { text: "View and manage all services your team has access to from a single dashboard." }
+          },
+          {
+            key: { text: "Multiple integration configs" },
+            value: { text: "Create and manage named integration configurations for each service — for example DEV, SIT, UAT." }
+          },
+          {
+            key: { text: "Edit configuration" },
+            value: { text: "Update individual fields on your integration configurations at any time." }
+          }
+        ]
+      }) }}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Review" } },
+        rows: [
+          {
+            key: { text: "View production" },
+            value: { text: "See your live production configuration. Read-only." }
+          },
+          {
+            key: { text: "Compare environments" },
+            value: { text: "Compare an integration configuration against production to see what matches and what's different." }
+          }
+        ]
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      {# Roadmap #}
+      <h2 class="govuk-heading-l">Roadmap</h2>
+
+      <p class="govuk-body">What we're planning to build and when.</p>
+
+      {# Now #}
+      <h3 class="govuk-heading-m">
+        {{ govukTag({ text: "Now", classes: "govuk-!-margin-right-2" }) }}
+        In progress
+      </h3>
+
+      <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+        <li>User research on service creation and configuration management flows</li>
+        <li>Iterating on the comparison view based on feedback</li>
+        <li>Refining content and error handling across all screens</li>
+      </ul>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      {# Next #}
+      <h3 class="govuk-heading-m">
+        {{ govukTag({ text: "Next", classes: "govuk-tag--blue govuk-!-margin-right-2" }) }}
+        Planned
+      </h3>
+
+      <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+        <li>Production write access — edit production configurations with approval controls</li>
+        <li>Team management — invite members, manage roles and permissions</li>
+        <li>Audit log — history of changes to your configurations and by whom</li>
+        <li>Request production access — submit your integration config for review and promotion</li>
+      </ul>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      {# Later #}
+      <h3 class="govuk-heading-m">
+        {{ govukTag({ text: "Later", classes: "govuk-tag--light-blue govuk-!-margin-right-2" }) }}
+        Exploring
+      </h3>
+
+      <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+        <li>Internal admin access — tools for the One Login team to manage and support relying parties</li>
+        <li>API access — programmatic management of configurations</li>
+        <li>Notifications — alerts about changes, maintenance, or required actions</li>
+        <li>Environment promotion — guided workflow to promote integration configs to production</li>
+      </ul>
+
+    </div>
+  </div>
+{% endblock %}
