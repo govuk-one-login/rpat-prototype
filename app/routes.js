@@ -18,6 +18,20 @@ router.get("/services/:serviceId", (req, res) => {
   if (!service) return res.redirect("/services");
   res.render("services/overview.html", { service, success: req.query.success });
 });
+
+// Environment config (Level 3)
+router.get("/services/:serviceId/:envName", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const env = service.environments[req.params.envName];
+  if (!env) return res.redirect("/services/" + service.id);
+  res.render("services/environment.html", {
+    service,
+    envName: req.params.envName,
+    config: env.config,
+    success: req.query.success
+  });
+});
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");
