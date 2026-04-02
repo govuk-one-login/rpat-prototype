@@ -1,0 +1,30 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Service created" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Your service has been created",
+        html: "Your integration configuration is ready to use."
+      }) }}
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">We've set up an integration configuration for your service. You can now:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>view and update your configuration</li>
+        <li>add more integration configurations if you need them</li>
+        <li>start integrating with GOV.UK One Login using the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a></li>
+      </ul>
+
+      {{ govukButton({
+        text: "Go to your service",
+        href: "/services/apprenticeship-digital-cert"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

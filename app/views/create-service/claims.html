@@ -1,0 +1,62 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Which claims does your service need?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/scopes"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/landing-page-url" method="post">
+
+        {{ govukCheckboxes({
+          name: "selected-claims",
+          fieldset: {
+            legend: {
+              text: "Which claims does your service need?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select all that apply."
+          },
+          items: [
+            {
+              value: "core-identity",
+              text: "Core identity",
+              checked: true,
+              disabled: true
+            },
+            {
+              value: "passport",
+              text: "Passport"
+            },
+            {
+              value: "address",
+              text: "Address"
+            },
+            {
+              value: "driving-permit",
+              text: "Driving permit"
+            },
+            {
+              value: "return-code",
+              text: "Return code"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Check your answers before creating your service" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-l">Check your answers before creating your service</h1>
+
+      {{ govukSummaryList({
+        card: { title: { text: "Service details" } },
+        rows: [
+          {
+            key: { text: "Service name" },
+            value: { text: data['service-name'] },
+            actions: {
+              items: [{ href: "/create-service/name", text: "Change", visuallyHiddenText: "service name" }]
+            }
+          },
+          {
+            key: { text: "Description" },
+            value: { text: data['service-description'] or "Not provided" },
+            actions: {
+              items: [{ href: "/create-service/name", text: "Change", visuallyHiddenText: "description" }]
+            }
+          },
+          {
+            key: { text: "Service type" },
+            value: { text: "Authentication and identity verification" if data['service-type'] == "auth-and-identity" else "Authentication only" },
+            actions: {
+              items: [{ href: "/create-service/type", text: "Change", visuallyHiddenText: "service type" }]
+            }
+          }
+        ]
+      }) }}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Authentication" } },
+        rows: [
+          {
+            key: { text: "Token authentication method" },
+            value: { text: data['public-key-type'] },
+            actions: {
+              items: [{ href: "/create-service/key-type", text: "Change", visuallyHiddenText: "token authentication method" }]
+            }
+          },
+          {
+            key: { text: "JWKS endpoint" },
+            value: { text: data['jwks-endpoint'] },
+            actions: {
+              items: [{ href: "/create-service/key-type", text: "Change", visuallyHiddenText: "JWKS endpoint" }]
+            }
+          } if data['public-key-type'] == "Public key URL (JWKS)",
+          {
+            key: { text: "Public key" },
+            value: { text: data['static-key'] },
+            actions: {
+              items: [{ href: "/create-service/key-type", text: "Change", visuallyHiddenText: "public key" }]
+            }
+          } if data['public-key-type'] == "Fixed public key",
+          {
+            key: { text: "Client secret" },
+            value: { text: data['client-secret'] },
+            actions: {
+              items: [{ href: "/create-service/key-type", text: "Change", visuallyHiddenText: "client secret" }]
+            }
+          } if data['public-key-type'] == "Client secret",
+          {
+            key: { text: "Redirect URLs" },
+            value: { html: redirectUrls | join("<br>") if redirectUrls else "None" },
+            actions: {
+              items: [{ href: "/create-service/redirect-urls", text: "Change", visuallyHiddenText: "redirect URLs" }]
+            }
+          },
+          {
+            key: { text: "Scopes" },
+            value: { html: "openid" + ("<br>" + data['selected-scopes'] | join("<br>") if data['selected-scopes'] else "") },
+            actions: {
+              items: [{ href: "/create-service/scopes", text: "Change", visuallyHiddenText: "scopes" }]
+            }
+          }
+        ] | reject("falsy")
+      }) }}
+
+      {% if data['service-type'] == "auth-and-identity" %}
+        {{ govukSummaryList({
+          card: { title: { text: "Identity verification" } },
+          rows: [
+            {
+              key: { text: "Claims" },
+              value: { html: "Core identity" + ("<br>" + data['selected-claims'] | join("<br>") if data['selected-claims'] else "") },
+              actions: {
+                items: [{ href: "/create-service/claims", text: "Change", visuallyHiddenText: "claims" }]
+              }
+            },
+            {
+              key: { text: "Landing page URL" },
+              value: { text: data['landing-page-url'] or "Not provided" },
+              actions: {
+                items: [{ href: "/create-service/landing-page-url", text: "Change", visuallyHiddenText: "landing page URL" }]
+              }
+            },
+            {
+              key: { text: "Levels of confidence" },
+              value: { html: data['selected-levels-of-confidence'] | join("<br>") if data['selected-levels-of-confidence'] else "None" },
+              actions: {
+                items: [{ href: "/create-service/levels-of-confidence", text: "Change", visuallyHiddenText: "levels of confidence" }]
+              }
+            }
+          ]
+        }) }}
+      {% endif %}
+
+      <h2 class="govuk-heading-m">Create your service</h2>
+      <p class="govuk-body">This will create your service and set up an integration configuration.</p>
+
+      {{ govukButton({
+        text: "Create service",
+        href: "/create-service/success"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

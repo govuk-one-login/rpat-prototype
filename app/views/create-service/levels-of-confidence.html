@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Which levels of confidence does your service need?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/landing-page-url"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/review" method="post">
+
+        {{ govukCheckboxes({
+          name: "selected-levels-of-confidence",
+          fieldset: {
+            legend: {
+              text: "Which levels of confidence does your service need?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select all that apply."
+          },
+          items: [
+            {
+              value: "P0",
+              text: "P0"
+            },
+            {
+              value: "P1",
+              text: "P1"
+            },
+            {
+              value: "P2",
+              text: "P2"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

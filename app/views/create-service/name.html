@@ -1,0 +1,55 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is the name of your service?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/start"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/type" method="post">
+
+        {{ govukInput({
+          label: {
+            text: "What is the name of your service?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "This is the name your users will see when they sign in with GOV.UK One Login."
+          },
+          id: "service-name",
+          name: "service-name",
+          value: data['service-name']
+        }) }}
+
+        {{ govukTextarea({
+          label: {
+            text: "Describe your service"
+          },
+          hint: {
+            text: "A short description to help your team identify this service."
+          },
+          id: "service-description",
+          name: "service-description",
+          value: data['service-description'],
+          rows: 3
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+        <p class="govuk-body">
+          <a href="https://www.gov.uk/service-manual/design/naming-your-service" class="govuk-link" rel="noreferrer noopener" target="_blank">Get guidance on choosing a name for your service (opens in new tab)</a>
+        </p>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}
