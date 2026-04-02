@@ -19,6 +19,11 @@ router.get("/services/:serviceId", (req, res) => {
   res.render("services/overview.html", { service, success: req.query.success });
 });
 
+// Create service flow
+router.get("/create-service/start", (req, res) => {
+  res.render("create-service/start.html");
+});
+
 // Config detail (Level 3)
 router.get("/services/:serviceId/:envType/:configId", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
