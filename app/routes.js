@@ -76,6 +76,13 @@ router.get("/create-service/review", (req, res) => {
   });
 });
 
+// Request to go live (placeholder)
+router.get("/services/:serviceId/request-go-live", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/request-go-live.html", { service });
+});
+
 // Compare integration config with production
 router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);

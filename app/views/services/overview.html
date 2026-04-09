@@ -61,8 +61,21 @@
           text: "Production configuration is read-only. Contact support if you need to make changes."
         }) }}
       {% else %}
-        {{ govukInsetText({
-          text: "There is no production configuration yet. You can request production access when your integration is ready."
+        {{ govukSummaryList({
+          rows: [
+            {
+              key: { text: "Status" },
+              value: { html: '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>' }
+            }
+          ]
+        }) }}
+
+        <p class="govuk-body">You do not have a production configuration yet. When your integration is ready, you can request to go live.</p>
+
+        {{ govukButton({
+          text: "Request to go live",
+          href: "/services/" + service.id + "/request-go-live",
+          classes: "govuk-button--secondary"
         }) }}
       {% endif %}
 

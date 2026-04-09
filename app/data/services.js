@@ -197,6 +197,27 @@ module.exports = {
         landingPageUrl: "https://claim-additional-payments.education.gov.uk/landing",
         levelsOfConfidence: ["P2"]
       }
+    },
+    {
+      id: "register-trainee-teachers",
+      name: "Register trainee teachers",
+      description: "Register trainees and record their progress towards qualified teacher status",
+      integration: [
+        {
+          id: "dev",
+          name: "DEV",
+          ...baseConfig,
+          serviceName: "Register trainee teachers",
+          jwksUrl: "https://dev.register-trainee-teachers.education.gov.uk/.well-known/jwks.json",
+          redirectUrls: ["https://dev.register-trainee-teachers.education.gov.uk/callback"],
+          sectorIdentifierUri: "https://register-trainee-teachers.education.gov.uk",
+          identityVerificationSupported: false,
+          claims: [],
+          landingPageUrl: "",
+          levelsOfConfidence: []
+        }
+      ],
+      production: null
     }
   ]
 };
