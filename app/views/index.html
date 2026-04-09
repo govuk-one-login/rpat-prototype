@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Prototype versions" %}
+{% set pageName = "Prototype" %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -12,161 +12,32 @@
         text: "This is a prototype for user research. It is not a real service."
       }) }}
 
-      <h2 class="govuk-heading-l">Slice 1 flows</h2>
-      <p class="govuk-body">Three-level IA: services list → service overview → configuration detail. Mock data based on DfE (3 services, varying integration and production configs).</p>
+      <h2 class="govuk-heading-m">Services-Clients-Environments flows</h2>
 
-      {# Flow A #}
-      {{ govukSummaryList({
-        card: {
-          title: { text: "Flow A: New user sets up a service" },
-          actions: {
-            items: [
-              {
-                href: "/create-service/start",
-                text: "Start flow A",
-                visuallyHiddenText: "new user sets up a service"
-              }
-            ]
-          }
-        },
-        rows: [
-          {
-            key: { text: "User need" },
-            value: { text: "I need to register my service with GOV.UK One Login so that my users can sign in." }
-          },
-          {
-            key: { text: "Steps" },
-            value: {
-              html: "<ol class='govuk-list govuk-list--number'>
-                <li>Welcome page — what the tool does, what you'll need</li>
-                <li>Name the service, choose auth only or auth + identity</li>
-                <li>Configure token auth, redirect URLs, scopes</li>
-                <li>If identity: claims, landing page URL, levels of confidence</li>
-                <li>Review answers, create service</li>
-                <li>Success — land on service overview</li>
-              </ol>"
-            }
-          },
-          {
-            key: { text: "Ends at" },
-            value: { text: "Service overview with integration config ready" }
-          }
-        ]
-      }) }}
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/create-service/start" class="govuk-link">Create a new service</a></li>
+        <li><a href="/services" class="govuk-link">Your services</a></li>
+        <li><a href="/services/apprenticeship-digital-cert" class="govuk-link">Complex service (5 integration configs)</a></li>
+        <li><a href="/services/find-teacher-training" class="govuk-link">Simple service (1 integration, 1 production)</a></li>
+        <li><a href="/services/register-trainee-teachers" class="govuk-link">New service (no production)</a></li>
+        <li><a href="/services/apprenticeship-digital-cert/integration/dev-options-1" class="govuk-link">Integration config (editable)</a></li>
+        <li><a href="/services/apprenticeship-digital-cert/production/prod-options-2" class="govuk-link">Production config (read-only)</a></li>
+        <li><a href="/services/apprenticeship-digital-cert/integration/dev-options-1/compare" class="govuk-link">Compare integration with production</a></li>
+      </ul>
 
-      {# Flow B #}
-      {{ govukSummaryList({
-        card: {
-          title: { text: "Flow B: Returning user manages services" },
-          actions: {
-            items: [
-              {
-                href: "/services",
-                text: "Start flow B",
-                visuallyHiddenText: "returning user manages services"
-              }
-            ]
-          }
-        },
-        rows: [
-          {
-            key: { text: "User need" },
-            value: { text: "I need to view and update my integration configuration so that I can iterate on my One Login connection." }
-          },
-          {
-            key: { text: "Steps" },
-            value: {
-              html: "<ol class='govuk-list govuk-list--number'>
-                <li>Services list — all services the user has access to</li>
-                <li>Service overview — production (read-only) and integration configs</li>
-                <li>Configuration detail — full config with edit links</li>
-                <li>Edit a field, save, see confirmation</li>
-              </ol>"
-            }
-          },
-          {
-            key: { text: "Mock data" },
-            value: { text: "3 DfE services: 1 with 5 integration configs, 1 with 3, 1 with 1" }
-          }
-        ]
-      }) }}
+      <h2 class="govuk-heading-m">Other variants</h2>
 
-      {# Compare #}
-      {{ govukSummaryList({
-        card: {
-          title: { text: "Flow B variant: Compare with production" },
-          actions: {
-            items: [
-              {
-                href: "/services/apprenticeship-digital-cert/integration/dev-options-1/compare",
-                text: "View example",
-                visuallyHiddenText: "comparison between integration and production"
-              }
-            ]
-          }
-        },
-        rows: [
-          {
-            key: { text: "User need" },
-            value: { text: "I need to compare my integration config against production so I can check what's different before go-live." }
-          },
-          {
-            key: { text: "Pattern" },
-            value: { text: "Table view with match and different indicators per field" }
-          },
-          {
-            key: { text: "Entry point" },
-            value: { html: "\"Compare with production configuration\" link on any integration config detail page" }
-          }
-        ]
-      }) }}
-
-      <h2 class="govuk-heading-m">Deep links for testing</h2>
-
-      {{ govukSummaryList({
-        card: {
-          title: { text: "Quick links" }
-        },
-        rows: [
-          {
-            key: { text: "Complex service (5 integration configs)" },
-            value: { html: '<a href="/services/apprenticeship-digital-cert" class="govuk-link">Apprenticeship service - Digital certification</a>' }
-          },
-          {
-            key: { text: "Simple service (1 integration, 1 production)" },
-            value: { html: '<a href="/services/find-teacher-training" class="govuk-link">Find teacher training courses</a>' }
-          },
-          {
-            key: { text: "Integration config (editable)" },
-            value: { html: '<a href="/services/apprenticeship-digital-cert/integration/dev-options-1" class="govuk-link">DEV (options 1)</a>' }
-          },
-          {
-            key: { text: "Production config (read-only)" },
-            value: { html: '<a href="/services/apprenticeship-digital-cert/production/prod-options-2" class="govuk-link">options 2</a>' }
-          },
-          {
-            key: { text: "New service (no production)" },
-            value: { html: '<a href="/services/register-trainee-teachers" class="govuk-link">Register trainee teachers</a>' }
-          }
-        ]
-      }) }}
-
-      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-
-      {{ govukDetails({
-        summaryText: "Previous variants (not using new IA)",
-        html: "<ul class='govuk-list govuk-list--spaced'>
-          <li><a href='/create-service-key-warning/start-page' class='govuk-link'>Create service (with warning)</a></li>
-          <li><a href='/create-service-key-warning-hint/start-page' class='govuk-link'>Create service (with warning as hint)</a></li>
-          <li><a href='/create-service-identity-flow/start-page' class='govuk-link'>Create service (with identity flow)</a></li>
-          <li><a href='/view-service/view-all-details-with-sections-cards' class='govuk-link'>View service details</a></li>
-          <li><a href='/view-service/edit-all-details-with-sections-validation' class='govuk-link'>Edit service details (error states)</a></li>
-          <li><a href='/view-service-editable-wizard/view-all-details' class='govuk-link'>Edit service details (identity wizard)</a></li>
-          <li><a href='/view-all-services/with-cards-header-tags' class='govuk-link'>View all services (header tags)</a></li>
-          <li><a href='/view-all-services/with-cards-tags' class='govuk-link'>View all services (field tags)</a></li>
-          <li><a href='/view-all-services/with-headers-sections' class='govuk-link'>View all services (sections)</a></li>
-        </ul>"
-      }) }}
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/create-service-key-warning/start-page" class="govuk-link">Create service (with warning)</a></li>
+        <li><a href="/create-service-key-warning-hint/start-page" class="govuk-link">Create service (with warning as hint)</a></li>
+        <li><a href="/create-service-identity-flow/start-page" class="govuk-link">Create service (with identity flow)</a></li>
+        <li><a href="/view-service/view-all-details-with-sections-cards" class="govuk-link">View service details</a></li>
+        <li><a href="/view-service/edit-all-details-with-sections-validation" class="govuk-link">Edit service details (error states)</a></li>
+        <li><a href="/view-service-editable-wizard/view-all-details" class="govuk-link">Edit service details (identity wizard)</a></li>
+        <li><a href="/view-all-services/with-cards-header-tags" class="govuk-link">View all services (header tags)</a></li>
+        <li><a href="/view-all-services/with-cards-tags" class="govuk-link">View all services (field tags)</a></li>
+        <li><a href="/view-all-services/with-headers-sections" class="govuk-link">View all services (sections)</a></li>
+      </ul>
 
     </div>
   </div>
