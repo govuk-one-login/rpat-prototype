@@ -44,6 +44,7 @@ For specific tasks, reference the guidelines directly:
 
 | Section                                                 | What it covers                                                   |
 | ------------------------------------------------------- | ---------------------------------------------------------------- |
+| [Product context](#product-context)                     | What One Login Admin is, data model, IA decisions, terminology, scope       |
 | [Project context](#project-context)                     | Tech stack and framework versions                                |
 | [Core rules](#core-rules)                               | The five non-negotiable rules for this codebase                  |
 | [File structure](#file-structure)                       | Directory layout, versioning, and naming conventions             |
@@ -56,6 +57,98 @@ For specific tasks, reference the guidelines directly:
 | [Reference links](#reference-links)                     | Official documentation                                           |
 | [Suggestions and updates](#suggestions-and-updates)     | How to contribute improvements                                   |
 
+---
+
+## Product context
+
+Evolve this section as we build knowledge in the prototype
+
+> **This section describes the product being prototyped.** It contains decisions, data model, and domain knowledge that must inform all prototype work. The sections that follow cover how to build in the GOV.UK Prototype Kit — this section covers what to build and why.
+
+### What One Login Admin is
+
+One Login Admin (internally refered to as RPAT - RP Admin Tool) is a rebuild of the current Self-Service Environment (SSE). It allows government service teams (Relying Parties / RPs) to configure and manage their GOV.UK One Login integrations. It is part of the GOV.UK One Login programme, owned by the Orchestration team at GDS.
+
+The product vision: **One place for government services to independently set up, manage and maintain their One Login integrations.**
+
+### Information architecture (confirmed)
+
+The tool uses a three-level IA:
+
+1. **Services list** — all services the user has access to. Landing page for returning users.
+2. **Service overview** — a single service, showing its Production config (typically 1, read-only in MVP slice) and its Integration configs (a list of named configs, could be 1 or many).
+3. **Config detail** — the configuration for a specific environment. Editable for integration, read-only for production in MVP.
+
+### Data model
+
+The underlying data store is DynamoDB (`ol-client-registry-{env}`). The bottom-level entity is an **OIDC client**. RPAT introduces grouping above this:
+
+```
+Organisation (e.g. DfE, DVLA)
+  └── Service Integration (e.g. "Find teacher training courses")
+        ├── Production OIDC Client (1, read-only in MVP)
+        └── Integration OIDC Clients (1 to many, editable)
+              ├── "DEV"
+              ├── "SIT"
+              ├── "UAT"
+              └── "PreProd"
+```
+
+- **Organisation** already exists in the data model. Permissions will eventually attach here.
+- **Service Integration** is the grouping entity. It sits above OIDC clients and is where RPAT manages the relationship between production and integration environments.
+- **OIDC Client** is the bottom-level entity in the client registry. RPAT groups these but the registry stores them individually.
+- **Admin Tool User Groups** manage permissions. Open question: do permissions resolve at Service Integration level or at individual OIDC client level? (The prod/integration trust asymmetry suggests client level.)
+
+### Real-world mental models
+
+These two examples must inform all IA and page design decisions.
+
+#### DfE 
+
+DfE has 3 services. The pattern is: few services, but one has many integration configs.
+
+| Service | Integration configs | Prod config |
+|---------|-------------------|-------------|
+| Apprenticeship service - Digital certification | DEV (options 1), DEV (options 2), SIT, UAT, PreProd | options 2 |
+| Find teacher training courses | DEV | Find teacher training courses |
+| Claim Additional Payments for Teaching Early Years | DEV, SIT, UAT | Claim Additional Payments for Teaching Early Years |
+
+Key observations:
+- "Options 1" and "options 2" for the same environment = testing different config approaches before selecting one for prod
+- The ratio is asymmetric: 5+ integration configs but only 1 prod config
+- RPs name integration configs themselves — don't impose structure
+
+#### DVLA
+
+DVLA has a different pattern. They have an internal Identity platform that proxies OL calls, with separate client configs per service controlling scopes/claims. Many services, fewer integration configs each.
+
+| Service | Integration configs | Prod config |
+|---------|-------------------|-------------|
+| Customer Account | Ext, Link | Customer Account |
+| DFP - Drivers first provisional | Ext, Link | DFP |
+| UDL - Update drivers licence | Ext | UDL |
+| DMSP - Drivers medical service platform | Ext | DMSP |
+| TrackApp (auth only) | Ext | TrackApp |
+| DVSA (PoC) | Ext | (none) |
+
+Key observations:
+- 6 services per org, but only 1-2 integration configs each
+- DVLA's environment names: Production, Preproduction (usually stubbed, not integrated with OL), Ext (formerly UAT — external integration testing with specific firewall rules), Link (internal bottom-level nonprod)
+- Not all internal environments integrate with OL — some are stubbed. So an RP might have fewer OL integration configs than they have internal environments.
+- DVSA has no prod config (it's a PoC) — the service overview must handle this empty state.
+- RPs naturally use the word "environments" for these — validates our terminology choice.
+
+### Terminology
+
+| In the UI (user-facing) | Internal / technical term | Notes |
+|------------------------|--------------------------|-------|
+| Service | Service Integration | The grouping of prod + integration environments for one RP service |
+| Environment | OIDC Client | What users see as "Production" or "DEV" is an OIDC client in the registry |
+| Configuration | Client config fields | The set of fields (redirect URIs, scopes, public keys, etc.) on an OIDC client |
+| Integration environment | Integration OIDC Client | Editable in MVP slice |
+| Production environment | Production OIDC Client | Read-only in MVP slice |
+
+**Never expose** the terms "OIDC client", "client registry", or "Service Integration" in user-facing content.
 ---
 
 ## Project context
