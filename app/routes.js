@@ -211,6 +211,34 @@ router.post("/services/:serviceId/add-client/success", (req, res) => {
   });
 });
 
+// Claim migrated service flow (Journey D)
+router.get("/claim-service/existing", (req, res) => {
+  res.render("claim-service/existing.html");
+});
+
+router.post("/claim-service/existing-answer", (req, res) => {
+  if (req.session.data["has-existing-integration"] === "yes") {
+    res.redirect("/claim-service/client-id");
+  } else {
+    res.redirect("/create-service/start");
+  }
+});
+
+router.get("/claim-service/client-id", (req, res) => {
+  res.render("claim-service/client-id.html");
+});
+
+router.post("/claim-service/verify", (req, res) => {
+  // Always resolve to the first service for prototype purposes
+  const service = services[0];
+  res.render("claim-service/verify.html", { service });
+});
+
+router.post("/claim-service/success", (req, res) => {
+  const service = services[0];
+  res.render("claim-service/success.html", { service });
+});
+
 // Request to go live (placeholder)
 router.get("/services/:serviceId/request-go-live", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);

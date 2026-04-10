@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Confirm this is your service" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/claim-service/client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Confirm this is your service</h1>
+
+      <p class="govuk-body">We found a service matching that client ID in the previous admin interface (also known as SSE).</p>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Service name" },
+            value: { text: service.name }
+          },
+          {
+            key: { text: "Client ID" },
+            value: { text: data['claim-client-id'] }
+          },
+          {
+            key: { text: "Integration clients" },
+            value: { text: service.integration | length | string }
+          },
+          {
+            key: { text: "Production client" },
+            value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if service.production else '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>' }
+          }
+        ]
+      }) }}
+
+      {{ govukWarningText({
+        text: "By claiming this service, you will become its first admin. Make sure this is the correct service.",
+        iconFallbackText: "Warning"
+      }) }}
+
+      <form action="/claim-service/success" method="post">
+        {{ govukButton({
+          text: "Claim this service"
+        }) }}
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
