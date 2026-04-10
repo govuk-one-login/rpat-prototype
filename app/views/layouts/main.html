@@ -3,22 +3,36 @@
 
 
 {% block header %}
- {{ govukHeader({
-   homepageUrl: "create-service-key-warning/start-page",
-   productName: "One Login Admin",
-   classes: "govuk-header--with-sign-out-link",
-   navigation: [
-     {
-       href: "#",
-       text: "Sign out"
-     }
-   ]
- }) }}
-{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
-   {{ govukServiceNavigation({
-       serviceName: serviceName
-   })}}
- {% endblock %}
+  {{ govukHeader({
+    homepageUrl: "/"
+  }) }}
+  {{ govukServiceNavigation({
+    serviceName: "One Login Admin",
+    serviceUrl: "/",
+    navigation: [
+      {
+        href: "/services",
+        text: "Your services"
+      },
+      {
+        href: "/features",
+        text: "Features"
+      },
+      {
+        href: "/not-yet-built",
+        text: "Documentation"
+      },
+      {
+        href: "/not-yet-built",
+        text: "Support"
+      },
+      {
+        href: "/not-yet-built",
+        text: "Your account"
+      }
+    ]
+  }) }}
+{% endblock %}
 
 
 

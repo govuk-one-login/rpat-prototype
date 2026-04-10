@@ -1,0 +1,38 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is your landing page URL?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/claims"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/levels-of-confidence" method="post">
+
+        {{ govukInput({
+          label: {
+            text: "What is your landing page URL?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "This is where users are sent after they have verified their identity."
+          },
+          id: "landing-page-url",
+          name: "landing-page-url",
+          value: data['landing-page-url']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

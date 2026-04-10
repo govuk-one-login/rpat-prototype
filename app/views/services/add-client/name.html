@@ -1,0 +1,38 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What do you want to call this integration client?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/add-client/copy" method="post">
+
+        {{ govukInput({
+          label: {
+            text: "What do you want to call this integration client?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "Give it a name your team will recognise, for example 'DEV', 'Staging' or 'Test 1'."
+          },
+          id: "add-client-name",
+          name: "add-client-name",
+          value: data['add-client-name']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

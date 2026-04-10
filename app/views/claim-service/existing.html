@@ -1,0 +1,48 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Do you have an existing One Login integration?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/claim-service/existing-answer" method="post">
+
+        {{ govukRadios({
+          name: "has-existing-integration",
+          fieldset: {
+            legend: {
+              text: "Do you have an existing One Login integration?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "If your service already uses GOV.UK One Login and was set up through the previous admin interface (also known as SSE), you can claim it here."
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes, I have an existing integration"
+            },
+            {
+              value: "no",
+              text: "No, I want to set up a new service"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is the name of your service?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/type" method="post">
+
+        {{ govukInput({
+          label: {
+            text: "What is the name of your service?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "This is the name your users will see when they sign in with GOV.UK One Login."
+          },
+          id: "service-name",
+          name: "service-name",
+          value: data['service-name']
+        }) }}
+
+        {{ govukTextarea({
+          label: {
+            text: "Add a description for your service",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "This will be shown to One Login users when they view services they have interacted with."
+          },
+          id: "service-description",
+          name: "service-description",
+          value: data['service-description']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

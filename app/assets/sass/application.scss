@@ -4,6 +4,16 @@
 // 
 
 // Add extra styles here
+
+// Right-align last nav item (Sign in)
+.govuk-service-navigation__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.govuk-service-navigation__item:last-child {
+  margin-left: auto;
+}
 // New header (2025)
 .govuk-header--with-sign-out-link {
    .govuk-header__content {

@@ -1,0 +1,25 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Integration client created" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Integration client created",
+        html: 'Your client ID<br><strong>RP-' + ("9876543210" | truncate(10, true, "")) + '</strong>'
+      }) }}
+
+      <p class="govuk-body">Your new integration client '{{ data['add-client-name'] }}' has been added to {{ serviceName }}.</p>
+
+      <p class="govuk-body">Use your client ID to integrate with GOV.UK One Login. Read the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a> for next steps.</p>
+
+      {{ govukButton({
+        text: "Return to service overview",
+        href: "/services/" + serviceId + "?success=Integration client '" + data['add-client-name'] + "' created"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What does your service need?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/name"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/type-answer" method="post">
+
+        {{ govukRadios({
+          name: "service-type",
+          fieldset: {
+            legend: {
+              text: "What does your service need?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "You can change this later."
+          },
+          items: [
+            {
+              value: "auth-only",
+              text: "Authentication only",
+              hint: {
+                text: "Your users sign in with GOV.UK One Login. You do not need to verify their identity."
+              }
+            },
+            {
+              value: "auth-and-identity",
+              text: "Authentication and identity verification",
+              hint: {
+                text: "Your users sign in and prove their identity. You'll need to provide additional configuration."
+              }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Change service name" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/integration/" + configId
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/integration/{{ configId }}/edit/service-name" method="post">
+
+        {{ govukInput({
+          label: {
+            text: "Change service name",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "This is the name your users will see when they sign in with GOV.UK One Login."
+          },
+          id: "service-name",
+          name: "service-name",
+          value: currentValue
+        }) }}
+
+        {{ govukButton({
+          text: "Save"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

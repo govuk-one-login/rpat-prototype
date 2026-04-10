@@ -1,0 +1,30 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Service claimed" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "You have claimed this service",
+        html: service.name
+      }) }}
+
+      <p class="govuk-body">You are now the admin for this service. All existing configuration from the previous admin interface (also known as SSE) has been preserved.</p>
+
+      <p class="govuk-body">You can now:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>view your production and integration clients</li>
+        <li>add new integration clients</li>
+        <li>update integration client configuration</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Go to your service",
+        href: "/services/" + service.id
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

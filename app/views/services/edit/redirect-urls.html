@@ -1,0 +1,56 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Change redirect URLs" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/integration/" + configId
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/integration/{{ configId }}/edit/redirect-urls" method="post">
+
+        {% if editRedirectUrls | length > 0 %}
+          {{ govukTable({
+            caption: "Current redirect URLs",
+            captionClasses: "govuk-table__caption--m",
+            rows: editRedirectUrlTableEntries
+          }) }}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "Change redirect URLs",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "You need at least one redirect URL for your service to work."
+          },
+          id: "new-redirect-url",
+          name: "new-redirect-url"
+        }) }}
+
+        {% if editRedirectUrls | length > 0 %}
+          {{ govukButton({
+            text: "Add",
+            classes: "govuk-button--secondary"
+          }) }}
+          {{ govukButton({
+            text: "Save",
+            href: "/services/" + serviceId + "/integration/" + configId + "?success=Redirect URLs updated"
+          }) }}
+        {% else %}
+          {{ govukButton({
+            text: "Add"
+          }) }}
+        {% endif %}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Change public key type" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/integration/" + configId
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/integration/{{ configId }}/edit/public-key-type" method="post">
+
+        {% set jwksEndpointHtml %}
+          {{ govukInput({
+            id: "jwks-endpoint",
+            name: "jwks-endpoint",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "JWKS endpoint URL"
+            },
+            value: currentJwksUrl
+          }) }}
+        {% endset %}
+
+        {% set staticKeyHtml %}
+          {{ govukInput({
+            id: "static-key",
+            name: "static-key",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "Public key"
+            }
+          }) }}
+        {% endset %}
+
+        {% set clientSecretHtml %}
+          {{ govukInput({
+            id: "client-secret",
+            name: "client-secret",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "Client secret"
+            }
+          }) }}
+        {% endset %}
+
+        {{ govukRadios({
+          name: "public-key-type",
+          fieldset: {
+            legend: {
+              text: "How do you want to authenticate?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "JWKS",
+              text: "Public key URL (JWKS)",
+              checked: currentValue == "JWKS",
+              hint: {
+                text: "Recommended. Use private_key_jwt authentication with a JSON Web Key Set endpoint."
+              },
+              conditional: {
+                html: jwksEndpointHtml
+              }
+            },
+            {
+              value: "Fixed public key",
+              text: "Fixed public key",
+              checked: currentValue == "Fixed public key",
+              hint: {
+                text: "Use private_key_jwt authentication with a single uploaded public key."
+              },
+              conditional: {
+                html: staticKeyHtml
+              }
+            },
+            {
+              value: "Client secret",
+              text: "Client secret",
+              checked: currentValue == "Client secret",
+              hint: {
+                text: "Use client_secret_post authentication."
+              },
+              conditional: {
+                html: clientSecretHtml
+              }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Save"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

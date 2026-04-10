@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Change service description" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/edit/description" method="post">
+
+        {{ govukTextarea({
+          label: {
+            text: "Change service description",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          id: "service-description",
+          name: "service-description",
+          value: currentValue,
+          rows: 3
+        }) }}
+
+        {{ govukButton({
+          text: "Save"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

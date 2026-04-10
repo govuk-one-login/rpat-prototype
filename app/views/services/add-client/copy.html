@@ -1,0 +1,39 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Do you want to copy configuration from an existing client?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/add-client"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/add-client/copy-answer" method="post">
+
+        {{ govukRadios({
+          name: "copy-from-client",
+          fieldset: {
+            legend: {
+              text: "Do you want to copy configuration from an existing client?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "This will pre-fill the configuration for your new client. You can change any values before saving."
+          },
+          items: copyItems
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

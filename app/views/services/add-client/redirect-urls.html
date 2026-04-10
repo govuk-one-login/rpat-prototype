@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Add a redirect URL" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/add-client/key-type"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/add-client/redirect-urls" method="post">
+
+        {% if addClientRedirectUrls | length > 0 %}
+          {{ govukTable({
+            caption: "Redirect URLs",
+            captionClasses: "govuk-table__caption--m",
+            head: [],
+            rows: addClientRedirectUrlTableEntries
+          }) }}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "Add a redirect URL",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "You need at least one redirect URL for your client to work."
+          },
+          id: "add-client-redirect-url",
+          name: "add-client-redirect-url"
+        }) }}
+
+        {% if addClientRedirectUrls | length > 0 %}
+          {{ govukButton({
+            text: "Add",
+            classes: "govuk-button--secondary"
+          }) }}
+          {{ govukButton({
+            text: "Continue",
+            href: "/services/" + serviceId + "/add-client/scopes"
+          }) }}
+        {% else %}
+          {{ govukButton({
+            text: "Add"
+          }) }}
+        {% endif %}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

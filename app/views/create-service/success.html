@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Service created" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Service and integration client created",
+        html: 'Your client ID<br><strong>RP-' + ("1234567890" | truncate(10, true, "")) + '</strong>'
+      }) }}
+
+      <p class="govuk-body">We have created your service and your first integration client.</p>
+
+      <h2 class="govuk-heading-m">What to do next</h2>
+
+      <p class="govuk-body">Use your client ID to start integrating with GOV.UK One Login. Read the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a> for next steps.</p>
+
+      <p class="govuk-body">You can also:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>view and update your client configuration</li>
+        <li>add more integration clients</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Go to your service",
+        href: "/services/register-trainee-teachers"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Set up your service with GOV.UK One Login" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Set up your service with GOV.UK One Login</h1>
+
+      <p class="govuk-body">Use this tool to create and manage your service's integration with GOV.UK One Login.</p>
+
+      <p class="govuk-body">You'll create a service and set up your first integration client. This takes about 10 minutes.</p>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      <p class="govuk-body">You will need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>a name for your service</li>
+        <li>a JSON Web Key Set (JWKS) endpoint URL, a public key, or a client secret</li>
+        <li>one or more redirect URLs</li>
+      </ul>
+
+      <p class="govuk-body">
+        Read the
+        <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a>
+        if you need help preparing these values.
+      </p>
+
+      {{ govukButton({
+        text: "Start now",
+        href: "/create-service/name",
+        isStartButton: true
+      }) }}
+
+      <p class="govuk-body">
+        <a href="/claim-service/existing" class="govuk-link">I already have a One Login integration set up through the previous admin interface (SSE)</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

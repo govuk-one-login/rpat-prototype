@@ -1,0 +1,126 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Token authentication method" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/create-service/client-name"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/create-service/redirect-urls" method="post">
+
+        <h1 class="govuk-heading-l">How do you want to authenticate?</h1>
+
+        {% set jwksEndpointHtml %}
+          {{ govukInput({
+            id: "jwks-endpoint",
+            name: "jwks-endpoint",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "JWKS endpoint URL"
+            }
+          }) }}
+        {% endset %}
+
+        {% set staticKeyHtml %}
+          {{ govukInput({
+            id: "static-key",
+            name: "static-key",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "Public key"
+            }
+          }) }}
+        {% endset %}
+
+        {% set clientSecretHtml %}
+          {{ govukInput({
+            id: "client-secret",
+            name: "client-secret",
+            spellcheck: false,
+            classes: "govuk-!-width-full",
+            label: {
+              text: "Client secret"
+            }
+          }) }}
+        {% endset %}
+
+        {% if data['service-type'] == "auth-and-identity" %}
+          {{ govukRadios({
+            name: "public-key-type",
+            items: [
+              {
+                value: "Public key URL (JWKS)",
+                text: "Public key URL (JWKS)",
+                hint: {
+                  text: "Recommended. Use private_key_jwt authentication with a JSON Web Key Set endpoint."
+                },
+                conditional: {
+                  html: jwksEndpointHtml
+                }
+              },
+              {
+                value: "Fixed public key",
+                text: "Fixed public key",
+                hint: {
+                  text: "Use private_key_jwt authentication with a single uploaded public key."
+                },
+                conditional: {
+                  html: staticKeyHtml
+                }
+              }
+            ]
+          }) }}
+        {% else %}
+          {{ govukRadios({
+            name: "public-key-type",
+            items: [
+              {
+                value: "Public key URL (JWKS)",
+                text: "Public key URL (JWKS)",
+                hint: {
+                  text: "Recommended. Use private_key_jwt authentication with a JSON Web Key Set endpoint."
+                },
+                conditional: {
+                  html: jwksEndpointHtml
+                }
+              },
+              {
+                value: "Fixed public key",
+                text: "Fixed public key",
+                hint: {
+                  text: "Use private_key_jwt authentication with a single uploaded public key."
+                },
+                conditional: {
+                  html: staticKeyHtml
+                }
+              },
+              {
+                value: "Client secret",
+                text: "Client secret",
+                hint: {
+                  text: "Use client_secret_post authentication."
+                },
+                conditional: {
+                  html: clientSecretHtml
+                }
+              }
+            ]
+          }) }}
+        {% endif %}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}
