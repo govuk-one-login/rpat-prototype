@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What user information do you need?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + serviceId + "/add-client/redirect-urls"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/services/{{ serviceId }}/add-client/scopes-answer" method="post">
+
+        {{ govukCheckboxes({
+          name: "add-client-scopes",
+          fieldset: {
+            legend: {
+              text: "What user information do you need?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select all that apply."
+          },
+          items: [
+            {
+              value: "openid",
+              text: "OpenID",
+              checked: true,
+              disabled: true,
+              hint: {
+                text: "Required to sign in users"
+              }
+            },
+            {
+              value: "email",
+              text: "Email address",
+              checked: data['add-client-scopes'] and "email" in data['add-client-scopes']
+            },
+            {
+              value: "phone",
+              text: "Phone number",
+              checked: data['add-client-scopes'] and "phone" in data['add-client-scopes']
+            },
+            {
+              value: "wallet-subject-id",
+              text: "Wallet subject ID",
+              checked: data['add-client-scopes'] and "wallet-subject-id" in data['add-client-scopes']
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

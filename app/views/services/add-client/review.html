@@ -1,0 +1,81 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Check your answers" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-l">Check your answers</h1>
+
+      {{ govukSummaryList({
+        card: { title: { text: "Integration client" } },
+        rows: [
+          {
+            key: { text: "Client name" },
+            value: { text: data['add-client-name'] },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client", text: "Change", visuallyHiddenText: "client name" }]
+            }
+          },
+          {
+            key: { text: "Token authentication method" },
+            value: { text: data['add-client-key-type'] },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/key-type", text: "Change", visuallyHiddenText: "token authentication method" }]
+            }
+          },
+          {
+            key: { text: "JWKS endpoint" },
+            value: { text: data['add-client-jwks-endpoint'] },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/key-type", text: "Change", visuallyHiddenText: "JWKS endpoint" }]
+            }
+          } if data['add-client-key-type'] == "Public key URL (JWKS)",
+          {
+            key: { text: "Public key" },
+            value: { text: data['add-client-static-key'] },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/key-type", text: "Change", visuallyHiddenText: "public key" }]
+            }
+          } if data['add-client-key-type'] == "Fixed public key",
+          {
+            key: { text: "Client secret" },
+            value: { text: data['add-client-secret'] },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/key-type", text: "Change", visuallyHiddenText: "client secret" }]
+            }
+          } if data['add-client-key-type'] == "Client secret",
+          {
+            key: { text: "Redirect URLs" },
+            value: { html: addClientRedirectUrls | join("<br>") if addClientRedirectUrls else "None" },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/redirect-urls", text: "Change", visuallyHiddenText: "redirect URLs" }]
+            }
+          },
+          {
+            key: { text: "Scopes" },
+            value: { html: "openid" + ("<br>" + data['add-client-scopes'] | join("<br>") if data['add-client-scopes'] else "") },
+            actions: {
+              items: [{ href: "/services/" + serviceId + "/add-client/scopes", text: "Change", visuallyHiddenText: "scopes" }]
+            }
+          }
+        ] | reject("falsy")
+      }) }}
+
+      <form action="/services/{{ serviceId }}/add-client/success" method="post">
+        {{ govukButton({
+          text: "Create integration client"
+        }) }}
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

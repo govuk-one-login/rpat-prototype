@@ -81,6 +81,136 @@ router.post("/create-service/success", (req, res) => {
   res.render("create-service/success.html");
 });
 
+// Add integration client flow (Journey B)
+router.get("/services/:serviceId/add-client", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/add-client/name.html", { serviceId: service.id });
+});
+
+router.post("/services/:serviceId/add-client/copy", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  if (service.integration.length < 2) {
+    req.session.data.addClientRedirectUrls = [];
+    req.session.data["add-client-copied-from"] = "";
+    return res.redirect("/services/" + service.id + "/add-client/key-type");
+  }
+  const copyItems = [
+    { value: "no", text: "No, start with a blank configuration" },
+    { divider: "or" }
+  ].concat(service.integration.map(c => ({ value: c.id, text: c.name })));
+  res.render("services/add-client/copy.html", {
+    serviceId: service.id,
+    copyItems: copyItems
+  });
+});
+
+router.get("/services/:serviceId/add-client/copy", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const copyItems = [
+    { value: "no", text: "No, start with a blank configuration" },
+    { divider: "or" }
+  ].concat(service.integration.map(c => ({ value: c.id, text: c.name })));
+  res.render("services/add-client/copy.html", {
+    serviceId: service.id,
+    copyItems: copyItems
+  });
+});
+
+router.post("/services/:serviceId/add-client/copy-answer", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const copyFrom = req.session.data["copy-from-client"];
+  if (copyFrom && copyFrom !== "no") {
+    const source = service.integration.find(c => c.id === copyFrom);
+    if (source) {
+      req.session.data["add-client-key-type"] = source.publicKeyType === "JWKS" ? "Public key URL (JWKS)" : "Fixed public key";
+      req.session.data["add-client-jwks-endpoint"] = source.jwksUrl || "";
+      req.session.data.addClientRedirectUrls = source.redirectUrls.slice();
+      req.session.data["add-client-scopes"] = source.scopes.filter(s => s !== "openid");
+      req.session.data["add-client-copied-from"] = source.name;
+    }
+  } else {
+    req.session.data["add-client-copied-from"] = "";
+    req.session.data.addClientRedirectUrls = [];
+  }
+  res.redirect("/services/" + service.id + "/add-client/key-type");
+});
+
+router.get("/services/:serviceId/add-client/key-type", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const backLink = service.integration.length < 2
+    ? "/services/" + service.id + "/add-client"
+    : "/services/" + service.id + "/add-client/copy";
+  res.render("services/add-client/key-type.html", {
+    serviceId: service.id,
+    backLink: backLink,
+    copiedFrom: req.session.data["add-client-copied-from"] || ""
+  });
+});
+
+// Redirect URLs: add/delete pattern for add-client
+router.get("/services/:serviceId/add-client/redirect-urls", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const urls = req.session.data.addClientRedirectUrls || [];
+  res.render("services/add-client/redirect-urls.html", {
+    serviceId: service.id,
+    addClientRedirectUrls: urls,
+    addClientRedirectUrlTableEntries: urls.map((url, i) => [
+      { html: url },
+      { html: '<a href="/services/' + service.id + '/add-client/redirect-urls/delete/' + i + '" class="govuk-link">Remove<span class="govuk-visually-hidden"> ' + url + '</span></a>' }
+    ])
+  });
+});
+
+router.post("/services/:serviceId/add-client/redirect-urls", (req, res) => {
+  const urls = req.session.data.addClientRedirectUrls || [];
+  if (req.body["add-client-redirect-url"]) {
+    urls.push(req.body["add-client-redirect-url"]);
+  }
+  req.session.data.addClientRedirectUrls = urls;
+  res.redirect("/services/" + req.params.serviceId + "/add-client/redirect-urls");
+});
+
+router.get("/services/:serviceId/add-client/redirect-urls/delete/:index", (req, res) => {
+  const urls = req.session.data.addClientRedirectUrls || [];
+  urls.splice(req.params.index, 1);
+  req.session.data.addClientRedirectUrls = urls;
+  res.redirect("/services/" + req.params.serviceId + "/add-client/redirect-urls");
+});
+
+router.get("/services/:serviceId/add-client/scopes", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/add-client/scopes.html", { serviceId: service.id });
+});
+
+router.post("/services/:serviceId/add-client/scopes-answer", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "/add-client/review");
+});
+
+router.get("/services/:serviceId/add-client/review", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/add-client/review.html", {
+    serviceId: service.id,
+    addClientRedirectUrls: req.session.data.addClientRedirectUrls || []
+  });
+});
+
+router.post("/services/:serviceId/add-client/success", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/add-client/success.html", {
+    serviceId: service.id,
+    serviceName: service.name
+  });
+});
+
 // Request to go live (placeholder)
 router.get("/services/:serviceId/request-go-live", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
