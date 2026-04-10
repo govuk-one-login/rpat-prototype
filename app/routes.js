@@ -246,6 +246,33 @@ router.get("/services/:serviceId/request-go-live", (req, res) => {
   res.render("services/request-go-live.html", { service });
 });
 
+// Edit service details (service-level, not client-level)
+router.get("/services/:serviceId/edit/name", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/edit/name.html", {
+    serviceId: service.id,
+    currentValue: service.name
+  });
+});
+
+router.post("/services/:serviceId/edit/name", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "?success=Service name updated");
+});
+
+router.get("/services/:serviceId/edit/description", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/edit/description.html", {
+    serviceId: service.id,
+    currentValue: service.description
+  });
+});
+
+router.post("/services/:serviceId/edit/description", (req, res) => {
+  res.redirect("/services/" + req.params.serviceId + "?success=Service description updated");
+});
+
 // Compare integration config with production
 router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
@@ -269,21 +296,6 @@ function findServiceAndConfig(req) {
   if (!config) return null;
   return { service, config };
 }
-
-// Edit: service name
-router.get("/services/:serviceId/integration/:configId/edit/service-name", (req, res) => {
-  const found = findServiceAndConfig(req);
-  if (!found) return res.redirect("/services");
-  res.render("services/edit/service-name.html", {
-    serviceId: req.params.serviceId,
-    configId: req.params.configId,
-    currentValue: found.config.serviceName
-  });
-});
-
-router.post("/services/:serviceId/integration/:configId/edit/service-name", (req, res) => {
-  res.redirect("/services/" + req.params.serviceId + "/integration/" + req.params.configId + "?success=Service name updated");
-});
 
 // Edit: scopes
 router.get("/services/:serviceId/integration/:configId/edit/scopes", (req, res) => {

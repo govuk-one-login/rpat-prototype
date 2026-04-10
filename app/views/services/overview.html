@@ -27,7 +27,26 @@
       {% endif %}
 
       <h1 class="govuk-heading-l">{{ service.name }}</h1>
-      <p class="govuk-body">{{ service.description }}</p>
+
+      {{ govukSummaryList({
+        card: { title: { text: "Service details" } },
+        rows: [
+          {
+            key: { text: "Service name" },
+            value: { text: service.name },
+            actions: {
+              items: [{ href: "/services/" + service.id + "/edit/name", text: "Change", visuallyHiddenText: "service name" }]
+            }
+          },
+          {
+            key: { text: "Description" },
+            value: { text: service.description or "Not provided" },
+            actions: {
+              items: [{ href: "/services/" + service.id + "/edit/description", text: "Change", visuallyHiddenText: "service description" }]
+            }
+          }
+        ]
+      }) }}
 
       <h2 class="govuk-heading-m">Production client</h2>
 

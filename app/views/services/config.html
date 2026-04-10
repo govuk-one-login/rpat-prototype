@@ -56,11 +56,6 @@
           actions: { items: [{ href: editBase + "client-name", text: "Change", visuallyHiddenText: "client name" }] } if isIntegration
         },
         {
-          key: { text: "Service name" },
-          value: { text: config.serviceName },
-          actions: { items: [{ href: editBase + "service-name", text: "Change", visuallyHiddenText: "service name" }] } if isIntegration
-        },
-        {
           key: { text: "Scopes" },
           value: { html: config.scopes | join("<br>") },
           actions: { items: [{ href: editBase + "scopes", text: "Change", visuallyHiddenText: "scopes" }] } if isIntegration
