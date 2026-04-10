@@ -26,7 +26,7 @@ router.get("/create-service/start", (req, res) => {
 
 // Branching: auth only or identity
 router.post("/create-service/type-answer", (req, res) => {
-  res.redirect("/create-service/key-type");
+  res.redirect("/create-service/client-name");
 });
 
 // Redirect URLs: add/delete pattern
@@ -74,6 +74,11 @@ router.get("/create-service/review", (req, res) => {
   res.render("create-service/review.html", {
     redirectUrls: req.session.data.redirectUrls || []
   });
+});
+
+// Success page
+router.post("/create-service/success", (req, res) => {
+  res.render("create-service/success.html");
 });
 
 // Request to go live (placeholder)

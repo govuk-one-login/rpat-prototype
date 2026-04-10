@@ -7,17 +7,20 @@
     <div class="govuk-grid-column-two-thirds">
 
       {{ govukPanel({
-        titleText: "Your service has been created",
-        html: "Your integration configuration is ready to use."
+        titleText: "Service and integration client created",
+        html: 'Your client ID<br><strong>RP-' + ("1234567890" | truncate(10, true, "")) + '</strong>'
       }) }}
 
-      <h2 class="govuk-heading-m">What happens next</h2>
+      <p class="govuk-body">We have created your service and your first integration client.</p>
 
-      <p class="govuk-body">We've set up an integration configuration for your service. You can now:</p>
+      <h2 class="govuk-heading-m">What to do next</h2>
+
+      <p class="govuk-body">Use your client ID to start integrating with GOV.UK One Login. Read the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a> for next steps.</p>
+
+      <p class="govuk-body">You can also:</p>
       <ul class="govuk-list govuk-list--bullet">
-        <li>view and update your configuration</li>
-        <li>add more integration configurations if you need them</li>
-        <li>start integrating with GOV.UK One Login using the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank">technical documentation (opens in new tab)</a></li>
+        <li>view and update your client configuration</li>
+        <li>add more integration clients</li>
       </ul>
 
       {{ govukButton({

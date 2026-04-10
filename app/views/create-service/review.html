@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Check your answers before creating your service" %}
+{% set pageName = "Check your answers" %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -13,10 +13,10 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
 
-      <h1 class="govuk-heading-l">Check your answers before creating your service</h1>
+      <h1 class="govuk-heading-l">Check your answers</h1>
 
       {{ govukSummaryList({
-        card: { title: { text: "Service details" } },
+        card: { title: { text: "Service" } },
         rows: [
           {
             key: { text: "Service name" },
@@ -29,7 +29,7 @@
             key: { text: "Description" },
             value: { text: data['service-description'] or "Not provided" },
             actions: {
-              items: [{ href: "/create-service/name", text: "Change", visuallyHiddenText: "description" }]
+              items: [{ href: "/create-service/name", text: "Change", visuallyHiddenText: "service description" }]
             }
           },
           {
@@ -43,8 +43,15 @@
       }) }}
 
       {{ govukSummaryList({
-        card: { title: { text: "Authentication" } },
+        card: { title: { text: "Integration client" } },
         rows: [
+          {
+            key: { text: "Client name" },
+            value: { text: data['client-name'] },
+            actions: {
+              items: [{ href: "/create-service/client-name", text: "Change", visuallyHiddenText: "client name" }]
+            }
+          },
           {
             key: { text: "Token authentication method" },
             value: { text: data['public-key-type'] },
@@ -119,13 +126,11 @@
         }) }}
       {% endif %}
 
-      <h2 class="govuk-heading-m">Create your service</h2>
-      <p class="govuk-body">This will create your service and set up an integration configuration.</p>
-
-      {{ govukButton({
-        text: "Create service",
-        href: "/create-service/success"
-      }) }}
+      <form action="/create-service/success" method="post">
+        {{ govukButton({
+          text: "Create service and client"
+        }) }}
+      </form>
 
     </div>
   </div>

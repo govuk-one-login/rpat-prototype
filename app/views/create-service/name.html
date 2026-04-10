@@ -5,7 +5,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/create-service/start"
+    href: "javascript:history.back()"
   }) }}
 {% endblock %}
 
@@ -30,24 +30,20 @@
 
         {{ govukTextarea({
           label: {
-            text: "Describe your service"
+            text: "Add a description for your service",
+            classes: "govuk-label--m"
           },
           hint: {
-            text: "A short description to help your team identify this service."
+            text: "This will be shown to One Login users when they view services they have interacted with."
           },
           id: "service-description",
           name: "service-description",
-          value: data['service-description'],
-          rows: 3
+          value: data['service-description']
         }) }}
 
         {{ govukButton({
           text: "Continue"
         }) }}
-
-        <p class="govuk-body">
-          <a href="https://www.gov.uk/service-manual/design/naming-your-service" class="govuk-link" rel="noreferrer noopener" target="_blank">Get guidance on choosing a name for your service (opens in new tab)</a>
-        </p>
 
       </form>
     </div>

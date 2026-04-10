@@ -29,7 +29,7 @@
       <h1 class="govuk-heading-l">{{ service.name }}</h1>
       <p class="govuk-body">{{ service.description }}</p>
 
-      <h2 class="govuk-heading-m">Production</h2>
+      <h2 class="govuk-heading-m">Production client</h2>
 
       {% if service.production %}
         {{ govukSummaryList({
@@ -40,7 +40,7 @@
                 {
                   href: "/services/" + service.id + "/production/" + service.production.id,
                   text: "View",
-                  visuallyHiddenText: "production configuration"
+                  visuallyHiddenText: "production client"
                 }
               ]
             }
@@ -58,19 +58,19 @@
         }) }}
 
         {{ govukInsetText({
-          text: "Production configuration is read-only. Contact support if you need to make changes."
+          text: "Production client configuration is read-only. Contact support if you need to make changes."
         }) }}
       {% else %}
         {{ govukSummaryList({
           rows: [
             {
               key: { text: "Status" },
-              value: { html: '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>' }
+              value: { html: '<strong class="govuk-tag govuk-tag--grey">No production client yet</strong>' }
             }
           ]
         }) }}
 
-        <p class="govuk-body">You do not have a production configuration yet. When your integration is ready, you can request to go live.</p>
+        <p class="govuk-body">When your integration is ready, you can request to go live.</p>
 
         {{ govukButton({
           text: "Request to go live",
@@ -79,7 +79,7 @@
         }) }}
       {% endif %}
 
-      <h2 class="govuk-heading-m">Integration</h2>
+      <h2 class="govuk-heading-m">Integration clients</h2>
 
       {% for config in service.integration %}
         {{ govukSummaryList({
@@ -90,7 +90,7 @@
                 {
                   href: "/services/" + service.id + "/integration/" + config.id,
                   text: "Manage",
-                  visuallyHiddenText: config.name + " configuration"
+                  visuallyHiddenText: config.name + " client"
                 }
               ]
             }
@@ -105,8 +105,8 @@
       {% endfor %}
 
       {{ govukButton({
-        text: "Add a new integration configuration",
-        href: "/services/" + service.id + "/create-config",
+        text: "Add another integration client",
+        href: "/not-yet-built",
         classes: "govuk-button--secondary"
       }) }}
 

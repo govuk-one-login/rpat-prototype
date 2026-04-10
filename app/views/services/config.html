@@ -4,7 +4,7 @@
 {% set envLabel = "Integration" if isIntegration else "Production" %}
 {% set tagColour = "govuk-tag--blue" if isIntegration else "govuk-tag--green" %}
 {% set editBase = "/services/" + service.id + "/integration/" + config.id + "/edit/" %}
-{% set pageName = config.name + " (" + envLabel + ") – " + service.name %}
+{% set pageName = config.name + " – " + service.name %}
 
 {% block beforeContent %}
   {{ govukPhaseBanner({
@@ -38,18 +38,23 @@
 
       {% if not isIntegration %}
         {{ govukInsetText({
-          text: "This is your production configuration. It is read-only. Contact support if you need to make changes."
+          text: "This is your production client. It is read-only. Contact support if you need to make changes."
         }) }}
       {% endif %}
 
       {% if isIntegration and service.production %}
         <p class="govuk-body">
-          <a href="/services/{{ service.id }}/integration/{{ config.id }}/compare" class="govuk-link">Compare with production configuration</a>
+          <a href="/services/{{ service.id }}/integration/{{ config.id }}/compare" class="govuk-link">Compare with production client</a>
         </p>
       {% endif %}
 
       {# Core configuration #}
       {% set coreRows = [
+        {
+          key: { text: "Client name" },
+          value: { text: config.name },
+          actions: { items: [{ href: editBase + "client-name", text: "Change", visuallyHiddenText: "client name" }] } if isIntegration
+        },
         {
           key: { text: "Service name" },
           value: { text: config.serviceName },
