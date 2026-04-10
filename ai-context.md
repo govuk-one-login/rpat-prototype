@@ -67,17 +67,19 @@ Evolve this section as we build knowledge in the prototype
 
 ### What One Login Admin is
 
-One Login Admin (internally refered to as RPAT - RP Admin Tool) is a rebuild of the current Self-Service Environment (SSE). It allows government service teams (Relying Parties / RPs) to configure and manage their GOV.UK One Login integrations. It is part of the GOV.UK One Login programme, owned by the Orchestration team at GDS.
+One Login Admin (internally referred to as RPAT - RP Admin Tool) is a rebuild of the current Self-Service Environment (SSE). It allows government service teams (Relying Parties / RPs) to configure and manage their GOV.UK One Login integrations. It is part of the GOV.UK One Login programme, owned by the Orchestration team at GDS.
+
+Documentation is available at https://docs.sign-in.service.gov.uk/ and should be refered to throughout development, but the docs should model the One Login Admin product, which in turn should model the business of helping a relying party integrate One Login with their service.
 
 The product vision: **One place for government services to independently set up, manage and maintain their One Login integrations.**
 
-### Information architecture (confirmed)
+### Information architecture
 
 The tool uses a three-level IA:
 
 1. **Services list** — all services the user has access to. Landing page for returning users.
-2. **Service overview** — a single service, showing its Production config (typically 1, read-only in MVP slice) and its Integration configs (a list of named configs, could be 1 or many).
-3. **Config detail** — the configuration for a specific environment. Editable for integration, read-only for production in MVP.
+2. **Service overview** — a single service, showing its Production client (typically 1, read-only in MVP slice) and its Integration clients (a list of labelled clients, could be 1 or many).
+3. **Client config detail** — the configuration for a specific client. Editable for integration clients, read-only for production client in MVP slice.
 
 ### Data model
 
@@ -85,70 +87,74 @@ The underlying data store is DynamoDB (`ol-client-registry-{env}`). The bottom-l
 
 ```
 Organisation (e.g. DfE, DVLA)
-  └── Service Integration (e.g. "Find teacher training courses")
-        ├── Production OIDC Client (1, read-only in MVP)
+  └── Service Integration (e.g. "Find teacher training courses", "DVLA Identity")
+        ├── Production OIDC Client (1, read-only in slice 1)
         └── Integration OIDC Clients (1 to many, editable)
-              ├── "DEV"
-              ├── "SIT"
-              ├── "UAT"
-              └── "PreProd"
+              ├── "DEV" (RP-chosen label)
+              ├── "Staging" (RP-chosen label)
+              ├── "UAT" (RP-chosen label)
+              └── "PreProd" (RP-chosen label)
 ```
 
 - **Organisation** already exists in the data model. Permissions will eventually attach here.
-- **Service Integration** is the grouping entity. It sits above OIDC clients and is where RPAT manages the relationship between production and integration environments.
+- **Service Integration** is the grouping entity. It sits above OIDC clients and is where RPAT manages the relationship between production and integration clients.
 - **OIDC Client** is the bottom-level entity in the client registry. RPAT groups these but the registry stores them individually.
 - **Admin Tool User Groups** manage permissions. Open question: do permissions resolve at Service Integration level or at individual OIDC client level? (The prod/integration trust asymmetry suggests client level.)
+
+### Key principle: agnostic to RP implementation
+
+We are agnostic to RP integration and implementation patterns (established by Les via his integration/implementation options diagram). We don't care:
+- Whether an RP uses one OIDC client per application or a shared client
+- Whether they have a proxy layer (DVLA Identity pattern) or direct integration (DfE pattern)
+- Why they have multiple integration clients, or what their internal environments look like
+- How their client labels map to their internal infrastructure
+
+We show whatever clients exist under their Service Integration. Client labels are RP-chosen free text — we don't impose naming conventions or structure.
 
 ### Real-world mental models
 
 These two examples must inform all IA and page design decisions.
 
-#### DfE 
+#### DfE
 
-DfE has 3 services. The pattern is: few services, but one has many integration configs.
+DfE has 3 services. The pattern is: few services, but one has many integration clients.
 
-| Service | Integration configs | Prod config |
+| Service | Integration clients | Prod client |
 |---------|-------------------|-------------|
 | Apprenticeship service - Digital certification | DEV (options 1), DEV (options 2), SIT, UAT, PreProd | options 2 |
 | Find teacher training courses | DEV | Find teacher training courses |
 | Claim Additional Payments for Teaching Early Years | DEV, SIT, UAT | Claim Additional Payments for Teaching Early Years |
 
 Key observations:
-- "Options 1" and "options 2" for the same environment = testing different config approaches before selecting one for prod
-- The ratio is asymmetric: 5+ integration configs but only 1 prod config
-- RPs name integration configs themselves — don't impose structure
+- "Options 1" and "options 2" for the same RP environment = testing different config approaches before selecting one for prod
+- The ratio is asymmetric: 5+ integration clients but only 1 prod client
+- RPs label integration clients themselves — don't impose structure
 
 #### DVLA
 
-DVLA has a different pattern. They have an internal Identity platform that proxies OL calls, with separate client configs per service controlling scopes/claims. Many services, fewer integration configs each.
+DVLA has an internal Identity platform that proxies OL calls. From One Login's perspective, this is a **single Service Integration** ("DVLA Identity"), not 6 separate services. The individual DVLA applications (Customer Account, DFP, UDL etc.) are internal implementation details that RPAT does not surface.
 
-| Service | Integration configs | Prod config |
+| Service | Integration clients | Prod client |
 |---------|-------------------|-------------|
-| Customer Account | Ext, Link | Customer Account |
-| DFP - Drivers first provisional | Ext, Link | DFP |
-| UDL - Update drivers licence | Ext | UDL |
-| DMSP - Drivers medical service platform | Ext | DMSP |
-| TrackApp (auth only) | Ext | TrackApp |
-| DVSA (PoC) | Ext | (none) |
+| DVLA Identity | Pre-production, External (formerly UAT), Link | Production |
 
 Key observations:
-- 6 services per org, but only 1-2 integration configs each
-- DVLA's environment names: Production, Preproduction (usually stubbed, not integrated with OL), Ext (formerly UAT — external integration testing with specific firewall rules), Link (internal bottom-level nonprod)
-- Not all internal environments integrate with OL — some are stubbed. So an RP might have fewer OL integration configs than they have internal environments.
-- DVSA has no prod config (it's a PoC) — the service overview must handle this empty state.
-- RPs naturally use the word "environments" for these — validates our terminology choice.
+- Single service with a few integration clients — contrasts with DfE's multiple-services-many-clients pattern
+- DVLA's internal applications are invisible to RPAT — we only see the OIDC clients they register
+- Client labels are RP-chosen ("External", "Link") — we don't impose naming
+- Not all DVLA internal environments integrate with OL (some are stubbed) — so fewer OL clients than internal environments
+- Validates "client" terminology over "environment" — what we show doesn't always map 1:1 to RP environments
 
 ### Terminology
 
 | In the UI (user-facing) | Internal / technical term | Notes |
 |------------------------|--------------------------|-------|
-| Service | Service Integration | The grouping of prod + integration environments for one RP service |
-| Environment | OIDC Client | What users see as "Production" or "DEV" is an OIDC client in the registry |
+| Service | Service Integration | The grouping of prod + integration clients for one RP service |
+| Client | OIDC Client | What users see as "Production" or "DEV" is an OIDC client in the registry. "Client" preferred over "environment" — technically accurate for the developer audience (Joe's recommendation). |
 | Configuration | Client config fields | The set of fields (redirect URIs, scopes, public keys, etc.) on an OIDC client |
-| Integration environment | Integration OIDC Client | Editable in MVP slice |
-| Production environment | Production OIDC Client | Read-only in MVP slice |
-
-**Never expose** the terms "OIDC client", "client registry", or "Service Integration" in user-facing content.
+| Integration client | Integration OIDC Client | Editable in slice 1. RPs label/tag these freely (e.g. "DEV", "Staging", "Test 1"). |
+| Production client | Production OIDC Client | Read-only in slice 1 |
+| Label / tag | Client name | RP-chosen free text name for their client. We don't impose naming conventions. |
 ---
 
 ## Project context
