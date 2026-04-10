@@ -1,0 +1,375 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Story map" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back to prototype index", href: "/" }) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .story-map { margin-bottom: 40px; }
+  .story-map__title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+  .story-map__subtitle {
+    color: #505a5f;
+    margin-bottom: 15px;
+  }
+  .story-map__backbone {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .story-map__activity {
+    min-width: 200px;
+    max-width: 240px;
+    flex-shrink: 0;
+  }
+  .story-map__activity-label {
+    font-weight: 700;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 0;
+    margin-bottom: 8px;
+  }
+  .story-map__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .story-map__step {
+    font-size: 14px;
+    padding: 8px 10px;
+    background: #f3f2f1;
+    border-left: 4px solid transparent;
+    line-height: 1.4;
+  }
+  .story-map__step a {
+    font-weight: 700;
+  }
+  .story-map__note {
+    font-size: 14px;
+    padding: 6px 10px;
+    border-left: 3px solid #b1b4b6;
+    color: #505a5f;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .story-map__decision {
+    font-size: 14px;
+    padding: 8px 10px;
+    background: #fff7e6;
+    border-left: 4px solid #ffdd00;
+    line-height: 1.4;
+  }
+  .story-map__later {
+    opacity: 0.45;
+  }
+  .story-map__later .story-map__activity-label::after {
+    content: " (later)";
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* Journey colours using GDS palette */
+  .j-a .story-map__title { color: #1d70b8; }
+  .j-a .story-map__activity-label { background: #d2e2f1; color: #003078; }
+  .j-a .story-map__step { border-left-color: #1d70b8; }
+
+  .j-b .story-map__title { color: #00703c; }
+  .j-b .story-map__activity-label { background: #cce2d8; color: #00703c; }
+  .j-b .story-map__step { border-left-color: #00703c; }
+
+  .j-c .story-map__title { color: #f47738; }
+  .j-c .story-map__activity-label { background: #fcd6c3; color: #6e3619; }
+  .j-c .story-map__step { border-left-color: #f47738; }
+
+  .j-d .story-map__title { color: #4c2c92; }
+  .j-d .story-map__activity-label { background: #dbd5e9; color: #4c2c92; }
+  .j-d .story-map__step { border-left-color: #4c2c92; }
+</style>
+
+<h1 class="govuk-heading-xl">Story map</h1>
+
+<p class="govuk-body-s" style="color:#505a5f">GOV.UK One Login · RP Admin Tool · Last updated April 2026 · Assumes user is signed in via GOV.UK SSO</p>
+
+{{ govukDetails({
+  summaryText: "Key principles informing these maps",
+  html: '
+  <ul class="govuk-list govuk-list--bullet govuk-body-s">
+    <li><strong>Terminology:</strong> "Client" not "environment" — technically accurate for the developer audience. RPs label/tag their clients freely.</li>
+    <li><strong>Agnostic to RP implementation:</strong> We don\'t care why an RP has multiple clients or how their internal environments map. We show whatever clients exist.</li>
+    <li><strong>Three-level IA:</strong> Services list → Service overview (prod + integration clients) → Client config detail.</li>
+    <li><strong>Data model:</strong> Organisation → Service Integration → OIDC Clients (1 prod, n integration).</li>
+    <li><strong>Evidence base:</strong> DfE (3 services, one with 5+ integration clients), DVLA (1 Service Integration, multiple clients).</li>
+    <li><strong>Slice 1 scope:</strong> Integration client creation + editing, read-only production view. Later slices shown faded.</li>
+  </ul>
+  '
+}) }}
+
+{# ===== Journey A ===== #}
+<div class="story-map j-a">
+  <div class="story-map__title">Journey A</div>
+  <h2 class="govuk-heading-m">New user — new service and integration client setup</h2>
+  <p class="story-map__subtitle govuk-body-s">First-time user creates a service and their first integration client.</p>
+  <div class="story-map__backbone">
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Welcome</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/create-service/start" class="govuk-link">Land on welcome / before you start page</a></div>
+        <div class="story-map__step">Review what they'll need (config values, public key, redirect URIs)</div>
+        <div class="story-map__step">Links to tech docs for preparation</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Create service</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/create-service/name" class="govuk-link">Enter service name</a></div>
+        <div class="story-map__step">Enter description</div>
+        <div class="story-map__decision">Open Q: Auth only or identity too?</div>
+        <div class="story-map__step">Continue</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Create first integration client</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/create-service/client-name" class="govuk-link">Name/label the client</a> (e.g. "DEV", "Staging")</div>
+        <div class="story-map__note">We're agnostic to what this maps to on the RP side</div>
+        <div class="story-map__step"><a href="/create-service/redirect-urls" class="govuk-link">Configure OIDC fields</a> (redirect URIs, scopes, key etc.)</div>
+        <div class="story-map__step"><a href="/create-service/review" class="govuk-link">Review configuration summary</a></div>
+        <div class="story-map__step">Confirm and create</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Success</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Success confirmation with client ID</div>
+        <div class="story-map__step">Links to tech docs: next steps</div>
+        <div class="story-map__step">Continue to service overview</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Service overview</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert" class="govuk-link">Service overview (DfE, 5 clients)</a></div>
+        <div class="story-map__step"><a href="/services/find-teacher-training" class="govuk-link">Simple service (1 int, 1 prod)</a></div>
+        <div class="story-map__step"><a href="/services/register-trainee-teachers" class="govuk-link">New service (no prod client)</a></div>
+        <div class="story-map__note">Must work with 1 client or 5+ (DfE pattern)</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">View / edit client</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert/integration/dev-options-1" class="govuk-link">Integration client (editable)</a></div>
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert/production/prod-options-2" class="govuk-link">Production client (read-only)</a></div>
+        <div class="story-map__step">Edit a field → review → confirm → save</div>
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert/integration/dev-options-1/compare" class="govuk-link">Compare integration with production</a></div>
+      </div>
+    </div>
+
+    <div class="story-map__activity story-map__later">
+      <div class="story-map__activity-label">Prepare for production</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Initiate production request</div>
+        <div class="story-map__step">Select integration client to reference</div>
+        <div class="story-map__step">Submit → handoff to TSD/Onboarding</div>
+        <div class="story-map__note">MOU check may gate this flow</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity story-map__later">
+      <div class="story-map__activity-label">Go live</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Prod client created internally</div>
+        <div class="story-map__step">Appears on service overview, read-only</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+{# ===== Journey B ===== #}
+<div class="story-map j-b">
+  <div class="story-map__title">Journey B</div>
+  <h2 class="govuk-heading-m">Returning user — adds another integration client</h2>
+  <p class="story-map__subtitle govuk-body-s">User has a service and wants to add another integration client. We're agnostic to why.</p>
+  <div class="story-map__backbone">
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Return</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services" class="govuk-link">Sign in → services list</a></div>
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert" class="govuk-link">Select service (DfE pattern)</a></div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Add integration client</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert/add-client" class="govuk-link">Add client (with copy option)</a></div>
+        <div class="story-map__step">Name/label the client (free text)</div>
+        <div class="story-map__decision">Option: "Copy config from existing client?"</div>
+        <div class="story-map__step">Configure OIDC fields (pre-filled if copied)</div>
+        <div class="story-map__step">Review → confirm → save</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Confirm</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Success confirmation with new client ID</div>
+        <div class="story-map__step">Return to service overview</div>
+        <div class="story-map__note">DfE pattern: 5+ clients. List must stay usable.</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Compare clients</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services/apprenticeship-digital-cert/integration/dev-options-1/compare" class="govuk-link">Compare integration vs production</a></div>
+        <div class="story-map__decision">Open Q: Side-by-side? Diff view?</div>
+        <div class="story-map__note">Comparing two integration clients = later slice</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+{# ===== Journey C ===== #}
+<div class="story-map j-c">
+  <div class="story-map__title">Journey C</div>
+  <h2 class="govuk-heading-m">Returning user — adds a new service</h2>
+  <p class="story-map__subtitle govuk-body-s">User already has services and wants to add another. No MOU gate at service creation.</p>
+  <div class="story-map__backbone">
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Return</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services" class="govuk-link">Sign in → services list</a></div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Create service</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/create-service/name" class="govuk-link">"Add a new service" (skips welcome)</a></div>
+        <div class="story-map__step">Enter service name + description</div>
+        <div class="story-map__decision">Open Q: Auth only or identity?</div>
+        <div class="story-map__note">No MOU gate — that's a production concern</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Create first client</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Same flow as Journey A</div>
+        <div class="story-map__note">User already knows the pattern from their first service</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Confirm</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Success → land on new service overview</div>
+        <div class="story-map__step"><a href="/services" class="govuk-link">Navigate back → new service in list</a></div>
+        <div class="story-map__note">Services list could have 6+ rows. Must stay scannable.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+{# ===== Journey D ===== #}
+<div class="story-map j-d">
+  <div class="story-map__title">Journey D</div>
+  <h2 class="govuk-heading-m">Existing SSE user — claims migrated service</h2>
+  <p class="story-map__subtitle govuk-body-s">User has a live service in the current SSE. They create an RPAT account and claim their migrated service.</p>
+  <div class="story-map__backbone">
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Sign up</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Create new RPAT account (GOV.UK SSO)</div>
+        <div class="story-map__step"><a href="/claim-service/existing" class="govuk-link">"Do you have an existing integration?"</a></div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Identify service</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/claim-service/client-id" class="govuk-link">Enter client ID of existing integration</a></div>
+        <div class="story-map__decision">Open Q: Show unclaimed services by email domain (Notify model)?</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Verify ownership</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">System generates verification code</div>
+        <div class="story-map__step">User adds code to their running integration</div>
+        <div class="story-map__step">Trigger verification check → ownership confirmed</div>
+        <div class="story-map__decision">Open Q: Technical verification feasible, or manual approval?</div>
+        <div class="story-map__note">Security boundary — must prevent unauthorized claims</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Claim service</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">Service claimed → user becomes first admin</div>
+        <div class="story-map__step">Pre-populated config visible (no re-entry needed)</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity story-map__later">
+      <div class="story-map__activity-label">Invite team</div>
+      <div class="story-map__steps">
+        <div class="story-map__step">First admin invites team members</div>
+        <div class="story-map__note">Solves the "leavers problem" — team continuity from day one</div>
+      </div>
+    </div>
+
+    <div class="story-map__activity">
+      <div class="story-map__activity-label">Continue</div>
+      <div class="story-map__steps">
+        <div class="story-map__step"><a href="/services" class="govuk-link">Service overview → same as Journey A/B/C</a></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+{# ===== Other variants ===== #}
+<h2 class="govuk-heading-m">Other prototype variants</h2>
+<ul class="govuk-list govuk-list--spaced">
+  <li><a href="/create-service-key-warning/start-page" class="govuk-link">Create service (with warning)</a></li>
+  <li><a href="/create-service-key-warning-hint/start-page" class="govuk-link">Create service (with warning as hint)</a></li>
+  <li><a href="/create-service-identity-flow/start-page" class="govuk-link">Create service (with identity flow)</a></li>
+  <li><a href="/view-service-editable-wizard/view-all-details" class="govuk-link">Edit service details (identity wizard)</a></li>
+  <li><a href="/view-all-services/with-cards-header-tags" class="govuk-link">View all services (header tags)</a></li>
+  <li><a href="/view-all-services/with-cards-tags" class="govuk-link">View all services (field tags)</a></li>
+  <li><a href="/view-all-services/with-headers-sections" class="govuk-link">View all services (sections)</a></li>
+</ul>
+
+{% endblock %}
