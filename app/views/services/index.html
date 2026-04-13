@@ -1,0 +1,55 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Your services" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Your services</h1>
+
+      {% for service in services %}
+        {{ govukSummaryList({
+          card: {
+            title: { text: service.name },
+            actions: {
+              items: [
+                {
+                  href: "/services/" + service.id,
+                  text: "Manage",
+                  visuallyHiddenText: service.name
+                }
+              ]
+            }
+          },
+          rows: [
+            {
+              key: { text: "Integration configurations" },
+              value: { text: service.integration | length | string }
+            },
+            {
+              key: { text: "Production" },
+              value: {
+                html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if service.production else '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>'
+              }
+            }
+          ]
+        }) }}
+      {% endfor %}
+
+      {{ govukButton({
+        text: "Add a new service",
+        href: "/create-service-group",
+        classes: "govuk-button--secondary"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

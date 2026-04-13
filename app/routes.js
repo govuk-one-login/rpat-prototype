@@ -5,6 +5,13 @@
 
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
+const { services } = require("./data/services");
+
+// Services list (Level 1)
+router.get("/services", (req, res) => {
+  res.render("services/index.html", { services });
+});
+
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");
@@ -17,12 +24,8 @@ const {
 const {
   setupViewServiceEditableRoutes,
 } = require("./views/view-service-editable/setup-routes");
-const {
-  setupViewServiceEditableWizardRoutes,
-} = require("./views/view-service-editable-wizard/setup-routes");
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
 setupCreateServiceIdentityFlowRoutes(router);
 setupViewServiceEditableRoutes(router);
-setupViewServiceEditableWizardRoutes(router);
