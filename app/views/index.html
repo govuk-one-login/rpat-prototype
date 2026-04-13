@@ -1,88 +1,49 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName="Home" %}
+{% set pageName = "Prototype" %}
 
 {% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ serviceName }}</h1>
 
-    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
+      {{ govukInsetText({
+        text: "This is a prototype for user research. It is not a real service."
+      }) }}
 
-    <h1 class="govuk-heading-xl">
-      {{ serviceName }}
-    </h1>
+      <h2 class="govuk-heading-m">Create services</h2>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "Start Journey (With Warning)",
-        href: "/create-service-key-warning/start-page",
-        isStartButton: true
-      }) }}
-    </div>
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/create-service-key-warning/start-page" class="govuk-link">Create service (with warning)</a></li>
+        <li><a href="/create-service-key-warning-hint/start-page" class="govuk-link">Create service (with warning as hint)</a></li>
+        <li><a href="/create-service-identity-flow/start-page" class="govuk-link">Create service (with identity flow)</a></li>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "Start Journey (With Warning As Hint)",
-        href: "/create-service-key-warning-hint/start-page",
-        isStartButton: true
-      }) }}
-    </div>
+      </ul>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "Start Journey (With Idenity Flow)",
-        href: "/create-service-identity-flow/start-page",
-        isStartButton: true
-      }) }}
-    </div>
+      <h2 class="govuk-heading-m">View service details</h2>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "View Service Details",
-        href: "/view-service/view-all-details-with-sections-cards",
-        isStartButton: true
-      }) }}
-    </div>
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/view-service/view-all-details-with-sections-cards" class="govuk-link">View service details</a></li>
+        <li><a href="/view-service/edit-all-details-with-sections-validation" class="govuk-link">Edit service details (error states)</a></li>
+      </ul>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "Edit Service Details (error)",
-        href: "/view-service/edit-all-details-with-sections-validation",
-        isStartButton: true
-      }) }}
-    </div>
+      <h2 class="govuk-heading-m">View all clients (no service/client split)</h2>
 
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "Edit Service Details (identity wizard)",
-        href: "/view-service-editable-wizard/view-all-details",
-        isStartButton: true
-      }) }}
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/view-all-services/with-cards-header-tags" class="govuk-link">View all clients (header tags)</a></li>
+        <li><a href="/view-all-services/with-cards-tags" class="govuk-link">View all clients (field tags)</a></li>
+        <li><a href="/view-all-services/with-headers-sections" class="govuk-link">View all clients (sections)</a></li>
+      </ul>
+
+      <h2 class="govuk-heading-m">View all services</h2>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a href="/services" class="govuk-link">Your services</a></li>
+        <li><a href="/services/apprenticeship-digital-cert" class="govuk-link">Service with int and prod clients</a></li>
+        <li><a href="/services/register-trainee-teachers" class="govuk-link">New service (no production client)</a></li>
+      </ul>
+
     </div>
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "View all services (with header tags)",
-        href: "/view-all-services/with-cards-header-tags",
-        isStartButton: true
-      }) }}
-    </div>
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "View all services (with field tags)",
-        href: "/view-all-services/with-cards-tags",
-        isStartButton: true
-      }) }}
-    </div>
-    <div class="govuk-grid-row">
-      {{ govukButton({
-        text: "View all services (with sections and just header)",
-        href: "/view-all-services/with-headers-sections",
-        isStartButton: true
-      }) }}
-    </div>
-    {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
   </div>
-</div>
-
 {% endblock %}
