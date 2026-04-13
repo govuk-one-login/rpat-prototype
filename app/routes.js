@@ -73,6 +73,19 @@ router.get("/services/:serviceId/:envType/:configId", (req, res) => {
   });
 });
 
+// Compare integration config with production
+router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const config = service.integration.find(c => c.id === req.params.configId);
+  if (!config || !service.production) return res.redirect("/services/" + service.id);
+  res.render("services/compare.html", {
+    service,
+    config,
+    prodConfig: service.production
+  });
+});
+
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");

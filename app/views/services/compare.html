@@ -1,0 +1,244 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = config.name + " compared with production – " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: config.name, href: "/services/" + service.id + "/integration/" + config.id },
+      { text: "Compare with production" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-l">Compare clients</h1>
+
+      <p class="govuk-body">
+        Comparing
+        <strong class="govuk-tag govuk-tag--blue">Integration</strong> {{ config.name }}
+        with
+        <strong class="govuk-tag govuk-tag--green">Production</strong> {{ prodConfig.name }}
+      </p>
+
+      {# Macro to render a comparison row #}
+      {# Shows a "Different" tag when values don't match #}
+      {% macro compRow(label, intVal, prodVal) %}
+        {% if intVal == prodVal %}
+          [
+            { text: label },
+            { html: intVal },
+            { html: prodVal },
+            { html: '<strong class="govuk-tag govuk-tag--green">Match</strong>' }
+          ]
+        {% else %}
+          [
+            { text: label },
+            { html: intVal },
+            { html: prodVal },
+            { html: '<strong class="govuk-tag govuk-tag--red">Different</strong>' }
+          ]
+        {% endif %}
+      {% endmacro %}
+
+      {# Helper to format booleans #}
+      {% macro bool(val) %}{{ "Yes" if val else "No" }}{% endmacro %}
+
+      {# Helper for match tag #}
+      {% macro matchTag(intVal, prodVal) %}
+        {% if intVal == prodVal %}
+          <strong class="govuk-tag govuk-tag--green">Match</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--red">Different</strong>
+        {% endif %}
+      {% endmacro %}
+
+      <h2 class="govuk-heading-m">Core configuration</h2>
+
+      {{ govukTable({
+        head: [
+          { text: "Field" },
+          { text: "Integration" },
+          { text: "Production" },
+          { text: "Status" }
+        ],
+        rows: [
+          [
+            { text: "Service name" },
+            { text: config.serviceName },
+            { text: prodConfig.serviceName },
+            { html: matchTag(config.serviceName, prodConfig.serviceName) }
+          ],
+          [
+            { text: "Scopes" },
+            { html: config.scopes | join(", ") },
+            { html: prodConfig.scopes | join(", ") },
+            { html: matchTag(config.scopes | join(","), prodConfig.scopes | join(",")) }
+          ],
+          [
+            { text: "Redirect URLs" },
+            { html: config.redirectUrls | join("<br>") },
+            { html: prodConfig.redirectUrls | join("<br>") },
+            { html: matchTag(config.redirectUrls | join(","), prodConfig.redirectUrls | join(",")) }
+          ],
+          [
+            { text: "Token authentication method" },
+            { text: config.tokenAuthMethod },
+            { text: prodConfig.tokenAuthMethod },
+            { html: matchTag(config.tokenAuthMethod, prodConfig.tokenAuthMethod) }
+          ],
+          [
+            { text: "Public key type" },
+            { text: config.publicKeyType },
+            { text: prodConfig.publicKeyType },
+            { html: matchTag(config.publicKeyType, prodConfig.publicKeyType) }
+          ],
+          [
+            { text: "JWKS URL" },
+            { text: config.jwksUrl or "Not set" },
+            { text: prodConfig.jwksUrl or "Not set" },
+            { html: matchTag(config.jwksUrl, prodConfig.jwksUrl) }
+          ],
+          [
+            { text: "ID token signing algorithm" },
+            { text: config.idTokenSigningAlgorithm },
+            { text: prodConfig.idTokenSigningAlgorithm },
+            { html: matchTag(config.idTokenSigningAlgorithm, prodConfig.idTokenSigningAlgorithm) }
+          ],
+          [
+            { text: "Sector identifier URI" },
+            { text: config.sectorIdentifierUri },
+            { text: prodConfig.sectorIdentifierUri },
+            { html: matchTag(config.sectorIdentifierUri, prodConfig.sectorIdentifierUri) }
+          ],
+          [
+            { text: "Active" },
+            { text: bool(config.isActive) },
+            { text: bool(prodConfig.isActive) },
+            { html: matchTag(config.isActive, prodConfig.isActive) }
+          ]
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Identity configuration</h2>
+
+      {{ govukTable({
+        head: [
+          { text: "Field" },
+          { text: "Integration" },
+          { text: "Production" },
+          { text: "Status" }
+        ],
+        rows: [
+          [
+            { text: "Identity verification" },
+            { text: bool(config.identityVerificationSupported) },
+            { text: bool(prodConfig.identityVerificationSupported) },
+            { html: matchTag(config.identityVerificationSupported, prodConfig.identityVerificationSupported) }
+          ],
+          [
+            { text: "Claims" },
+            { html: config.claims | join("<br>") if config.claims and config.claims.length else "None" },
+            { html: prodConfig.claims | join("<br>") if prodConfig.claims and prodConfig.claims.length else "None" },
+            { html: matchTag(config.claims | join(","), prodConfig.claims | join(",")) }
+          ],
+          [
+            { text: "Landing page URL" },
+            { text: config.landingPageUrl or "Not set" },
+            { text: prodConfig.landingPageUrl or "Not set" },
+            { html: matchTag(config.landingPageUrl, prodConfig.landingPageUrl) }
+          ],
+          [
+            { text: "Levels of confidence" },
+            { html: config.levelsOfConfidence | join(", ") if config.levelsOfConfidence.length else "None" },
+            { html: prodConfig.levelsOfConfidence | join(", ") if prodConfig.levelsOfConfidence.length else "None" },
+            { html: matchTag(config.levelsOfConfidence | join(","), prodConfig.levelsOfConfidence | join(",")) }
+          ]
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Additional configuration</h2>
+
+      {{ govukTable({
+        head: [
+          { text: "Field" },
+          { text: "Integration" },
+          { text: "Production" },
+          { text: "Status" }
+        ],
+        rows: [
+          [
+            { text: "Contacts" },
+            { html: config.contacts | join("<br>") if config.contacts and config.contacts.length else "None" },
+            { html: prodConfig.contacts| join("<br>") if prodConfig.contacts and prodConfig.contacts.length else "None" },
+            { html: matchTag(config.contacts | join(","), prodConfig.contacts | join(",")) }
+          ],
+          [
+            { text: "Post logout redirect URLs" },
+            { html: config.postLogoutRedirectUrls | join("<br>") if config.postLogoutRedirectUrls and config.postLogoutRedirectUrls.length else "None" },
+            { html: prodConfig.postLogoutRedirectUrls | join("<br>") if prodConfig.postLogoutRedirectUrls and prodConfig.postLogoutRedirectUrls.length else "None" },
+            { html: matchTag(config.postLogoutRedirectUrls | join(","), prodConfig.postLogoutRedirectUrls | join(",")) }
+          ],
+          [
+            { text: "Back channel logout URLs" },
+            { html: config.backChannelLogoutUrls | join("<br>") if config.backChannelLogoutUrls and config.backChannelLogoutUrls.length else "None" },
+            { html: prodConfig.backChannelLogoutUrls | join("<br>") if prodConfig.backChannelLogoutUrls and prodConfig.backChannelLogoutUrls.length else "None" },
+            { html: matchTag(config.backChannelLogoutUrls | join(","), prodConfig.backChannelLogoutUrls | join(",")) }
+          ],
+          [
+            { text: "Service type" },
+            { text: config.serviceType },
+            { text: prodConfig.serviceType },
+            { html: matchTag(config.serviceType, prodConfig.serviceType) }
+          ],
+          [
+            { text: "JAR validation required" },
+            { text: bool(config.jarValidationRequired) },
+            { text: bool(prodConfig.jarValidationRequired) },
+            { html: matchTag(config.jarValidationRequired, prodConfig.jarValidationRequired) }
+          ],
+          [
+            { text: "Channel" },
+            { text: config.channel },
+            { text: prodConfig.channel },
+            { html: matchTag(config.channel, prodConfig.channel) }
+          ],
+          [
+            { text: "PKCE enforced" },
+            { text: bool(config.pkceEnforced) },
+            { text: bool(prodConfig.pkceEnforced) },
+            { html: matchTag(config.pkceEnforced, prodConfig.pkceEnforced) }
+          ],
+          [
+            { text: "Max age enabled" },
+            { text: bool(config.maxAgeEnabled) },
+            { text: bool(prodConfig.maxAgeEnabled) },
+            { html: matchTag(config.maxAgeEnabled, prodConfig.maxAgeEnabled) }
+          ],
+          [
+            { text: "Permit missing nonce" },
+            { text: bool(config.permitMissingNonce) },
+            { text: bool(prodConfig.permitMissingNonce) },
+            { html: matchTag(config.permitMissingNonce, prodConfig.permitMissingNonce) }
+          ],
+          [
+            { text: "Rate limit" },
+            { text: config.rateLimit },
+            { text: prodConfig.rateLimit },
+            { html: matchTag(config.rateLimit, prodConfig.rateLimit) }
+          ]
+        ]
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}
