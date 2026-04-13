@@ -1,5 +1,5 @@
 {
-  "serviceName": "RP Admin Tool (prototype)",
+  "serviceName": "One Login Admin Tool (prototype)",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
