@@ -31,6 +31,48 @@ router.get("/services/:serviceId/request-go-live", (req, res) => {
   res.render("services/request-go-live.html", { service });
 });
 
+// Edit config detail (Level 3)
+router.get("/services/:serviceId/:envType/:configId/edit", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const { envType, configId } = req.params;
+  let config;
+  if (envType === "production" && service.production && service.production.id === configId) {
+    config = service.production;
+  } else if (envType === "integration") {
+    config = service.integration.find(c => c.id === configId);
+  }
+  if (!config) return res.redirect("/services/" + service.id);
+  res.render("services/config.html", {
+    service,
+    envType,
+    config,
+    success: req.query.success,
+    showChangeLink: true,
+  });
+});
+
+// View config detail (Level 3)
+router.get("/services/:serviceId/:envType/:configId", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  const { envType, configId } = req.params;
+  let config;
+  if (envType === "production" && service.production && service.production.id === configId) {
+    config = service.production;
+  } else if (envType === "integration") {
+    config = service.integration.find(c => c.id === configId);
+  }
+  if (!config) return res.redirect("/services/" + service.id);
+  res.render("services/config.html", {
+    service,
+    envType,
+    config,
+    success: req.query.success,
+    showChangeLink: false,
+  });
+});
+
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");
