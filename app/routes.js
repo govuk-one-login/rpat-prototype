@@ -12,6 +12,13 @@ router.get("/services", (req, res) => {
   res.render("services/index.html", { services });
 });
 
+// Service overview (Level 2)
+router.get("/services/:serviceId", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/overview.html", { service, success: req.query.success });
+});
+
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");
