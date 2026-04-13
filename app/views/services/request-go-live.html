@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Request to go live – " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: "Request to go live" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Request to go live</h1>
+
+      <p class="govuk-body">This feature is not yet available.</p>
+
+      <p class="govuk-body">
+        <a href="/services/{{ service.id }}" class="govuk-link">Return to {{ service.name }}</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

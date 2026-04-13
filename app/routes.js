@@ -19,10 +19,16 @@ router.get("/services/:serviceId", (req, res) => {
   res.render("services/overview.html", { service, success: req.query.success });
 });
 
-
 // Catch-all: unbuilt edit screens
 router.get("/services/:serviceId/integration/:configId/edit/:field", (req, res) => {
   res.render("not-yet-built.html");
+});
+
+// Request to go live (placeholder)
+router.get("/services/:serviceId/request-go-live", (req, res) => {
+  const service = services.find(s => s.id === req.params.serviceId);
+  if (!service) return res.redirect("/services");
+  res.render("services/request-go-live.html", { service });
 });
 
 const {
