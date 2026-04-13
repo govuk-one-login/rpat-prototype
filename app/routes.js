@@ -19,6 +19,12 @@ router.get("/services/:serviceId", (req, res) => {
   res.render("services/overview.html", { service, success: req.query.success });
 });
 
+
+// Catch-all: unbuilt edit screens
+router.get("/services/:serviceId/integration/:configId/edit/:field", (req, res) => {
+  res.render("not-yet-built.html");
+});
+
 const {
   setupKeyWarningRoutes,
 } = require("./views/create-service-key-warning/setup-routes");

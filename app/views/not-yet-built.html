@@ -1,0 +1,24 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Page not built yet" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">This page has not been built yet</h1>
+
+      <p class="govuk-body">This part of the prototype is not ready for testing.</p>
+
+      <p class="govuk-body">
+        <a href="javascript:history.back()" class="govuk-link">Go back to the previous page</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}
