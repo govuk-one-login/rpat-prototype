@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/view-client/edit-all-details-with-sections-validation"method="post">
+        {{ govukRadios({
+          name: "max-age-enabled",
+          fieldset: {
+            legend: {
+              text: "Is max age enabled?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "true",
+              text: "Yes"
+            },
+            {
+              value: "false",
+              text: "No"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Confirm"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

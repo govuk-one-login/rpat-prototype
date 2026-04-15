@@ -3,7 +3,7 @@
 {% set isIntegration = (envType == "integration") %}
 {% set envLabel = "Integration" if isIntegration else "Production" %}
 {% set tagColour = "govuk-tag--blue" if isIntegration else "govuk-tag--green" %}
-{% set editBase = "/view-service-editable/edit-" %}
+{% set editBase = "/view-client-editable/edit-" %}
 {% set pageName = config.name + " (" + envLabel + ") – " + service.name %}
 
 {% block beforeContent %}
@@ -51,9 +51,9 @@
       {# Core configuration #}
       {% set coreRows = [
         {
-          key: { text: "Service name" },
-          value: { text: config.serviceName },
-          actions: { items: [{ href: editBase + "edit-service-name", text: "Change", visuallyHiddenText: "service name" }] } if showChangeLink
+          key: { text: "Client name" },
+          value: { text: config.clientName },
+          actions: { items: [{ href: editBase + "edit-client-name", text: "Change", visuallyHiddenText: "client name" }] } if showChangeLink
         },
         {
           key: { text: "Scopes" },

@@ -1,0 +1,45 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Start page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      {{ serviceName }}
+    </h1>
+
+    <p>Use this service to create a configuration for your integration client. You will be able to create authentication-only or authentication and identity clients.</p>
+
+    <p>You can make changes to the information you submit in this journey if you need to.</p>
+
+    <p>Registering for a client takes around 5 minutes.</p>
+
+    <h2 class="govuk-heading-l">Before you start</h2>
+
+    <p>You will need:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>client name</li>
+      <li>either a JWKS endpoint url (recommended), public static key, or client secret</li>
+      <li>redirect url(s)</li>
+      <li>scopes your client requires</li>
+    </ul>
+
+    <p>There may also be other fields that you will need to complete depending on whether you choose to add an identity configuration or any other additional configuration.</p>
+
+    <p>If you need further information, you can refer to the <a href="https://docs.sign-in.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank"><span class="govuk-visually-hidden">(opens in new tab)</span>technical documenation guidance (opens in a new tab)</a>, provided by GOV.UK One Login.</p>
+
+    {{ govukButton({
+    text: "Start now",
+    href: "/create-client-key-warning/enter-client-name",
+    isStartButton: true
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}

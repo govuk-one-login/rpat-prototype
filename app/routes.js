@@ -88,18 +88,18 @@ router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
 
 const {
   setupKeyWarningRoutes,
-} = require("./views/create-service-key-warning/setup-routes");
+} = require("./views/create-client-key-warning/setup-routes");
 const {
   setupKeyWarningHintRoutes,
-} = require("./views/create-service-key-warning-hint/setup-routes");
+} = require("./views/create-client-key-warning-hint/setup-routes");
 const {
-  setupCreateServiceIdentityFlowRoutes,
-} = require("./views/create-service-identity-flow/setup-routes");
+  setupCreateClientIdentityFlowRoutes,
+} = require("./views/create-client-identity-flow/setup-routes");
 const {
-  setupViewServiceEditableRoutes,
-} = require("./views/view-service-editable/setup-routes");
+  setupViewClientEditableRoutes,
+} = require("./views/view-client-editable/setup-routes");
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
-setupCreateServiceIdentityFlowRoutes(router);
-setupViewServiceEditableRoutes(router);
+setupCreateClientIdentityFlowRoutes(router);
+setupViewClientEditableRoutes(router);

@@ -16,18 +16,19 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="form" action="/create-client-identity-flow/start-page" method="post">
+    <form class="form" action="/create-client-key-warning-hint/select-key-type" method="post">
       {{ govukInput({
         label: {
-          text: "What is the name of your service?",
+          text: "What is the name of your client?",
           classes: "govuk-label--l",
           isPageHeading: true
         },
         hint: {
-          text: "This is the name of the group your production and integration clients"
+          text: "Your users will see this name when they sign in with GOV.UK One Login."
         },
-        id: "service",
-        name: "service"
+        id: "client-name",
+        name: "clientName",
+        value: data['clientName']
       }) }}
 
       {{ govukButton({

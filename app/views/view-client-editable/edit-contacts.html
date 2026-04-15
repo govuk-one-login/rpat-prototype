@@ -1,0 +1,56 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/view-client-editable/edit-contacts"method="post">
+        {% if tableList | length > 0 %}
+        {{ govukTable({
+              caption: "Contact Emails",
+              captionClasses: "govuk-table__caption--m",
+              head: [],
+              rows:  tableEntries
+            })
+          }}
+          {% endif %}
+          {{ govukInput({
+            label: {
+              text: "Add a contact email",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            },
+            id: "newTableItem",
+            name: "newTableItem"
+          }) }}
+          {% if tableList | length > 0 %}
+            {{ govukButton({
+              text: "Add",
+              classes: "govuk-button--secondary"
+            }) }}
+            {{ govukButton({
+              text: "Confirm",
+              href: "/view-client/edit-all-details-with-sections-validation"
+            }) }}
+          {% else %}
+            {{ govukButton({
+              text: "Add"
+            }) }}
+          {% endif %}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
