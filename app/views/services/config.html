@@ -1,0 +1,194 @@
+{% extends "layouts/main.html" %}
+
+{% set isIntegration = (envType == "integration") %}
+{% set envLabel = "Integration" if isIntegration else "Production" %}
+{% set tagColour = "govuk-tag--blue" if isIntegration else "govuk-tag--green" %}
+{% set editBase = "/view-client-editable/edit-" %}
+{% set pageName = config.name + " (" + envLabel + ") – " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: config.name }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      {% if success %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
+          type: "success"
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">
+        {{ config.name }}
+        <strong class="govuk-tag {{ tagColour }} govuk-!-margin-left-2">{{ envLabel }}</strong>
+      </h1>
+
+      {% if not isIntegration %}
+        {{ govukInsetText({
+          text: "This is your production client. It is read-only. Contact support if you need to make changes."
+        }) }}
+      {% endif %}
+
+      {% if isIntegration and service.production %}
+        <p class="govuk-body">
+          <a href="/services/{{ service.id }}/integration/{{ config.id }}/compare" class="govuk-link">Compare with production client</a>
+        </p>
+      {% endif %}
+
+      {# Core configuration #}
+      {% set coreRows = [
+        {
+          key: { text: "Client name" },
+          value: { text: config.clientName },
+          actions: { items: [{ href: editBase + "edit-client-name", text: "Change", visuallyHiddenText: "client name" }] } if showChangeLink
+        },
+        {
+          key: { text: "Scopes" },
+          value: { html: config.scopes | join("<br>") },
+          actions: { items: [{ href: editBase + "edit-scopes", text: "Change", visuallyHiddenText: "scopes" }] } if showChangeLink
+        },
+        {
+          key: { text: "Redirect URLs" },
+          value: { html: config.redirectUrls | join("<br>") },
+          actions: { items: [{ href: editBase + "edit-redirect-urls", text: "Change", visuallyHiddenText: "redirect URLs" }] } if showChangeLink
+        },
+        {
+          key: { text: "Token authentication method" },
+          value: { text: config.tokenAuthMethod },
+          actions: { items: [{ href: editBase + "edit-token-auth-method", text: "Change", visuallyHiddenText: "token authentication method" }] } if showChangeLink
+        },
+        {
+          key: { text: "Public key type" },
+          value: { text: config.publicKeyType },
+          actions: { items: [{ href: editBase + "edit-public-key-type", text: "Change", visuallyHiddenText: "public key type" }] } if showChangeLink
+        },
+        {
+          key: { text: "JWKS URL" },
+          value: { text: config.jwksUrl },
+          actions: { items: [{ href: editBase + "edit-public-key-type", text: "Change", visuallyHiddenText: "JWKS URL" }] } if showChangeLink
+        } if config.publicKeyType == "JWKS",
+        {
+          key: { text: "ID token signing algorithm" },
+          value: { text: config.idTokenSigningAlgorithm },
+          actions: { items: [{ href: editBase + "edit-id-token-signing-algorithm", text: "Change", visuallyHiddenText: "ID token signing algorithm" }] } if showChangeLink
+        },
+        {
+          key: { text: "Sector identifier URI" },
+          value: { text: config.sectorIdentifierUri },
+          actions: { items: [{ href: editBase + "edit-sector-identifier-uri", text: "Change", visuallyHiddenText: "sector identifier URI" }] } if showChangeLink
+        },
+        {
+          key: { text: "Active" },
+          value: { text: "Yes" if config.isActive else "No" },
+          actions: { items: [{ href: editBase + "edit-is-active", text: "Change", visuallyHiddenText: "active status" }] } if showChangeLink
+        }
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Core configuration" } },
+        rows: coreRows | reject("falsy")
+      }) }}
+
+      {# Identity configuration #}
+      {% set identityRows = [
+        {
+          key: { text: "Identity verification" },
+          value: { text: "Yes" if config.identityVerificationSupported else "No" },
+          actions: { items: [{ href: editBase + "edit-identity-verification", text: "Change", visuallyHiddenText: "identity verification" }] } if showChangeLink
+        },
+        {
+          key: { text: "Claims" },
+          value: { html: config.claims | join("<br>") if config.claims.length else "None" },
+          actions: { items: [{ href: editBase + "edit-claims", text: "Change", visuallyHiddenText: "claims" }] } if showChangeLink
+        } if config.identityVerificationSupported,
+        {
+          key: { text: "Landing page URL" },
+          value: { text: config.landingPageUrl or "Not set" },
+          actions: { items: [{ href: editBase + "edit-landing-page-url", text: "Change", visuallyHiddenText: "landing page URL" }] } if showChangeLink
+        } if config.identityVerificationSupported,
+        {
+          key: { text: "Levels of confidence" },
+          value: { html: config.levelsOfConfidence | join("<br>") if config.levelsOfConfidence.length else "None" },
+          actions: { items: [{ href: editBase + "edit-levels-of-confidence", text: "Change", visuallyHiddenText: "levels of confidence" }] } if showChangeLink
+        } if config.identityVerificationSupported
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Identity configuration" } },
+        rows: identityRows | reject("falsy")
+      }) }}
+
+      {# Additional configuration #}
+      {% set additionalRows = [
+        {
+          key: { text: "Contacts" },
+          value: { html: config.contacts | join("<br>") if config.contacts.length else "None" },
+          actions: { items: [{ href: editBase + "edit-contacts", text: "Change", visuallyHiddenText: "contacts" }] } if showChangeLink
+        },
+        {
+          key: { text: "Post logout redirect URLs" },
+          value: { html: config.postLogoutRedirectUrls | join("<br>") if config.postLogoutRedirectUrls.length else "None" },
+          actions: { items: [{ href: editBase + "edit-post-logout-redirect-urls", text: "Change", visuallyHiddenText: "post logout redirect URLs" }] } if showChangeLink
+        },
+        {
+          key: { text: "Back channel logout URLs" },
+          value: { html: config.backChannelLogoutUrls | join("<br>") if config.backChannelLogoutUrls.length else "None" },
+          actions: { items: [{ href: editBase + "edit-back-channel-logout-urls", text: "Change", visuallyHiddenText: "back channel logout URLs" }] } if showChangeLink
+        },
+        {
+          key: { text: "Service type" },
+          value: { text: config.serviceType },
+          actions: { items: [{ href: editBase + "edit-service-type", text: "Change", visuallyHiddenText: "service type" }] } if showChangeLink
+        },
+        {
+          key: { text: "JAR validation required" },
+          value: { text: "Yes" if config.jarValidationRequired else "No" },
+          actions: { items: [{ href: editBase + "edit-jar-validation-required", text: "Change", visuallyHiddenText: "JAR validation required" }] } if showChangeLink
+        },
+        {
+          key: { text: "Channel" },
+          value: { text: config.channel },
+          actions: { items: [{ href: editBase + "edit-channel", text: "Change", visuallyHiddenText: "channel" }] } if showChangeLink
+        },
+        {
+          key: { text: "PKCE enforced" },
+          value: { text: "Yes" if config.pkceEnforced else "No" },
+          actions: { items: [{ href: editBase + "edit-pkce-enforced", text: "Change", visuallyHiddenText: "PKCE enforced" }] } if showChangeLink
+        },
+        {
+          key: { text: "Max age enabled" },
+          value: { text: "Yes" if config.maxAgeEnabled else "No" },
+          actions: { items: [{ href: editBase + "edit-max-age-enabled", text: "Change", visuallyHiddenText: "max age enabled" }] } if showChangeLink
+        },
+        {
+          key: { text: "Permit missing nonce" },
+          value: { text: "Yes" if config.permitMissingNonce else "No" },
+          actions: { items: [{ href: editBase + "edit-permit-missing-nonce", text: "Change", visuallyHiddenText: "permit missing nonce" }] } if showChangeLink
+        },
+        {
+          key: { text: "Rate limit" },
+          value: { text: config.rateLimit }
+        }
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Additional configuration" } },
+        rows: additionalRows | reject("falsy")
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

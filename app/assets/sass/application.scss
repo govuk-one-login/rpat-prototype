@@ -4,6 +4,10 @@
 // 
 
 // Add extra styles here
+
+.govuk-service-navigation__item:last-child {
+  margin-left: auto;
+}
 // New header (2025)
 .govuk-header--with-sign-out-link {
    .govuk-header__content {

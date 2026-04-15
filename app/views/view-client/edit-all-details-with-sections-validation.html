@@ -1,0 +1,511 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Edit Service – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">Edit Client Details</h1>
+
+      {{ govukErrorSummary({
+        titleText: "There is a problem with the following fields",
+        errorList: [
+          {
+            text: "Public Key Type",
+            href: "/view-client-editable/edit-public-key-type"
+          },
+          {
+            text: "Identity verification supported",
+            href: "/view-client-editable/edit-identity-verification-supported"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
+          }
+        ]
+      }) }}
+
+      {{ govukErrorSummary({
+        titleText: "There is a problem with the following fields",
+        errorList: [
+          {
+            text: "Public Key Type",
+            href: "/view-client-editable/edit-public-key-type"
+          },
+          {
+            text: "Token Authentication Method",
+            href: "/view-client-editable/edit-token-auth-method"
+          },
+          {
+            text: "Please change one of these fields to resolve the issue"
+          }
+        ]
+      }) }}
+
+      {{govukSummaryList({
+        firstCellIsHeader: true,
+        head: [],
+        card: {
+          title: {
+            text: "Core fields"
+          }
+        },
+        rows: [
+          { 
+            key: {
+              text: "Client Name"
+            },
+            value: {
+              text: "My Custom Client"
+            },
+            actions: {
+              items: [
+                { 
+                  html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                },
+                {
+                  href: "/view-client-editable/edit-client-name",
+                  text: "Change",
+                  visuallyHiddenText: "client name"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Client ID"
+            },
+            value: {
+              text: "abcd1234"
+            }
+          },
+          {
+            key: {
+              text: "Scopes"
+            },
+            value: {
+              html: "openid<br/>email"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-scopes",
+                  text: "Change",
+                  visuallyHiddenText: "scopes"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Redirect URLs"
+            },
+            value: {
+              html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-redirect-urls",
+                  text: "Change",
+                  visuallyHiddenText: "redirect urls"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Token Authentication Method"
+            },
+            value: {
+              text: "Private key JWT"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-token-auth-method",
+                  text: "Change",
+                  visuallyHiddenText: "token auth method"
+                }
+              ]
+            }
+          },    
+          {
+            key: {
+              text: "Public key type"
+            },
+            value: {
+              text: "Client Secret"
+            },
+            actions: {
+              items: [
+                {
+                  html: '<strong class="govuk-tag govuk-tag--red">Changed</strong>'
+                },
+                {
+                  href: "/view-client-editable/edit-public-key-type",
+                  text: "Change",
+                  visuallyHiddenText: "public key type"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Client Secret"
+            },
+            value: {
+              text: "testsecrethere"
+            },
+            actions: {
+              items: [
+                {
+                  html: '<strong class="govuk-tag govuk-tag--red">Changed</strong>'
+                },
+                {
+                  href: "/view-client-editable/edit-public-key-type",
+                  text: "Change",
+                  visuallyHiddenText: "jwks url"
+                }
+              ]
+            }
+          },      
+          {
+            key: {
+              text: "Sector Identifier URI"
+            },
+            value: {
+              text: "http://example.com"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-sector-identifier-uri",
+                  text: "Change",
+                  visuallyHiddenText: "sector identifier uri"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "ID Token Signing Algorithm"
+            },
+            value: {
+              text: "RS256"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-id-token-signing-algorithm",
+                  text: "Change",
+                  visuallyHiddenText: "id token signing algorithm"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Is Active"
+            },
+            value: {
+              text: "true"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/view-client-editable/edit-is-active",
+                  text: "Change",
+                  visuallyHiddenText: "is active"
+                }
+              ]
+            }
+          }
+        ]
+      })}}
+
+      {{ govukSummaryList({
+          firstCellIsHeader: true,
+          head: [],
+          card: {
+            title: {
+              text: "Identity fields"
+            }
+          },
+          rows: [
+            {
+              key: {
+                text: "Identity Verification Supported"
+              },
+              value: {
+                text: "true"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-identity-verification-supported",
+                    text: "Change",
+                    visuallyHiddenText: "identity verification supported"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Claims"
+              },
+              value: {
+                html: "https://vocab.account.gov.uk/v1/passport<br>https://vocab.account.gov.uk/v1/coreIdentityJWT<br>https://vocab.account.gov.uk/v1/address<br>https://vocab.account.gov.uk/v1/drivingPermit"
+              },
+              actions: {
+                items: [
+                  { 
+                    html: '<strong class="govuk-tag govuk-tag--blue">Changed</strong>'
+                  },
+                  {
+                    href: "/view-client-editable/edit-claims",
+                    text: "Change",
+                    visuallyHiddenText: "claims"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Landing Page URL"
+              },
+              value: {
+                text: "http://example.com"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-landing-page-url",
+                    text: "Change",
+                    visuallyHiddenText: "landing page url"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Level of Confidence values"
+              },
+              value: {
+                html: "P1<br>P2"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-levels-of-confidence",
+                    text: "Change",
+                    visuallyHiddenText: "level of confidence values"
+                  }
+                ]
+              }
+            }
+          ]
+        })
+      }}
+
+      {{ govukSummaryList({
+          firstCellIsHeader: true,
+          head: [],        
+          card: {
+            title: {
+              text: "Additional fields"
+            }
+          },
+          rows: [
+            {
+              key: {
+                text: "Contacts"
+              },
+              value: {
+                html: "person1@email.com<br/>person2@email.com"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-contacts",
+                    text: "Change",
+                    visuallyHiddenText: "contacts"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Post Logout Redirect URLs"
+              },
+              value: {
+                html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-post-logout-redirect-urls",
+                    text: "Change",
+                    visuallyHiddenText: "post logout redirect urls"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Back Channel Logout URLs"
+              },
+              value: {
+                html: "http://example1.com<br/>http://example2.com<br/>http://example3.com"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-back-channel-logout-urls",
+                    text: "Change",
+                    visuallyHiddenText: "back channel logout urls"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Service Type"
+              },
+              value: {
+                text: "MANDATORY"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-service-type",
+                    text: "Change",
+                    visuallyHiddenText: "service type"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "JAR Validation Required"
+              },
+              value: {
+                text: "true"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-jar-validation-required",
+                    text: "Change",
+                    visuallyHiddenText: "jar validation required"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Channel"
+              },
+              value: {
+                text: "web"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-channel",
+                    text: "Change",
+                    visuallyHiddenText: "channel"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "PKCE Enforced"
+              },
+              value: {
+                text: "true"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-pkce-enforced",
+                    text: "Change",
+                    visuallyHiddenText: "pkce enforced"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Max Age Enabled"
+              },
+              value: {
+                text: "true"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-max-age-enabled",
+                    text: "Change",
+                    visuallyHiddenText: "max age enabled"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Permit missing nonce"
+              },
+              value: {
+                text: "true"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client-editable/edit-permit-missing-nonce",
+                    text: "Change",
+                    visuallyHiddenText: "permit missing nonce"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Rate limit"
+              },
+              value: {
+                text: "2000 per minute"
+              },
+              actions: {
+                items: []
+              }
+            }
+          ]
+        })
+      }}
+      
+      {{ govukButton({
+          text: "Save",
+          href: "/view-client/view-all-details-with-sections-cards"
+      }) }}
+
+      {{ govukButton({
+        text: "Cancel",
+        classes: "govuk-button--secondary",
+        href: "/view-client/view-all-details-with-sections-cards"
+      }) }}
+    </div>
+</div>
+{% endblock %}

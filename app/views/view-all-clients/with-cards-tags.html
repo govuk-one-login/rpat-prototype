@@ -1,0 +1,175 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  View all services – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+  {{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+
+{{ govukBreadcrumbs({
+  items: [
+    {
+      text: "Home",
+      href: "/"
+    },
+    {
+      text: "View all services"
+    }
+  ]
+}) }}
+
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+        View all services
+        </h1>
+
+        {{ govukSummaryList({
+            card: {
+              title: {
+                text: "Prod Client"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client/view-all-details-with-sections-cards",
+                    text: "View"
+                  }
+                ]
+              }
+            },
+            rows: [
+                {
+                  key: {
+                    text: "Environment"
+                  },
+                  value: {
+                    html: '<strong class="govuk-tag govuk-tag--red">Production</strong>'
+                  }
+                },
+                {
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
+                },
+                {
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "No"
+                  }
+                }
+            ]
+          }) }}
+
+          {{ govukSummaryList({
+            card: {
+              title: {
+                text: "Integration Client 1"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client/edit-all-details-with-sections-cards",
+                    text: "View"
+                  },
+                  {
+                    href: "/view-client/edit-all-details-with-sections-validation",
+                    text: "Edit"
+                  }
+                ]
+              }
+            },
+            rows: [
+                {
+                  key: {
+                    text: "Environment"
+                  },
+                  value: {
+                    html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>'
+                  }
+                },
+                {
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
+                },
+                {
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "Yes"
+                  }
+                }
+            ]
+          }) }}
+
+          {{ govukSummaryList({
+            card: {
+              title: {
+                text: "Integration Client 2"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/view-client/edit-all-details-with-sections-cards",
+                    text: "View"
+                  },
+                  {
+                    href: "/view-client/edit-all-details-with-sections-validation",
+                    text: "Edit"
+                  }
+                ]
+              }
+            },
+            rows: [
+                {
+                  key: {
+                    text: "Environment"
+                  },
+                  value: {
+                    html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>'
+                  }
+                },
+                {
+                  key: {
+                    text: "Is active"
+                  },
+                  value: {
+                    text: "No"
+                  }
+                },
+                {
+                  key: {
+                    text: "Identity supported"
+                  },
+                  value: {
+                    text: "No"
+                  }
+                }
+            ]
+          }) }}
+        {{ govukButton({
+            text: "Add a new client",
+            href: "/create-client-key-warning/start-page"
+        }) }}    
+    </div>
+</div>    
+{% endblock %}
