@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPAT Story Maps</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #111; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .meta { font-size: 13px; color: #666; margin-bottom: 12px; }
+  .principles { background: #fff; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; border: 1px solid #e5e5e5; }
+  .principles h2 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+  .principles ul { margin: 0; padding-left: 18px; font-size: 12px; color: #444; line-height: 1.6; }
+  .journey { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 24px; border: 1px solid #e5e5e5; }
+  .journey-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+  .subtitle { font-size: 12px; color: #666; margin: 0 0 16px; }
+  .backbone { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+  .activity { min-width: 170px; flex-shrink: 0; }
+  .act-label { font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px; }
+  .steps { display: flex; flex-direction: column; gap: 4px; }
+  .step { font-size: 11px; color: #444; padding: 5px 8px; background: #f7f7f7; border-radius: 4px; line-height: 1.4; border: 1px solid #ebebeb; }
+  .note { font-size: 11px; color: #888; padding: 4px 8px; border-left: 2px solid #ddd; margin-top: 4px; font-style: italic; line-height: 1.4; }
+  .decision { font-size: 11px; color: #a16207; padding: 5px 8px; background: #fefce8; border-radius: 4px; line-height: 1.4; border: 1px solid #fde68a; }
+  .later-slice { opacity: 0.5; }
+  .later-slice .act-label::after { content: ' (later slice)'; font-weight: 400; font-style: italic; }
+  .divider { border: none; border-top: 1px solid #eee; margin: 0; }
+
+  .j1 .journey-title { color: #185FA5; }
+  .j1 .act-label { background: #E6F1FB; color: #0C447C; }
+  .j2 .journey-title { color: #0F6E56; }
+  .j2 .act-label { background: #E1F5EE; color: #085041; }
+  .j3 .journey-title { color: #854F0B; }
+  .j3 .act-label { background: #FAEEDA; color: #633806; }
+  .j4 .journey-title { color: #534AB7; }
+  .j4 .act-label { background: #EEEDFE; color: #3C3489; }
+
+  @media print {
+    body { background: #fff; padding: 16px; }
+    .backbone { overflow-x: visible; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<h1>RPAT — Story Maps</h1>
+<p class="meta">GOV.UK One Login · RP Admin Tool · Last updated April 2026 · Assumes user is signed in via GOV.UK SSO</p>
+
+<div class="principles">
+  <h2>Key principles informing these maps</h2>
+  <ul>
+    <li><strong>Terminology:</strong> "Client" not "environment" in the UI — technically accurate for the audience (developers/technical staff). RPs can label/tag their clients freely.</li>
+    <li><strong>Agnostic to RP implementation:</strong> We don't care why an RP has multiple clients, how their internal environments map, or whether they use shared or per-service OIDC clients (see Les's integration/implementation options diagram). We show whatever clients exist.</li>
+    <li><strong>Three-level IA:</strong> Services list → Service overview (prod + integration clients) → Client config detail.</li>
+    <li><strong>Data model:</strong> Organisation → Service Integration → OIDC Clients (1 prod, n integration). Service Integration and Organisation are RPAT groupings; OIDC Client is what's in the client registry.</li>
+    <li><strong>Evidence base:</strong> DfE (3 services, one with 5+ integration clients), DVLA (1 Service Integration "Identity", multiple clients for Ext/Link/PreProd). Patterns differ — IA must handle both.</li>
+    <li><strong>Slice 1 scope:</strong> Integration client creation + editing, read-only production view. Production write, internal admin, RBAC, and promotion flow are later slices (shown faded).</li>
+  </ul>
+</div>
+
+<!-- Journey A -->
+<div class="journey j1">
+  <div class="journey-title">Journey A</div>
+  <h2>New user — new service and integration client setup</h2>
+  <p class="subtitle">First-time user creates a service and their first integration client. No empty services list shown — straight into creation.</p>
+  <div class="backbone">
+
+    <div class="activity">
+      <div class="act-label">Welcome</div>
+      <div class="steps">
+        <div class="step">Land on welcome / before you start page</div>
+        <div class="step">Review what they'll need (client config values, public key, redirect URIs)</div>
+        <div class="step">Links to tech docs for preparation</div>
+        <div class="step">Continue to create service</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Create service</div>
+      <div class="steps">
+        <div class="step">Enter service name</div>
+        <div class="step">Enter description</div>
+        <div class="decision">Open Q: Auth only or identity too? Branching point or later-slice wizard?</div>
+        <div class="step">Continue</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Create first integration client</div>
+      <div class="steps">
+        <div class="step">Name/label the client (free text, e.g. "DEV", "Staging", "Test 1")</div>
+        <div class="note">We're agnostic to what this maps to on the RP side</div>
+        <div class="step">Configure OIDC fields (redirect URIs, scopes, token auth method, public key etc.)</div>
+        <div class="step">Review configuration summary</div>
+        <div class="step">Confirm and create</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Success</div>
+      <div class="steps">
+        <div class="step">Success confirmation</div>
+        <div class="step">Client ID displayed (auto-generated)</div>
+        <div class="step">Links to tech docs: next steps for integrating</div>
+        <div class="step">Continue to service overview</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Service overview</div>
+      <div class="steps">
+        <div class="step">Service name + description shown</div>
+        <div class="step"><strong>Production:</strong> empty/locked state — "No production client yet"</div>
+        <div class="step"><strong>Integration:</strong> list showing the client just created, by its label</div>
+        <div class="step">CTA: "Add another integration client"</div>
+        <div class="note">This page must work with 1 client or 5+ (DfE pattern)</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">View / edit client</div>
+      <div class="steps">
+        <div class="step">Select integration client from list</div>
+        <div class="step">View full config (editable fields clearly marked)</div>
+        <div class="step">Edit a field → review changes → confirm → save</div>
+        <div class="step">Updated config with confirmation banner</div>
+        <div class="note">Links to relevant tech docs sections per field</div>
+      </div>
+    </div>
+
+    <div class="activity later-slice">
+      <div class="act-label">Prepare for production</div>
+      <div class="steps">
+        <div class="step">Prompt: no production client exists</div>
+        <div class="step">Initiate production request</div>
+        <div class="step">Select integration client to reference</div>
+        <div class="step">Submit → handoff to TSD/Onboarding</div>
+        <div class="note">MOU check may gate this flow</div>
+      </div>
+    </div>
+
+    <div class="activity later-slice">
+      <div class="act-label">Go live</div>
+      <div class="steps">
+        <div class="step">Prod client created internally</div>
+        <div class="step">Appears on service overview alongside integration clients</div>
+        <div class="step">Visually distinct, read-only</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Journey B -->
+<div class="journey j2">
+  <div class="journey-title">Journey B</div>
+  <h2>Returning user — adds another integration client to existing service</h2>
+  <p class="subtitle">User has a service with at least one integration client. Wants to add another (for any reason — new RP environment, testing a different config approach, CI pipeline, etc.). We're agnostic to why.</p>
+  <div class="backbone">
+
+    <div class="activity">
+      <div class="act-label">Return</div>
+      <div class="steps">
+        <div class="step">Sign in</div>
+        <div class="step">Land on services list</div>
+        <div class="step">Select service</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Add integration client</div>
+      <div class="steps">
+        <div class="step">"Add another integration client" from service overview</div>
+        <div class="step">Name/label the client (free text)</div>
+        <div class="decision">Option: "Copy config from existing client?" — select from list of this service's integration clients</div>
+        <div class="step">Configure OIDC fields (pre-filled if copied, blank if new)</div>
+        <div class="step">Review → confirm → save</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Confirm</div>
+      <div class="steps">
+        <div class="step">Success confirmation with new client ID</div>
+        <div class="step">Return to service overview</div>
+        <div class="step">New client listed alongside existing ones</div>
+        <div class="note">DfE pattern: Apprenticeship service had 5+ clients. List must stay usable.</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Compare clients</div>
+      <div class="steps">
+        <div class="step">Select an integration client to view</div>
+        <div class="step">Compare against production (if exists) — interaction pattern TBD</div>
+        <div class="decision">Open Q: Side-by-side? Tab switch? Diff view? Prototype both.</div>
+        <div class="note">Comparing two integration clients against each other = later slice</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Journey C -->
+<div class="journey j3">
+  <div class="journey-title">Journey C</div>
+  <h2>Returning user — adds a new service and integration client</h2>
+  <p class="subtitle">User already has one or more services and wants to add another. No MOU gate at service creation (integration is free-form). DVLA pattern: multiple services under one org.</p>
+  <div class="backbone">
+
+    <div class="activity">
+      <div class="act-label">Return</div>
+      <div class="steps">
+        <div class="step">Sign in</div>
+        <div class="step">Land on services list (existing services visible)</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Create service</div>
+      <div class="steps">
+        <div class="step">"Add a new service" from services list</div>
+        <div class="step">Enter service name + description</div>
+        <div class="decision">Open Q: Auth only or identity? Same branching as Journey A.</div>
+        <div class="step">Continue</div>
+        <div class="note">No MOU gate — that's a production concern, not integration</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Create first integration client</div>
+      <div class="steps">
+        <div class="step">Same flow as Journey A: name client, configure OIDC fields, review, confirm</div>
+        <div class="note">Identical pattern — user already knows it from their first service</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Confirm</div>
+      <div class="steps">
+        <div class="step">Success confirmation</div>
+        <div class="step">Land on service overview for new service</div>
+        <div class="step">Navigate back to services list → new service visible alongside existing ones</div>
+        <div class="note">DVLA stress test: services list could have 6+ rows. Needs to stay scannable.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Journey D -->
+<div class="journey j4">
+  <div class="journey-title">Journey D</div>
+  <h2>Existing SSE user — claims migrated service</h2>
+  <p class="subtitle">User has a live service in the current SSE. Configs have been ported to the new client registry. User creates an RPAT account and needs to prove they own the service to claim it. Based on Notify's model for ownership verification.</p>
+  <div class="backbone">
+
+    <div class="activity">
+      <div class="act-label">Sign up</div>
+      <div class="steps">
+        <div class="step">Create new RPAT account (GOV.UK SSO)</div>
+        <div class="step">Land on welcome page</div>
+        <div class="step">Prompt: "Do you have an existing One Login integration?"</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Identify service</div>
+      <div class="steps">
+        <div class="step">Enter client ID of existing integration</div>
+        <div class="decision">Open Q: Do we show unclaimed services that match their email domain (Notify model)? Or require client ID?</div>
+        <div class="note">Notify shows services matching the user's domain and lets them request access</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Verify ownership</div>
+      <div class="steps">
+        <div class="step">System generates a unique verification code</div>
+        <div class="step">User adds code to their running integration (e.g. as a redirect URI or metadata field)</div>
+        <div class="step">User triggers verification check in RPAT</div>
+        <div class="step">System confirms code is present → ownership verified</div>
+        <div class="decision">Open Q: Is this technical verification feasible? Or do we fall back to manual approval by onboarding team?</div>
+        <div class="note">Must prevent unauthorized claims — this is a security boundary</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Claim service</div>
+      <div class="steps">
+        <div class="step">Service claimed → user becomes first admin</div>
+        <div class="step">Pre-populated config visible (prod + any integration clients migrated)</div>
+        <div class="step">No re-entry of config data required</div>
+        <div class="note">Migrated configs may include both prod and integration clients from SSE</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Invite team</div>
+      <div class="steps">
+        <div class="step">First admin invites team members</div>
+        <div class="step">Multi-user access follows claim, doesn't block it</div>
+        <div class="note">Solves the "leavers problem" — team continuity from day one</div>
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="act-label">Continue as returning user</div>
+      <div class="steps">
+        <div class="step">Service overview → same as Journey A/B/C from here</div>
+        <div class="step">Can add integration clients, view prod (read-only), invite team</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
