@@ -82,6 +82,19 @@
       <h2 class="govuk-heading-m">Integration Clients</h2>
 
       {% for config in service.integration %}
+        {% set summaryRows = [
+          {
+            key: { text: "Identity verification" },
+            value: { text: "Yes" if config.identityVerificationSupported else "No" }
+          }
+        ] %}
+        {% if config.promotedToProd %}
+          {% set summaryRows = summaryRows.concat([{
+            key: { text: "Promoted to production" },
+            value: { html: '<strong class="govuk-tag govuk-tag--green">Promoted</strong>' }
+          }]) %}
+        {% endif %}
+
         {{ govukSummaryList({
           card: {
             title: { text: config.name },
@@ -100,12 +113,7 @@
               ]
             }
           },
-          rows: [
-            {
-              key: { text: "Identity verification" },
-              value: { text: "Yes" if config.identityVerificationSupported else "No" }
-            }
-          ]
+          rows: summaryRows
         }) }}
       {% endfor %}
 

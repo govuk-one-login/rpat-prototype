@@ -37,7 +37,8 @@ module.exports = {
           identityVerificationSupported: true,
           claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
           landingPageUrl: "https://dev1.apprenticeship-cert.education.gov.uk/landing",
-          levelsOfConfidence: ["P2"]
+          levelsOfConfidence: ["P2"],
+          promotedToProd: false,
         },
         {
           id: "dev-options-2",
@@ -50,7 +51,8 @@ module.exports = {
           identityVerificationSupported: true,
           claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT"],
           landingPageUrl: "https://dev2.apprenticeship-cert.education.gov.uk/landing",
-          levelsOfConfidence: ["P2"]
+          levelsOfConfidence: ["P2"],
+          promotedToProd: false,
         },
         {
           id: "sit",
@@ -63,7 +65,8 @@ module.exports = {
           identityVerificationSupported: true,
           claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
           landingPageUrl: "https://sit.apprenticeship-cert.education.gov.uk/landing",
-          levelsOfConfidence: ["P2"]
+          levelsOfConfidence: ["P2"],
+          promotedToProd: false,
         },
         {
           id: "uat",
@@ -76,7 +79,8 @@ module.exports = {
           identityVerificationSupported: true,
           claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
           landingPageUrl: "https://uat.apprenticeship-cert.education.gov.uk/landing",
-          levelsOfConfidence: ["P2"]
+          levelsOfConfidence: ["P2"],
+          promotedToProd: false,
         },
         {
           id: "preprod",
@@ -89,7 +93,8 @@ module.exports = {
           identityVerificationSupported: true,
           claims: ["https://vocab.account.gov.uk/v1/coreIdentityJWT", "https://vocab.account.gov.uk/v1/address"],
           landingPageUrl: "https://preprod.apprenticeship-cert.education.gov.uk/landing",
-          levelsOfConfidence: ["P2"]
+          levelsOfConfidence: ["P2"],
+          promotedToProd: true,
         }
       ],
       production: {
@@ -122,7 +127,8 @@ module.exports = {
           identityVerificationSupported: false,
           claims: [],
           landingPageUrl: "",
-          levelsOfConfidence: []
+          levelsOfConfidence: [],
+          promotedToProd: false,
         }
       ],
       production: null
