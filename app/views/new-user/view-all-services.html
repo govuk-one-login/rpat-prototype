@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Your services" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Your services</h1>
+
+      {{ govukButton({
+        text: "Add a new service",
+        href: "/new-user/create-service",
+        classes: "govuk-button--secondary"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

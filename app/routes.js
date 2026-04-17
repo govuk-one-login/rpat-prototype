@@ -21,6 +21,9 @@ const {
 const {
   setupServiceRoutes,
 } = require("./views/services/setup-routes");
+const {
+  setupNewUserServiceRoutes,
+} = require("./views/new-user/setup-routes");
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
@@ -28,3 +31,4 @@ setupCreateClientIdentityFlowRoutes(router);
 setupViewClientEditableRoutes(router);
 
 setupServiceRoutes(router);
+setupNewUserServiceRoutes(router);
