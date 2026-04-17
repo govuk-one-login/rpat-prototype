@@ -9,14 +9,14 @@ const { services } = require("./data/services");
 
 // Services list (Level 1)
 router.get("/services", (req, res) => {
-  res.render("services/index.html", { services });
+  res.render("services/view-all-servies.html", { services });
 });
 
 // Service overview (Level 2)
 router.get("/services/:serviceId", (req, res) => {
   const service = services.find(s => s.id === req.params.serviceId);
   if (!service) return res.redirect("/services");
-  res.render("services/overview.html", { service, success: req.query.success });
+  res.render("services/view-service.html", { service, success: req.query.success });
 });
 
 // Catch-all: unbuilt edit screens
@@ -43,7 +43,7 @@ router.get("/services/:serviceId/:envType/:configId/edit", (req, res) => {
     config = service.integration.find(c => c.id === configId);
   }
   if (!config) return res.redirect("/services/" + service.id);
-  res.render("services/config.html", {
+  res.render("services/view-client.html", {
     service,
     envType,
     config,
@@ -64,7 +64,7 @@ router.get("/services/:serviceId/:envType/:configId", (req, res) => {
     config = service.integration.find(c => c.id === configId);
   }
   if (!config) return res.redirect("/services/" + service.id);
-  res.render("services/config.html", {
+  res.render("services/view-client.html", {
     service,
     envType,
     config,
@@ -79,7 +79,7 @@ router.get("/services/:serviceId/integration/:configId/compare", (req, res) => {
   if (!service) return res.redirect("/services");
   const config = service.integration.find(c => c.id === req.params.configId);
   if (!config || !service.production) return res.redirect("/services/" + service.id);
-  res.render("services/compare.html", {
+  res.render("services/compare-clients.html", {
     service,
     config,
     prodConfig: service.production
