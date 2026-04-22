@@ -6,10 +6,13 @@
 
 {% block beforeContent %}
   {{ super() }}
-  {{ govukBackLink({
-  text: "Back",
-  href: "javascript:window.history.back()"
-}) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: "Register trainee teachers", href: "/services/register-trainee-teachers" },
+      { text: "My Custom Client" }
+    ]
+  }) }}
 {% endblock %}
 
 {% block content %}
