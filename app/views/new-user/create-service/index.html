@@ -30,6 +30,18 @@
         name: "service"
       }) }}
 
+      {{ govukTextarea({
+        label: {
+          text: "Description",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "Briefly describe what this service is for"
+        },
+        id: "service-description",
+        name: "service-description"
+      }) }}
+
       {{ govukButton({
         text: "Continue"
       }) }}
