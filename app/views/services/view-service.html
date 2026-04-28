@@ -70,13 +70,7 @@
           ]
         }) }}
 
-        <p class="govuk-body">You do not have a production configuration yet. When your integration is ready, you can request to go live.</p>
-
-        {{ govukButton({
-          text: "Request to go live",
-          href: "/services/" + service.id + "/request-go-live",
-          classes: "govuk-button--secondary"
-        }) }}
+        <p class="govuk-body">You do not have a production configuration yet. Complete testing with an integration client before requesting production access.</p>
       {% endif %}
 
       <h2 class="govuk-heading-m">Integration Clients</h2>
