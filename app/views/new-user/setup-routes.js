@@ -11,7 +11,7 @@ function setupNewUserServiceRoutes(router) {
         const service = {
             id: "new-id",
             name: "New Service",
-            description: "This is a brand new service with no clients",
+            description: "This is a service description. It can be as long as you like, but it should give users a good idea of what the service is for and how to use it.",
             integration: null,
             production: null
         }
