@@ -51,6 +51,10 @@
       {# Core configuration #}
       {% set coreRows = [
         {
+          key: { text: "Client ID" },
+          value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + config.clientId + '</code>' }
+        },
+        {
           key: { text: "Client name" },
           value: { text: config.clientName },
           actions: { items: [{ href: editBase + "edit-client-name", text: "Change", visuallyHiddenText: "client name" }] } if showChangeLink

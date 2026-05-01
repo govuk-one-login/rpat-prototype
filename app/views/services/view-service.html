@@ -47,6 +47,10 @@
           },
           rows: [
             {
+              key: { text: "Client ID" },
+              value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + service.production.clientId + '</code>' }
+            },
+            {
               key: { text: "Status" },
               value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' }
             },
@@ -77,6 +81,10 @@
 
       {% for config in service.integration %}
         {% set summaryRows = [
+          {
+            key: { text: "Client ID" },
+            value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + config.clientId + '</code>' }
+          },
           {
             key: { text: "Identity verification" },
             value: { text: "Yes" if config.identityVerificationSupported else "No" }
