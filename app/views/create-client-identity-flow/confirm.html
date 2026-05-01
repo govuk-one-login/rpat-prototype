@@ -14,157 +14,210 @@
 
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
+  <div class="govuk-grid-column-full">
 
     <h1 class="govuk-heading-xl">
       Check these details before creating your client
     </h1>
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Client Name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{data['clientName']}}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/enter-client-name">Change<span class="govuk-visually-hidden"> name</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Public key type
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{data['publicKeyType']}}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/select-key-type">Change<span class="govuk-visually-hidden"> public key type</span></a>
-        </dd>
-      </div>
-      {% if data['publicKeyType'] === 'Public key URL (JWKS)' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            JWKS Endpoint
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['jwksEndpoint']}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-client-identity-flow/select-key-type">Change<span class="govuk-visually-hidden"> JWKS endpoint</span></a>
-          </dd>
-        </div> 
-      {% endif %}
-      {% if data['publicKeyType'] === 'Client secret' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Client Secret
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['clientSecret']}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-client-identity-flow/select-key-type">Change<span class="govuk-visually-hidden"> client secret</span></a>
-          </dd>
-        </div> 
-      {% endif %}
-      {% if data['publicKeyType'] === 'Fixed public key' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Static Key
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['staticKey']}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/create-client-identity-flow/select-key-type">Change<span class="govuk-visually-hidden"> static key</span></a>
-          </dd>
-        </div> 
-      {% endif %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Redirect url(s)
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {% for url in redirectUrls %}
-              {{ url | trim }}<br>
-            {% endfor %}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/redirect-urls">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Scopes
-        </dt>
-        <dd class="govuk-summary-list__value">
-          OpenID
-          {% if data['selectedScopes'].length > 0 %}
-            {% for scope in data['selectedScopes'] %}
-              <br>{{ scope | trim }}
-            {% endfor %}
-          {% endif %}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/select-scopes">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Is Identity Verification Supported
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Yes
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/is-identity-verification-supported">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Claims
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Core Identity
-          {% if data['selectedClaims'].length > 0 %}
-            {% for scope in data['selectedClaims'] %}
-              <br>{{ scope | trim }}
-            {% endfor %}
-          {% endif %}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/select-claims">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Landing Page Url
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{data['landingPageUrl']}}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/landing-page-url">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Levels Of Confidence
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {% if data['selectedLoCs'].length > 0 %}
-            {% for scope in data['selectedLoCs'] %}
-              {{ scope | trim }}
-            {% endfor %}
-          {% endif %}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/create-client-identity-flow/select-levels-of-confidence">Change<span class="govuk-visually-hidden"> scopes</span></a>
-        </dd>
-      </div>
-    </dl>
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Core fields"
+        }
+      },
+      rows: [
+        {
+          key: { text: "Client Name" },
+          value: { text: data['clientName'] or "My Custom Client" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-client-name", text: "Change", visuallyHiddenText: "client name" }]
+          }
+        },
+        {
+          key: { text: "Public key type" },
+          value: { text: data['publicKeyType'] or "JWKS" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-public-key-type", text: "Change", visuallyHiddenText: "public key type" }]
+          }
+        },
+        {
+          key: { text: "JWKS URL" },
+          value: { text: data['jwksEndpoint'] or "http://example.com/.well-known/jwks.json" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-public-key-type", text: "Change", visuallyHiddenText: "jwks url" }]
+          }
+        },
+        {
+          key: { text: "Scopes" },
+          value: {
+            html: "openid" + ("<br>" + data['selectedScopes'] | join("<br>") if data['selectedScopes'] and data['selectedScopes'].length > 0 else "")
+          },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-scopes", text: "Change", visuallyHiddenText: "scopes" }]
+          }
+        },
+        {
+          key: { text: "Redirect URLs" },
+          value: {
+            html: redirectUrls | join("<br>") if redirectUrls else "Not set"
+          },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-redirect-urls", text: "Change", visuallyHiddenText: "redirect urls" }]
+          }
+        },
+        {
+          key: { text: "Token Authentication Method" },
+          value: { text: "Private key JWT" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-token-auth-method", text: "Change", visuallyHiddenText: "token auth method" }]
+          }
+        }
+      ]
+    }) }}
+
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Identity fields"
+        }
+      },
+      rows: [
+        {
+          key: { text: "Identity Verification Supported" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-identity-verification-supported", text: "Change", visuallyHiddenText: "identity verification supported" }]
+          }
+        },
+        {
+          key: { text: "Claims" },
+          value: {
+            html: "https://vocab.account.gov.uk/v1/coreIdentityJWT" + ("<br>" + data['selectedClaims'] | join("<br>") if data['selectedClaims'] and data['selectedClaims'].length > 0 else "")
+          },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-claims", text: "Change", visuallyHiddenText: "claims" }]
+          }
+        },
+        {
+          key: { text: "Landing Page URL" },
+          value: { text: data['landingPageUrl'] or "Not set" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-landing-page-url", text: "Change", visuallyHiddenText: "landing page url" }]
+          }
+        },
+        {
+          key: { text: "Level of Confidence values" },
+          value: {
+            html: data['selectedLoCs'] | join("<br>") if data['selectedLoCs'] and data['selectedLoCs'].length > 0 else "Not set"
+          },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-levels-of-confidence", text: "Change", visuallyHiddenText: "level of confidence values" }]
+          }
+        }
+      ]
+    }) }}
+
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Additional fields"
+        }
+      },
+      rows: [
+        {
+          key: { text: "ID Token Signing Algorithm" },
+          value: { text: "RS256" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-id-token-signing-algorithm", text: "Change", visuallyHiddenText: "id token signing algorithm" }]
+          }
+        },
+        {
+          key: { text: "Contacts" },
+          value: { text: "Not set" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-contacts", text: "Change", visuallyHiddenText: "contacts" }]
+          }
+        },
+        {
+          key: { text: "Is Active" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-is-active", text: "Change", visuallyHiddenText: "is active" }]
+          }
+        },
+        {
+          key: { text: "Post Logout Redirect URLs" },
+          value: { text: "Not set" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-post-logout-redirect-urls", text: "Change", visuallyHiddenText: "post logout redirect urls" }]
+          }
+        },
+        {
+          key: { text: "Back Channel Logout URLs" },
+          value: { text: "Not set" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-back-channel-logout-urls", text: "Change", visuallyHiddenText: "back channel logout urls" }]
+          }
+        },
+        {
+          key: { text: "Sector Identifier URI" },
+          value: { text: "http://example.com" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-sector-identifier-uri", text: "Change", visuallyHiddenText: "sector identifier uri" }]
+          }
+        },
+        {
+          key: { text: "Service Type" },
+          value: { text: "MANDATORY" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-service-type", text: "Change", visuallyHiddenText: "service type" }]
+          }
+        },
+        {
+          key: { text: "JAR Validation Required" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-jar-validation-required", text: "Change", visuallyHiddenText: "jar validation required" }]
+          }
+        },
+        {
+          key: { text: "Channel" },
+          value: { text: "web" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-channel", text: "Change", visuallyHiddenText: "channel" }]
+          }
+        },
+        {
+          key: { text: "PKCE Enforced" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-pkce-enforced", text: "Change", visuallyHiddenText: "pkce enforced" }]
+          }
+        },
+        {
+          key: { text: "Max Age Enabled" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-max-age-enabled", text: "Change", visuallyHiddenText: "max age enabled" }]
+          }
+        },
+        {
+          key: { text: "Permit missing nonce" },
+          value: { text: "true" },
+          actions: {
+            items: [{ href: "/view-client-editable/edit-permit-missing-nonce", text: "Change", visuallyHiddenText: "permit missing nonce" }]
+          }
+        },
+        {
+          key: { text: "Rate limit" },
+          value: { text: "2000 per minute" },
+          actions: {
+            items: [{ href: "/not-yet-built", text: "Request change", visuallyHiddenText: "rate limit" }]
+          }
+        }
+      ]
+    }) }}
 
     <h2 class="govuk-heading-m">Now create your client</h2>
 
