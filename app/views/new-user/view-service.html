@@ -70,17 +70,7 @@
           ]
         }) }}
 
-        {% if service.integration | length %}
-          <p class="govuk-body">You do not have a production configuration yet. When your integration is ready, you can request to go live.</p>
-
-          {{ govukButton({
-            text: "Request to go live",
-            href: "/services/" + service.id + "/request-go-live",
-            classes: "govuk-button--secondary"
-          }) }}
-        {% else %}
-          <p class="govuk-body">Create an integration client to get started.</p>
-        {% endif %}
+        <p class="govuk-body">You do not have a production configuration yet. When you have completed testing with an integration client you can request to go live.</p>
       {% endif %}
 
       <h2 class="govuk-heading-m">Integration Clients</h2>
