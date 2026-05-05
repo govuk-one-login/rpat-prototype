@@ -40,7 +40,7 @@
                 {
                   href: "/services/" + service.id + "/production/" + service.production.id,
                   text: "View",
-                  visuallyHiddenText: "production configuration"
+                  visuallyHiddenText: "production client"
                 }
               ]
             }
@@ -58,7 +58,7 @@
         }) }}
 
         {{ govukInsetText({
-          text: "Production configuration is read-only. Contact support if you need to make changes."
+          text: "Production client is read-only. Contact support if you need to make changes."
         }) }}
       {% else %}
         {{ govukSummaryList({
@@ -70,13 +70,7 @@
           ]
         }) }}
 
-        <p class="govuk-body">You do not have a production configuration yet. When your integration is ready, you can request to go live.</p>
-
-        {{ govukButton({
-          text: "Request to go live",
-          href: "/services/" + service.id + "/request-go-live",
-          classes: "govuk-button--secondary"
-        }) }}
+        <p class="govuk-body">You do not have a production client yet. When you have completed testing with an integration client you can request to go live.</p>
       {% endif %}
 
       <h2 class="govuk-heading-m">Integration Clients</h2>
@@ -90,12 +84,12 @@
                 {
                   href: "/services/" + service.id + "/integration/" + config.id,
                   text: "View",
-                  visuallyHiddenText: config.name + " configuration"
+                  visuallyHiddenText: config.name + " client"
                 },
                 {
                   href: "/services/" + service.id + "/integration/" + config.id + "/edit",
                   text: "Manage",
-                  visuallyHiddenText: config.name + " configuration"
+                  visuallyHiddenText: config.name + " client"
                 }
               ]
             }
@@ -111,7 +105,7 @@
 
       {{ govukButton({
         text: "Add a new integration client",
-        href: "/new-user/pretend-create-client-start-page",
+        href: "/create-client-identity-flow/start-page",
         classes: "govuk-button--secondary"
       }) }}
 
