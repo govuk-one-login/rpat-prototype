@@ -25,6 +25,10 @@ module.exports = {
       id: "apprenticeship-digital-cert",
       name: "Apprenticeship service - Digital certification",
       description: "Digital certification for apprenticeship end-point assessments",
+      teamMembers: [
+        { name: "Sarah Thompson", email: "sarah.thompson@education.gov.uk", status: "active" },
+        { name: "James Chen", email: "james.chen@education.gov.uk", status: "active" }
+      ],
       integration: [
         {
           id: "dev-options-1",
@@ -121,6 +125,9 @@ module.exports = {
       id: "register-trainee-teachers",
       name: "Register trainee teachers",
       description: "Register trainees and record their progress towards qualified teacher status",
+      teamMembers: [
+        { name: "Sarah Thompson", email: "sarah.thompson@education.gov.uk", status: "active" }
+      ],
       integration: [
         {
           id: "dev",
