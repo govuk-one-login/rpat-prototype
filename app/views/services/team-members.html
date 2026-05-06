@@ -1,0 +1,101 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Team members - " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: "Team members" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <nav class="govuk-tabs" data-module="govuk-tabs">
+    <ul class="govuk-tabs__list">
+      <li class="govuk-tabs__list-item">
+        <a class="govuk-tabs__tab" href="/services/{{ service.id }}">
+          Clients
+        </a>
+      </li>
+      <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+        <a class="govuk-tabs__tab" href="/services/{{ service.id }}/team-members">
+          Team members
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if success %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
+          type: "success"
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">Team members</h1>
+
+      <p class="govuk-body">All team members have the same access. They can manage clients and edit service settings.</p>
+
+      {{ govukButton({
+        text: "Invite a team member",
+        href: "/services/" + service.id + "/team-members/invite"
+      }) }}
+
+      {% for member in service.teamMembers %}
+        {{ govukSummaryList({
+          card: {
+            title: { text: member.name }
+          },
+          rows: [
+            {
+              key: { text: "Email" },
+              value: { text: member.email }
+            },
+            {
+              key: { text: "Status" },
+              value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if member.status === "active" else '<strong class="govuk-tag govuk-tag--yellow">Invited</strong>' }
+            }
+          ]
+        }) }}
+      {% endfor %}
+
+      {% if invitedEmail %}
+        {{ govukSummaryList({
+          card: {
+            title: { text: invitedEmail },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Cancel invitation",
+                  visuallyHiddenText: "for " + invitedEmail
+                }
+              ]
+            }
+          },
+          rows: [
+            {
+              key: { text: "Email" },
+              value: { text: invitedEmail }
+            },
+            {
+              key: { text: "Status" },
+              value: { html: '<strong class="govuk-tag govuk-tag--yellow">Invited</strong>' }
+            }
+          ]
+        }) }}
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "You've been invited to join a service" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">You've been invited to join a service</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Service" },
+            value: { text: "Apprenticeship service - Digital certification" }
+          },
+          {
+            key: { text: "Invited by" },
+            value: { text: "sarah.thompson@education.gov.uk" }
+          }
+        ]
+      }) }}
+
+      <p class="govuk-body">By accepting this invitation, you will be able to manage clients and edit service settings.</p>
+
+      <form method="post" action="/accept-invite/confirm">
+        {{ govukButton({
+          text: "Accept and join service"
+        }) }}
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

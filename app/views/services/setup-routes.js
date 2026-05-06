@@ -14,6 +14,40 @@ function setupServiceRoutes(router) {
         res.render("services/view-service.html", { service, success: req.query.success });
     });
 
+    // Team members
+    router.get("/services/:serviceId/team-members", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        const invitedEmail = req.session.data && req.session.data["invited-email-" + service.id];
+        res.render("services/team-members.html", { service, success: req.query.success, invitedEmail });
+    });
+
+    // Invite team member - form
+    router.get("/services/:serviceId/team-members/invite", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        res.render("services/invite-team-member.html", { service });
+    });
+
+    // Invite team member - submit
+    router.post("/services/:serviceId/team-members/invite", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        const email = req.body["invite-email"];
+        req.session.data = req.session.data || {};
+        req.session.data["invited-email-" + service.id] = email;
+        res.render("services/invite-sent.html", { service, invitedEmail: email });
+    });
+
+    // Accept invite
+    router.get("/accept-invite", (req, res) => {
+        res.render("accept-invite/index.html");
+    });
+
+    router.post("/accept-invite/confirm", (req, res) => {
+        res.render("accept-invite/confirmed.html");
+    });
+
     // Catch-all: unbuilt edit screens
     router.get("/services/:serviceId/integration/:configId/edit/:field", (req, res) => {
         res.render("not-yet-built.html");
