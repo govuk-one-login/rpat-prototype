@@ -5,6 +5,38 @@
 
 // Add extra styles here
 
+// Side navigation (matching Notify/Pay pattern)
+.app-subnav {
+  margin-bottom: govuk-spacing(4);
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    border-left: 4px solid transparent;
+    padding: govuk-spacing(2) 0 govuk-spacing(2) govuk-spacing(3);
+
+    &--current {
+      border-left-color: $govuk-link-colour;
+      font-weight: bold;
+    }
+  }
+
+  &__link {
+    @include govuk-link-common;
+    @include govuk-link-style-no-visited-state;
+    @include govuk-font($size: 19);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .govuk-service-navigation__item:last-child {
   margin-left: auto;
 }
