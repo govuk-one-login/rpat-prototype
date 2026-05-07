@@ -39,12 +39,24 @@ function setupServiceRoutes(router) {
         res.render("services/invite-sent.html", { service, invitedEmail: email });
     });
 
+    // Invite team member - confirmation (GET for direct linking)
+    router.get("/services/:serviceId/team-members/invite/sent", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        const invitedEmail = (req.session.data && req.session.data["invited-email-" + service.id]) || "example@email.gov.uk";
+        res.render("services/invite-sent.html", { service, invitedEmail });
+    });
+
     // Accept invite
     router.get("/accept-invite", (req, res) => {
         res.render("accept-invite/index.html");
     });
 
     router.post("/accept-invite/confirm", (req, res) => {
+        res.render("accept-invite/confirmed.html");
+    });
+
+    router.get("/accept-invite/confirm", (req, res) => {
         res.render("accept-invite/confirmed.html");
     });
 
