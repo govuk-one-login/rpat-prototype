@@ -1,0 +1,10 @@
+<nav class="app-subnav" aria-label="Service menu">
+  <ul class="app-subnav__list">
+    <li class="app-subnav__list-item {{ 'app-subnav__list-item--current' if activePage == 'clients' }}">
+      <a class="app-subnav__link" href="/services/{{ service.id }}">Clients</a>
+    </li>
+    <li class="app-subnav__list-item {{ 'app-subnav__list-item--current' if activePage == 'team-members' }}">
+      <a class="app-subnav__link" href="/services/{{ service.id }}/team-members">Team members</a>
+    </li>
+  </ul>
+</nav>

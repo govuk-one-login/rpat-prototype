@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "You've joined the service" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "You've joined the service",
+        html: "Apprenticeship service -<br>Digital certification"
+      }) }}
+
+      <h2 class="govuk-heading-m">What you can do</h2>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>view and manage integration clients</li>
+        <li>edit service settings</li>
+        <li>invite other team members</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Go to service",
+        href: "/services/apprenticeship-digital-cert"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Invitation sent" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Invitation sent",
+        html: "We sent an email to<br><strong>" + invitedEmail + "</strong>"
+      }) }}
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">They will receive an email with a link to join <strong>{{ service.name }}</strong>.</p>
+
+      <p class="govuk-body">The invitation will expire in 7 days.</p>
+
+      <p class="govuk-body">
+        <a href="/services/{{ service.id }}/team-members" class="govuk-link">Back to team members</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}
