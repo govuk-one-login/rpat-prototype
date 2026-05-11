@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Confirm your integration" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Is this your integration?</h1>
+
+      <p class="govuk-body">We found an integration matching that client ID. Check the details below before claiming it.</p>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Service name" },
+            value: { text: "Apply for a county court judgment" }
+          },
+          {
+            key: { text: "Client ID" },
+            value: { html: '<code class="app-code">a1b2c3d4-e5f6-7890-abcd-ef1234567890</code>' }
+          },
+          {
+            key: { text: "Environment" },
+            value: { html: '<strong class="govuk-tag govuk-tag--blue">Integration</strong>' }
+          },
+          {
+            key: { text: "Redirect URL" },
+            value: { text: "https://apply.example.justice.gov.uk/callback" }
+          },
+          {
+            key: { text: "Token authentication" },
+            value: { text: "Private key JWT" }
+          }
+        ]
+      }) }}
+
+      {{ govukInsetText({
+        text: "Claiming this integration will create a new service in your account using this name. Your production client will also be added automatically."
+      }) }}
+
+      <form method="post" action="/migrate/confirm-claim">
+
+        {{ govukButton({
+          text: "Claim this integration"
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/migrate/enter-client-id" class="govuk-link">This is not my integration</a>
+        </p>
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

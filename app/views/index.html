@@ -46,6 +46,23 @@
         </li>
       </ul>
 
+      <h2 class="govuk-heading-m">Claim an existing integration (migration)</h2>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Happy path — claim integration</p>
+          <p class="govuk-hint"><a href="/new-user/services" class="govuk-link">Your services (empty)</a> &gt; <a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/confirm-claim" class="govuk-link">Confirm claim</a> &gt; <a href="/migrate/claimed" class="govuk-link">Success</a></p>
+        </li>
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — cannot find client ID</p>
+          <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/cannot-find-client" class="govuk-link">Cannot find client ID</a></p>
+        </li>
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — already claimed</p>
+          <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/already-claimed" class="govuk-link">Already claimed</a></p>
+        </li>
+      </ul>
+
       <h2 class="govuk-heading-m">Team members</h2>
 
       <ul class="govuk-list govuk-list--spaced">

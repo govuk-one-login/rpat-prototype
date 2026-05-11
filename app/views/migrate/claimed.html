@@ -1,0 +1,42 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Integration claimed" %}
+
+
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Integration claimed",
+        html: "Apply for a county court judgment<br>has been added to your services"
+      }) }}
+
+      <h2 class="govuk-heading-m">What you can do now</h2>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>view your integration and production clients</li>
+        <li>edit your integration configuration</li>
+        <li>invite team members to help manage this service</li>
+      </ul>
+
+      {{ govukWarningText({
+        text: "You are the only person with access to this service. If you leave or lose access, no one else can manage it.",
+        iconFallbackText: "Warning"
+      }) }}
+
+      <p class="govuk-body">We recommend inviting at least one other team member now.</p>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Invite a team member",
+          href: "/not-yet-built"
+        }) }}
+
+        <a href="/not-yet-built" class="govuk-link">Go to your service</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Claim an existing integration" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/new-user/services"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Claim an existing integration</h1>
+
+      <p class="govuk-body">If you have already set up an integration using the previous admin tool, you can bring it into this service.</p>
+
+      <p class="govuk-body">You will need your client ID. You can find this in the previous admin tool or in your application's configuration.</p>
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: error,
+              href: "#client-id"
+            }
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/migrate/enter-client-id">
+
+        {{ govukInput({
+          label: {
+            text: "Client ID",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "For example, a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          id: "client-id",
+          name: "clientId",
+          value: data['clientId'],
+          errorMessage: { text: error } if error,
+          classes: "govuk-input--width-20",
+          spellcheck: false
+        }) }}
+
+        {{ govukButton({
+          text: "Find integration"
+        }) }}
+
+      </form>
+
+      <p class="govuk-body">
+        <a href="/migrate/cannot-find-client" class="govuk-link">I cannot find my client ID</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

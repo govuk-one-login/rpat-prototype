@@ -1,0 +1,42 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Get help claiming your integration" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Get help claiming your integration</h1>
+
+      <p class="govuk-body">If you cannot find your client ID, or we cannot match it to your account, you will need to contact the One Login team to claim your integration manually.</p>
+
+      <h2 class="govuk-heading-m">Where to find your client ID</h2>
+
+      <p class="govuk-body">Your client ID is a unique identifier assigned when your integration was created. You can find it:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>in the previous admin tool, on your service page</li>
+        <li>in your application's configuration, usually labelled <code>client_id</code></li>
+        <li>by asking your technical team</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">If you still cannot find it</h2>
+
+      <p class="govuk-body">Raise a request and the One Login team will help you claim your integration.</p>
+
+      {{ govukButton({
+        text: "Raise a support request",
+        href: "/not-yet-built"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}
