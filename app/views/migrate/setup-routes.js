@@ -32,9 +32,17 @@ function setupMigrateRoutes(router) {
       return res.redirect("/migrate/cannot-find-client");
     }
 
-    // Happy path - any other value proceeds to confirm
-    // Store in session for confirm page
+    // Check for duplicate
     req.session.data = req.session.data || {};
+    const claimed = req.session.data["claimed-clients"] || [];
+    if (claimed.some(c => c.clientId === clientId)) {
+      return res.render("migrate/enter-client-id.html", {
+        error: "You have already added this client ID",
+        "clientId": clientId
+      });
+    }
+
+    // Happy path - any other value proceeds to confirm
     req.session.data["migrate-client-id"] = clientId;
     res.redirect("/migrate/confirm-claim");
   });
@@ -46,12 +54,32 @@ function setupMigrateRoutes(router) {
 
   // Confirm claim - POST
   router.post("/migrate/confirm-claim", (req, res) => {
+    req.session.data = req.session.data || {};
+    req.session.data["claimed-clients"] = req.session.data["claimed-clients"] || [];
+    req.session.data["claimed-clients"].push({
+      clientId: req.session.data["migrate-client-id"] || "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      environment: "Integration"
+    });
+    res.redirect("/migrate/add-another");
+  });
+
+  // Add another - GET
+  router.get("/migrate/add-another", (req, res) => {
+    res.render("migrate/add-another.html");
+  });
+
+  // Add another - POST
+  router.post("/migrate/add-another", (req, res) => {
+    if (req.body.addAnother === "yes") {
+      return res.redirect("/migrate/enter-client-id");
+    }
     res.redirect("/migrate/claimed");
   });
 
   // Success
   router.get("/migrate/claimed", (req, res) => {
-    res.render("migrate/claimed.html");
+    const claimedClients = (req.session.data && req.session.data["claimed-clients"]) || [];
+    res.render("migrate/claimed.html", { claimedClients });
   });
 
   // Cannot find client ID

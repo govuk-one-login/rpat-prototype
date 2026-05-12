@@ -1,25 +1,30 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Integration claimed" %}
-
-
+{% set pageName = "Integrations claimed" %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       {{ govukPanel({
-        titleText: "Integration claimed",
+        titleText: "Integrations claimed",
         html: "Apply for a county court judgment<br>has been added to your services"
       }) }}
 
-      <h2 class="govuk-heading-m">What you can do now</h2>
+      <h2 class="govuk-heading-m">Integrations added</h2>
 
-      <ul class="govuk-list govuk-list--bullet">
-        <li>view your integration and production clients</li>
-        <li>edit your integration configuration</li>
-        <li>invite team members to help manage this service</li>
-      </ul>
+      {% set tableRows = [] %}
+      {% for client in claimedClients %}
+        {% set tableRows = (tableRows.push([{ html: '<code class="app-code">' + client.clientId + '</code>' }, { text: client.environment }]), tableRows) %}
+      {% endfor %}
+
+      {{ govukTable({
+        head: [
+          { text: "Client ID" },
+          { text: "Environment" }
+        ],
+        rows: tableRows
+      }) if claimedClients.length > 0 }}
 
       {{ govukWarningText({
         text: "You are the only person with access to this service. If you leave or lose access, no one else can manage it.",
