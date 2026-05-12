@@ -14,14 +14,13 @@
 
       {% set tableRows = [] %}
       {% for client in data['claimed-clients'] %}
-        {% set tableRows = (tableRows.push([{ text: client.clientName }, { html: '<code class="app-code">' + client.clientId + '</code>' }, { text: client.environment }]), tableRows) %}
+        {% set tableRows = (tableRows.push([{ text: client.clientName }, { html: '<code class="app-code">' + client.clientId + '</code>' }]), tableRows) %}
       {% endfor %}
 
       {{ govukTable({
         head: [
           { text: "Client name" },
-          { text: "Client ID" },
-          { text: "Environment" }
+          { text: "Client ID" }
         ],
         rows: tableRows
       }) }}
