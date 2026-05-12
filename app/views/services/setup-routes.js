@@ -52,10 +52,6 @@ function setupServiceRoutes(router) {
         res.render("accept-invite/index.html");
     });
 
-    router.post("/accept-invite/confirm", (req, res) => {
-        res.render("accept-invite/confirmed.html");
-    });
-
     router.get("/accept-invite/confirm", (req, res) => {
         res.render("accept-invite/confirmed.html");
     });

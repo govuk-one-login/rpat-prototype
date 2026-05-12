@@ -30,11 +30,10 @@
 
       <p class="govuk-body">By accepting this invitation, you will be able to manage clients and edit service settings.</p>
 
-      <form method="post" action="/accept-invite/confirm">
-        {{ govukButton({
-          text: "Accept and join service"
-        }) }}
-      </form>
+      {{ govukButton({
+        text: "Accept and join service",
+        href: "/accept-invite/confirm"
+      }) }}
 
     </div>
   </div>
