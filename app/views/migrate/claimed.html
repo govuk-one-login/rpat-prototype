@@ -7,11 +7,10 @@
     <div class="govuk-grid-column-two-thirds">
 
       {{ govukPanel({
-        titleText: "Integrations claimed",
-        html: "Apply for a county court judgment<br>has been added to your services"
+        titleText: "Integrations claimed"
       }) }}
 
-      <h2 class="govuk-heading-m">Integrations added</h2>
+      <h2 class="govuk-heading-m">Integrations added to your service</h2>
 
       {% set tableRows = [] %}
       {% for client in claimedClients %}
@@ -39,7 +38,7 @@
           href: "/not-yet-built"
         }) }}
 
-        <a href="/not-yet-built" class="govuk-link">Go to your service</a>
+        <a href="/new-user/services/view-service" class="govuk-link">Go to your service</a>
       </div>
 
     </div>

@@ -80,6 +80,10 @@ function setupMigrateRoutes(router) {
   router.get("/migrate/claimed", (req, res) => {
     const claimedClients = (req.session.data && req.session.data["claimed-clients"]) || [];
     res.render("migrate/claimed.html", { claimedClients });
+    // Reset for next time
+    if (req.session.data) {
+      req.session.data["claimed-clients"] = [];
+    }
   });
 
   // Cannot find client ID

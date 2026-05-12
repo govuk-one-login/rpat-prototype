@@ -1,12 +1,12 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Claim an existing integration" %}
+{% set pageName = "Claim a client from the previous admin tool" %}
 
 {% block beforeContent %}
   {{ super() }}
   {{ govukBackLink({
     text: "Back",
-    href: "/new-user/services"
+    href: "/new-user/services/view-service"
   }) }}
 {% endblock %}
 
@@ -14,7 +14,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">Claim an existing integration</h1>
+      <h1 class="govuk-heading-l">Claim a client from the previous admin tool</h1>
 
       <p class="govuk-body">If you have already set up an integration using the previous admin tool, you can bring it into this service.</p>
 
