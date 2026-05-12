@@ -1,0 +1,33 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Your account" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Your account</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Email address" },
+            value: { text: "mark.williams2@dsit.gov.uk" }
+          },
+          {
+            key: { text: "Password" },
+            value: { text: "Last updated Monday, 10 November 2025" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "password"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+    </div>
+  </div>
+{% endblock %}
