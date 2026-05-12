@@ -58,6 +58,7 @@ function setupMigrateRoutes(router) {
     req.session.data["claimed-clients"] = req.session.data["claimed-clients"] || [];
     req.session.data["claimed-clients"].push({
       clientId: req.session.data["migrate-client-id"] || "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      clientName: "Apply for a county court judgment",
       environment: "Integration"
     });
     res.redirect("/migrate/add-another");
