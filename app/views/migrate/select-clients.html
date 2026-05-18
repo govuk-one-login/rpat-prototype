@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "We found your integrations" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/new-user/services/view-service"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: error,
+              href: "#clients"
+            }
+          ]
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">We found {{ foundClients.length }} {{ "integration" if foundClients.length == 1 else "integrations" }} linked to your email</h1>
+
+      <p class="govuk-body">Select the integrations you want to add to this service.</p>
+
+      <form method="post" action="/migrate/select-clients">
+
+        {% set clientItems = [] %}
+        {% for client in foundClients %}
+          {% set clientItems = (clientItems.push({
+            value: client.clientId,
+            text: client.clientName,
+            hint: { text: "Client ID: " + client.clientId + " — " + client.environment }
+          }), clientItems) %}
+        {% endfor %}
+
+        {{ govukCheckboxes({
+          name: "clients",
+          fieldset: {
+            legend: {
+              text: "Integrations",
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          errorMessage: { text: error } if error,
+          items: clientItems
+        }) }}
+
+        {{ govukButton({
+          text: "Claim selected integrations"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

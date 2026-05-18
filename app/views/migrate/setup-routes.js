@@ -1,8 +1,83 @@
 // Migration journey routes
 
+// Mock data: clients associated with emails in the old SSE tool
+const sseClients = {
+  "sarah.thompson@education.gov.uk": [
+    {
+      clientId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      clientName: "Apply for a county court judgment",
+      environment: "Integration",
+      redirectUrl: "https://apply.example.justice.gov.uk/callback"
+    },
+    {
+      clientId: "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      clientName: "Apply for a county court judgment",
+      environment: "Production",
+      redirectUrl: "https://apply.justice.gov.uk/callback"
+    },
+    {
+      clientId: "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      clientName: "Register trainee teachers",
+      environment: "Integration",
+      redirectUrl: "https://dev.register-trainee-teachers.education.gov.uk/callback"
+    }
+  ]
+};
+
 function setupMigrateRoutes(router) {
 
-  // Entry point - GET
+  // Email journey - automatically finds clients for the logged-in user
+  router.get("/migrate/find-by-email", (req, res) => {
+    const userEmail = "sarah.thompson@education.gov.uk"; // inferred from login
+    const foundClients = sseClients[userEmail] || [];
+
+    if (foundClients.length === 0) {
+      return res.redirect("/migrate/no-clients-found");
+    }
+
+    req.session.data = req.session.data || {};
+    req.session.data["found-clients"] = foundClients;
+    res.redirect("/migrate/select-clients");
+  });
+
+  // Select clients - GET
+  router.get("/migrate/select-clients", (req, res) => {
+    const foundClients = (req.session.data && req.session.data["found-clients"]) || [];
+    res.render("migrate/select-clients.html", { foundClients, error: null });
+  });
+
+  // Select clients - POST
+  router.post("/migrate/select-clients", (req, res) => {
+    let selected = req.body.clients;
+    const foundClients = (req.session.data && req.session.data["found-clients"]) || [];
+
+    if (!selected) {
+      return res.render("migrate/select-clients.html", {
+        foundClients,
+        error: "Select at least one integration to claim"
+      });
+    }
+
+    // Normalise to array
+    if (!Array.isArray(selected)) selected = [selected];
+
+    const claimed = foundClients.filter(c => selected.includes(c.clientId));
+    req.session.data["email-claimed-clients"] = claimed;
+    res.redirect("/migrate/email-claimed");
+  });
+
+  // Email claimed success
+  router.get("/migrate/email-claimed", (req, res) => {
+    const claimedClients = (req.session.data && req.session.data["email-claimed-clients"]) || [];
+    res.render("migrate/email-claimed.html", { claimedClients });
+  });
+
+  // No clients found
+  router.get("/migrate/no-clients-found", (req, res) => {
+    res.render("migrate/no-clients-found.html");
+  });
+
+  // Client ID journey - Entry point - GET
   router.get("/migrate/enter-client-id", (req, res) => {
     res.render("migrate/enter-client-id.html", {
       error: null

@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "We could not find any integrations" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/new-user/services/view-service"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">We could not find any integrations linked to that email</h1>
+
+      <p class="govuk-body">We could not find any integrations in the previous admin tool associated with that email address.</p>
+
+      <p class="govuk-body">This could be because:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>you used a different email address in the previous admin tool</li>
+        <li>your integrations have already been claimed by someone else</li>
+        <li>your account in the previous admin tool was set up under a different person's email</li>
+      </ul>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Enter a client ID instead",
+          href: "/migrate/enter-client-id"
+        }) }}
+
+        <a href="/new-user/services/view-service" class="govuk-link">Go back to your service</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

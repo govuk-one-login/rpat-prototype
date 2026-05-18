@@ -1,0 +1,48 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Integrations claimed" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Integrations claimed",
+        html: "You have claimed " + claimedClients.length + " " + ("integration" if claimedClients.length == 1 else "integrations")
+      }) }}
+
+      <h2 class="govuk-heading-m">Integrations added to your service</h2>
+
+      {% set tableRows = [] %}
+      {% for client in claimedClients %}
+        {% set tableRows = (tableRows.push([{ text: client.clientName }, { html: '<code class="app-code">' + client.clientId + '</code>' }, { text: client.environment }]), tableRows) %}
+      {% endfor %}
+
+      {{ govukTable({
+        head: [
+          { text: "Client name" },
+          { text: "Client ID" },
+          { text: "Environment" }
+        ],
+        rows: tableRows
+      }) if claimedClients.length > 0 }}
+
+      {{ govukWarningText({
+        text: "You are the only person with access to this service. If you leave or lose access, no one else can manage it.",
+        iconFallbackText: "Warning"
+      }) }}
+
+      <p class="govuk-body">We recommend inviting at least one other team member now.</p>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Invite a team member",
+          href: "/not-yet-built"
+        }) }}
+
+        <a href="/new-user/services/view-service" class="govuk-link">Go to your service</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
