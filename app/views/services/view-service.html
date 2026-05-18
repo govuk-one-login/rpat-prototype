@@ -78,7 +78,9 @@
           ]
         }) }}
 
-        <p class="govuk-body">You do not have a production client yet. When you have completed testing with an integration client you can request to go live.</p>
+        {{ govukInsetText({
+          text: "You do not have a production client yet. When you have completed testing with an integration client you can request to go live."
+        }) }}
       {% endif %}
 
       <h2 class="govuk-heading-m">Integration Clients</h2>
