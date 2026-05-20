@@ -24,20 +24,83 @@
 
       <h2 class="govuk-heading-m">Create and configure services and clients</h2>
 
+      <h3 class="govuk-heading-s">View all services</h3>
+
       <ul class="govuk-list govuk-list--spaced">
-        <li><a href="/create-client-key-warning/start-page" class="govuk-link">Create client (with warning)</a></li>
-        <li><a href="/create-client-key-warning-hint/start-page" class="govuk-link">Create client (with warning as hint)</a></li>
-        <li><a href="/create-client-identity-flow/start-page" class="govuk-link">Create client (with identity flow)</a></li>
+        <li>
+          <p class="govuk-hint"><a href="/new-user/services" class="govuk-link">Your services (empty)</a> &gt; <a href="/new-user/create-service" class="govuk-link">Create service</a> &gt; <a href="/new-user/services/view-service" class="govuk-link">View service</a></p>
+        </li>
+        <li><a href="/services" class="govuk-link">Your services (returning user/with services)</a></li>
 
       </ul>
+ <h3 class="govuk-heading-s">Claim an existing integration (migration)</h3>
 
+      <div class="govuk-!-margin-left-4">
+        <h3 class="govuk-heading-s">Option A — Find by email (automatic lookup)</h3>
+
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <p class="govuk-body govuk-!-font-weight-bold">Happy path — finds integrations linked to logged-in email</p>
+            <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/find-by-email" class="govuk-link">Find by email</a> &gt; <a href="/migrate/select-clients" class="govuk-link">Select integrations</a> &gt; <a href="/migrate/email-claimed" class="govuk-link">Success</a></p>
+          </li>
+          <li>
+            <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — no integrations found for email</p>
+            <p class="govuk-hint"><a href="/migrate/no-clients-found" class="govuk-link">No integrations found</a></p>
+          </li>
+        </ul>
+
+        <h3 class="govuk-heading-s">Option B — Enter client ID manually</h3>
+
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <p class="govuk-body govuk-!-font-weight-bold">Happy path — create service then claim integration(s)</p>
+            <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/confirm-claim" class="govuk-link">Confirm claim</a> &gt; <a href="/migrate/add-another" class="govuk-link">Add another?</a> &gt; <a href="/migrate/claimed" class="govuk-link">Success</a></p>
+          </li>
+          <li>
+            <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — cannot find client ID</p>
+            <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/cannot-find-client" class="govuk-link">Cannot find client ID</a></p>
+          </li>
+          <li>
+            <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — already claimed</p>
+            <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/already-claimed" class="govuk-link">Already claimed</a></p>
+          </li>
+        </ul>
+      </div>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">View client details</h2>
+      <h3 class="govuk-heading-s">Create client (with warning)</h3>
 
       <ul class="govuk-list govuk-list--spaced">
-        <li><a href="/view-client/view-all-details-with-sections-cards" class="govuk-link">View client details</a></li>
-        <li><a href="/view-client/edit-all-details-with-sections-validation" class="govuk-link">Edit client details (error states)</a></li>
+        <li>
+          <p class="govuk-hint"><a href="/create-client-key-warning/start-page" class="govuk-link">Start</a> &gt; <a href="/create-client-key-warning/enter-client-name" class="govuk-link">Enter client name</a> &gt; <a href="/create-client-key-warning/select-scopes" class="govuk-link">Select scopes</a> &gt; <a href="/create-client-key-warning/redirect-urls" class="govuk-link">Redirect URLs</a> &gt; <a href="/create-client-key-warning/select-key-type" class="govuk-link">Select key type</a> &gt; <a href="/create-client-key-warning/confirm" class="govuk-link">Confirm</a></p>
+        </li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Create client (with warning as hint)</h3>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <p class="govuk-hint"><a href="/create-client-key-warning-hint/start-page" class="govuk-link">Start</a> &gt; <a href="/create-client-key-warning-hint/enter-client-name" class="govuk-link">Enter client name</a> &gt; <a href="/create-client-key-warning-hint/select-scopes" class="govuk-link">Select scopes</a> &gt; <a href="/create-client-key-warning-hint/redirect-urls" class="govuk-link">Redirect URLs</a> &gt; <a href="/create-client-key-warning-hint/select-key-type" class="govuk-link">Select key type</a> &gt; <a href="/create-client-key-warning-hint/confirm" class="govuk-link">Confirm</a></p>
+        </li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Create client (with identity flow)</h3>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <p class="govuk-hint"><a href="/create-client-identity-flow/start-page" class="govuk-link">Start</a> &gt; <a href="/create-client-identity-flow/enter-client-name" class="govuk-link">Enter client name</a> &gt; <a href="/create-client-identity-flow/select-scopes" class="govuk-link">Select scopes</a> &gt; <a href="/create-client-identity-flow/is-identity-verification-supported" class="govuk-link">Identity verification?</a> &gt; <a href="/create-client-identity-flow/select-levels-of-confidence" class="govuk-link">Levels of confidence</a> &gt; <a href="/create-client-identity-flow/select-claims" class="govuk-link">Select claims</a> &gt; <a href="/create-client-identity-flow/redirect-urls" class="govuk-link">Redirect URLs</a> &gt; <a href="/create-client-identity-flow/landing-page-url" class="govuk-link">Landing page URL</a> &gt; <a href="/create-client-identity-flow/select-key-type" class="govuk-link">Select key type</a> &gt; <a href="/create-client-identity-flow/confirm" class="govuk-link">Confirm</a></p>
+        </li>
+      </ul>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">View and edit client details</p>
+          <p class="govuk-hint"><a href="/view-client/view-all-details-with-sections-cards" class="govuk-link">View client details</a> &gt; <a href="/view-client/edit-all-details-with-sections-validation" class="govuk-link">Edit client details (error states)</a></p>
+        </li>
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Post-create view</p>
+          <p class="govuk-hint"><a href="/view-client/view-all-details-with-sections-cards-post-create" class="govuk-link">View client details (post-create)</a></p>
+        </li>
       </ul>
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -50,51 +113,6 @@
         <li><a href="/view-all-clients/with-headers-sections" class="govuk-link">View all clients (sections)</a></li>
       </ul>
 
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-      <h2 class="govuk-heading-m">View all services</h2>
-
-      <ul class="govuk-list govuk-list--spaced">
-        <li>
-          <p class="govuk-hint"><a href="/new-user/services" class="govuk-link">Your services (empty)</a> &gt; <a href="/new-user/create-service" class="govuk-link">Create service</a> &gt; <a href="/new-user/services/view-service" class="govuk-link">View service</a></p>
-        </li>
-        <li><a href="/services" class="govuk-link">Your services (returning user/with services)</a></li>
-
-      </ul>
-
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-      <h2 class="govuk-heading-m">Claim an existing integration (migration)</h2>
-
-      <h3 class="govuk-heading-s">Option A — Find by email (automatic lookup)</h3>
-
-      <ul class="govuk-list govuk-list--spaced">
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Happy path — finds integrations linked to logged-in email</p>
-          <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/find-by-email" class="govuk-link">Find by email</a> &gt; <a href="/migrate/select-clients" class="govuk-link">Select integrations</a> &gt; <a href="/migrate/email-claimed" class="govuk-link">Success</a></p>
-        </li>
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — no integrations found for email</p>
-          <p class="govuk-hint"><a href="/migrate/no-clients-found" class="govuk-link">No integrations found</a></p>
-        </li>
-      </ul>
-
-      <h3 class="govuk-heading-s">Option B — Enter client ID manually</h3>
-
-      <ul class="govuk-list govuk-list--spaced">
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Happy path — create service then claim integration(s)</p>
-          <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/confirm-claim" class="govuk-link">Confirm claim</a> &gt; <a href="/migrate/add-another" class="govuk-link">Add another?</a> &gt; <a href="/migrate/claimed" class="govuk-link">Success</a></p>
-        </li>
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — cannot find client ID</p>
-          <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/cannot-find-client" class="govuk-link">Cannot find client ID</a></p>
-        </li>
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — already claimed</p>
-          <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/already-claimed" class="govuk-link">Already claimed</a></p>
-        </li>
-      </ul>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
       <h2 class="govuk-heading-m">Maintain and govern clients and services</h2>
