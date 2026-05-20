@@ -1,0 +1,56 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Remove team member - " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: "Team members", href: "/services/" + service.id + "/team-members" },
+      { text: "Remove team member" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Are you sure you want to remove {{ member.name }}?</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Name" },
+            value: { text: member.name }
+          },
+          {
+            key: { text: "Email" },
+            value: { text: member.email }
+          },
+          {
+            key: { text: "Service" },
+            value: { text: service.name }
+          }
+        ]
+      }) }}
+
+      <p class="govuk-body">They will no longer be able to manage clients or edit settings for this service.</p>
+
+      <form method="post" action="/services/{{ service.id }}/team-members/{{ memberIndex }}/remove">
+        {{ govukButton({
+          text: "Yes, remove " + member.name,
+          classes: "govuk-button--warning"
+        }) }}
+      </form>
+
+      <a class="govuk-link" href="/services/{{ service.id }}/team-members">Cancel</a>
+
+    </div>
+  </div>
+{% endblock %}

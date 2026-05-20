@@ -50,6 +50,7 @@
             {% if member.status !== "active" %}
               <span class="govuk-body"> (invited)</span>
             {% endif %}
+            <a class="govuk-link govuk-!-margin-left-4" href="/services/{{ service.id }}/team-members/{{ loop.index0 }}/remove">Remove</a>
           </div>
         </div>
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
