@@ -40,49 +40,30 @@
         href: "/services/" + service.id + "/team-members/invite"
       }) }}
 
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
       {% for member in service.teamMembers %}
-        {{ govukSummaryList({
-          card: {
-            title: { text: member.name }
-          },
-          rows: [
-            {
-              key: { text: "Email" },
-              value: { text: member.email }
-            },
-            {
-              key: { text: "Status" },
-              value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if member.status === "active" else '<strong class="govuk-tag govuk-tag--yellow">Invited</strong>' }
-            }
-          ]
-        }) }}
+        <div class="govuk-!-margin-bottom-4">
+          <div class="govuk-!-margin-bottom-2">
+            <span class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">{{ member.name }}</span>
+            <span class="govuk-body govuk-!-margin-bottom-0"> — {{ member.email }}</span>
+            {% if member.status !== "active" %}
+              <span class="govuk-body"> (invited)</span>
+            {% endif %}
+          </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       {% endfor %}
 
       {% if invitedEmail %}
-        {{ govukSummaryList({
-          card: {
-            title: { text: invitedEmail },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Cancel invitation",
-                  visuallyHiddenText: "for " + invitedEmail
-                }
-              ]
-            }
-          },
-          rows: [
-            {
-              key: { text: "Email" },
-              value: { text: invitedEmail }
-            },
-            {
-              key: { text: "Status" },
-              value: { html: '<strong class="govuk-tag govuk-tag--yellow">Invited</strong>' }
-            }
-          ]
-        }) }}
+        <div class="govuk-!-margin-bottom-4">
+          <div class="govuk-!-margin-bottom-2">
+            <span class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">{{ invitedEmail }}</span>
+            <span class="govuk-body"> (invited)</span>
+            <a class="govuk-link govuk-!-margin-left-4" href="#">Cancel invitation</a>
+          </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       {% endif %}
 
     </div>
