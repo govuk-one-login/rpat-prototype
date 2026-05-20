@@ -29,7 +29,7 @@
       <h1 class="govuk-heading-l">{{ service.name }}</h1>
       <p class="govuk-body">{{ service.description }}</p>
 
-      <h2 class="govuk-heading-m">Production Clients</h2>
+      <h2 class="govuk-heading-m">Production Client</h2>
 
       {% if service.production %}
         {{ govukSummaryList({
@@ -109,11 +109,9 @@
         classes: "govuk-button--secondary"
       }) }}
 
-      {{ govukButton({
-        text: "Migrate existing client",
-        href: "/not-yet-built",
-        classes: "govuk-button--secondary"
-      }) }}
+      <p class="govuk-body">
+        <a href="/migrate/find-by-email" class="govuk-link">Claim integrations from the previous admin tool</a>
+      </p>
 
     </div>
   </div>

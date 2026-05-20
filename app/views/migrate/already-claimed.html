@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "This integration has already been claimed" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">This integration has already been claimed</h1>
+
+      <p class="govuk-body">The client ID you entered has already been added to another account.</p>
+
+      <p class="govuk-body">If you think this is a mistake — for example, if a colleague claimed it and you also need access — ask them to invite you as a team member from their service page.</p>
+
+      <p class="govuk-body">If you believe your integration has been claimed incorrectly, contact the One Login team.</p>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Raise a support request",
+          href: "/not-yet-built"
+        }) }}
+
+        <a href="/migrate/enter-client-id" class="govuk-link">Try a different client ID</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

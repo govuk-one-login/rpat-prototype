@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Do you have more integrations to add to this service?" %}
+
+{% block beforeContent %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">You have added {{ data['claimed-clients'].length }} {{ "integration" if data['claimed-clients'].length == 1 else "integrations" }}</h1>
+
+      {% set tableRows = [] %}
+      {% for client in data['claimed-clients'] %}
+        {% set tableRows = (tableRows.push([{ text: client.clientName }, { html: '<code class="app-code">' + client.clientId + '</code>' }]), tableRows) %}
+      {% endfor %}
+
+      {{ govukTable({
+        head: [
+          { text: "Client name" },
+          { text: "Client ID" }
+        ],
+        rows: tableRows
+      }) }}
+
+      <form method="post" action="/migrate/add-another">
+
+        {{ govukRadios({
+          name: "addAnother",
+          fieldset: {
+            legend: {
+              text: "Do you have more integrations to add to this service?",
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            { value: "yes", text: "Yes" },
+            { value: "no", text: "No" }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
