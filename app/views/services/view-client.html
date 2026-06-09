@@ -3,7 +3,7 @@
 {% set isIntegration = (envType == "integration") %}
 {% set envLabel = "Integration" if isIntegration else "Production" %}
 {% set tagColour = "govuk-tag--blue" if isIntegration else "govuk-tag--green" %}
-{% set editBase = "/view-client-editable/edit-" %}
+{% set editBase = "/view-client-editable/" %}
 {% set pageName = config.name + " (" + envLabel + ") – " + service.name %}
 
 {% block beforeContent %}
