@@ -16,6 +16,8 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body"><a href="https://docs.sign-in.service.gov.uk/integrate-with-integration-environment/prove-users-identity/" class="govuk-link" rel="noreferrer noopener" target="_blank">Get guidance on identity claims (opens in a new tab)</a></p>
+
       <form class="form" action="/create-client-identity-flow/landing-page-url" method="post">
 
         {{ govukCheckboxes({
@@ -32,26 +34,31 @@
           },
           items: [
             {
-              value: "core-identity",
+              value: "https://vocab.account.gov.uk/v1/coreIdentityJWT",
               text: "Core Identity",
+              hint: { text: "https://vocab.account.gov.uk/v1/coreIdentityJWT" },
               checked: true,
               disabled: true
             },
             {
-              value: "{assport",
-              text: "passport"
+              value: "https://vocab.account.gov.uk/v1/passport",
+              text: "Passport",
+              hint: { text: "https://vocab.account.gov.uk/v1/passport" }
             },
             {
-              value: "Address",
-              text: "Address"
+              value: "https://vocab.account.gov.uk/v1/address",
+              text: "Address",
+              hint: { text: "https://vocab.account.gov.uk/v1/address" }
             },
             {
-              value: "Driving Permit",
-              text: "Driving Permit"
+              value: "https://vocab.account.gov.uk/v1/drivingPermit",
+              text: "Driving Permit",
+              hint: { text: "https://vocab.account.gov.uk/v1/drivingPermit" }
             },
             {
-              value: "Return Code",
-              text: "Return Code"
+              value: "https://vocab.account.gov.uk/v1/returnCode",
+              text: "Return Code",
+              hint: { text: "https://vocab.account.gov.uk/v1/returnCode" }
             }
           ]
         }) }}
