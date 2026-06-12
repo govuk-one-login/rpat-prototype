@@ -14,17 +14,17 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">Access and Onboard</h2>
+      <h2 class="govuk-heading-m">1. Access and Onboard</h2>
 
       <ul class="govuk-list govuk-list--spaced">
-        <li><a href="/your-account" class="govuk-link">View and update my own account</a></li>
+        <li>1.1 <a href="/your-account" class="govuk-link">View and update my own account</a></li>
       </ul>
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">Create and configure services and clients</h2>
+      <h2 class="govuk-heading-m">2. Create and configure services and clients</h2>
 
-      <h3 class="govuk-heading-s">View all services</h3>
+      <h3 class="govuk-heading-s">2.1 View all services</h3>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
@@ -33,28 +33,30 @@
         <li><a href="/services" class="govuk-link">Your services (returning user/with services)</a></li>
 
       </ul>
- <h3 class="govuk-heading-s">Claim an existing integration (migration)</h3>
+ <h3 class="govuk-heading-s">2.2 Claim an existing integration (migration)</h3>
 
       <div class="govuk-!-margin-left-4">
-        <h3 class="govuk-heading-s">Option A — Find by email (automatic lookup)</h3>
+        <h3 class="govuk-heading-s">2.2a — Find by email (automatic lookup)</h3>
+        <p class="govuk-hint">Entry point from <a href="/new-user/view-service" class="govuk-link">View service</a> page. This is the only migration link visible to the user.</p>
 
         <ul class="govuk-list govuk-list--spaced">
           <li>
             <p class="govuk-body govuk-!-font-weight-bold">Happy path — finds integrations linked to logged-in email</p>
-            <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/find-by-email" class="govuk-link">Find by email</a> &gt; <a href="/migrate/select-clients" class="govuk-link">Select integrations</a> &gt; <a href="/migrate/email-claimed" class="govuk-link">Success</a></p>
+            <p class="govuk-hint"><a href="/migrate/find-by-email" class="govuk-link">Find by email</a> &gt; <a href="/migrate/select-clients" class="govuk-link">Select integrations</a> &gt; <a href="/migrate/email-claimed" class="govuk-link">Success</a></p>
           </li>
           <li>
-            <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — no integrations found for email</p>
-            <p class="govuk-hint"><a href="/migrate/no-clients-found" class="govuk-link">No integrations found</a></p>
+            <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — no integrations found for email (leads to Option B)</p>
+            <p class="govuk-hint"><a href="/migrate/no-clients-found" class="govuk-link">No integrations found</a> &gt; "Enter a client ID instead"</p>
           </li>
         </ul>
 
-        <h3 class="govuk-heading-s">Option B — Enter client ID manually</h3>
+        <h3 class="govuk-heading-s">2.2b — Enter client ID manually</h3>
+        <p class="govuk-hint">Only reachable from Option A's unhappy path. There is no direct link to this from the service page.</p>
 
         <ul class="govuk-list govuk-list--spaced">
           <li>
-            <p class="govuk-body govuk-!-font-weight-bold">Happy path — create service then claim integration(s)</p>
-            <p class="govuk-hint"><a href="/new-user/services/view-service" class="govuk-link">View service</a> &gt; <a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/confirm-claim" class="govuk-link">Confirm claim</a> &gt; <a href="/migrate/add-another" class="govuk-link">Add another?</a> &gt; <a href="/migrate/claimed" class="govuk-link">Success</a></p>
+            <p class="govuk-body govuk-!-font-weight-bold">Happy path — claim integration(s) by client ID</p>
+            <p class="govuk-hint"><a href="/migrate/enter-client-id" class="govuk-link">Enter client ID</a> &gt; <a href="/migrate/confirm-claim" class="govuk-link">Confirm claim</a> &gt; <a href="/migrate/add-another" class="govuk-link">Add another?</a> &gt; <a href="/migrate/claimed" class="govuk-link">Success</a></p>
           </li>
           <li>
             <p class="govuk-body govuk-!-font-weight-bold">Unhappy path — cannot find client ID</p>
@@ -68,7 +70,7 @@
       </div>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h3 class="govuk-heading-s">Create client (with warning)</h3>
+      <h3 class="govuk-heading-s">2.3 Create client (with warning)</h3>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
@@ -76,7 +78,7 @@
         </li>
       </ul>
 
-      <h3 class="govuk-heading-s">Create client (with warning as hint)</h3>
+      <h3 class="govuk-heading-s">2.4 Create client (with warning as hint)</h3>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
@@ -84,7 +86,7 @@
         </li>
       </ul>
 
-      <h3 class="govuk-heading-s">Create client (with identity flow)</h3>
+      <h3 class="govuk-heading-s">2.5 Create client (with identity flow)</h3>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
@@ -105,7 +107,7 @@
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">View all clients (no service/client split)</h2>
+      <h2 class="govuk-heading-m">3. View all clients (no service/client split)</h2>
 
       <ul class="govuk-list govuk-list--spaced">
         <li><a href="/view-all-clients/with-cards-header-tags" class="govuk-link">View all clients (header tags)</a></li>
@@ -115,29 +117,29 @@
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">Maintain and govern clients and services</h2>
+      <h2 class="govuk-heading-m">4. Maintain and govern clients and services</h2>
       
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">Manage team and permissions</h2>
+      <h2 class="govuk-heading-m">5. Manage team and permissions</h2>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Invite another team member</p>
+          <p class="govuk-body govuk-!-font-weight-bold">5.1 Invite another team member</p>
           <p class="govuk-hint"><a href="/services/apprenticeship-digital-cert" class="govuk-link">View service</a> &gt; <a href="/services/apprenticeship-digital-cert/team-members" class="govuk-link">Team members</a> &gt; <a href="/services/apprenticeship-digital-cert/team-members/invite" class="govuk-link">Invite a team member</a> &gt; Enter email &gt; <a href="/services/apprenticeship-digital-cert/team-members/invite/sent" class="govuk-link">Confirmation</a></p>
         </li>
         <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Accept an invite and join service</p>
+          <p class="govuk-body govuk-!-font-weight-bold">5.2 Accept an invite and join service</p>
           <p class="govuk-hint"><a href="/accept-invite" class="govuk-link">Open invite email</a> &gt; <s>Create account or sign in</s> &gt; <a href="/accept-invite/confirm" class="govuk-link">Confirm joining service</a></p>
         </li>
         <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Remove a team member</p>
+          <p class="govuk-body govuk-!-font-weight-bold">5.3 Remove a team member</p>
           <p class="govuk-hint"><a href="/services/apprenticeship-digital-cert/team-members" class="govuk-link">Team members</a> &gt; <a href="/services/apprenticeship-digital-cert/team-members/0/remove" class="govuk-link">Confirm removal</a></p>
         </li>
       </ul>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h2 class="govuk-heading-m">Monitor and troubleshoot my services</h2>
+      <h2 class="govuk-heading-m">6. Monitor and troubleshoot my services</h2>
         <p>N/A</p>
 
     </div>
