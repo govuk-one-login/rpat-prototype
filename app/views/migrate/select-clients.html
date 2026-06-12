@@ -26,9 +26,9 @@
         }) }}
       {% endif %}
 
-      <h1 class="govuk-heading-l">We found {{ foundClients.length }} {{ "integration" if foundClients.length == 1 else "integrations" }} linked to your email</h1>
+      <h1 class="govuk-heading-l">We found {{ foundClients.length }} {{ "client" if foundClients.length == 1 else "clients" }} linked to your email</h1>
 
-      <p class="govuk-body">Select the integrations you want to add to this service.</p>
+      <p class="govuk-body">Select the clients you want to add to <strong>{{ serviceName }}</strong>.</p>
 
       <form method="post" action="/migrate/select-clients">
 
@@ -37,7 +37,7 @@
           {% set clientItems = (clientItems.push({
             value: client.clientId,
             text: client.clientName,
-            hint: { text: "Client ID: " + client.clientId + " — " + client.environment }
+            hint: { text: "Client ID: " + client.clientId }
           }), clientItems) %}
         {% endfor %}
 
@@ -45,7 +45,7 @@
           name: "clients",
           fieldset: {
             legend: {
-              text: "Integrations",
+              text: "Clients",
               classes: "govuk-fieldset__legend--m"
             }
           },
@@ -54,7 +54,7 @@
         }) }}
 
         {{ govukButton({
-          text: "Claim selected integrations"
+          text: "Claim selected clients"
         }) }}
 
       </form>

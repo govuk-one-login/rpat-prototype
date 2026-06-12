@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Do you have more integrations to add to this service?" %}
+{% set pageName = "Do you have more clients to add to this service?" %}
 
 {% block beforeContent %}
   {{ super() }}
@@ -10,7 +10,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">You have added {{ data['claimed-clients'].length }} {{ "integration" if data['claimed-clients'].length == 1 else "integrations" }}</h1>
+      <h1 class="govuk-heading-l">You have added {{ data['claimed-clients'].length }} {{ "client" if data['claimed-clients'].length == 1 else "clients" }} to {{ serviceName }}</h1>
 
       {% set tableRows = [] %}
       {% for client in data['claimed-clients'] %}
@@ -31,7 +31,7 @@
           name: "addAnother",
           fieldset: {
             legend: {
-              text: "Do you have more integrations to add to this service?",
+              text: "Do you have more clients to add to this service?",
               classes: "govuk-fieldset__legend--m"
             }
           },

@@ -10,7 +10,7 @@ function setupNewUserServiceRoutes(router) {
     router.get("/new-user/services/view-service", (req, res) => {
         const service = {
             id: "new-id",
-            name: "New Service",
+            name: "Apply for a county court judgment",
             description: "This is a service description. It can be as long as you like, but it should give users a good idea of what the service is for and how to use it.",
             integration: null,
             production: null

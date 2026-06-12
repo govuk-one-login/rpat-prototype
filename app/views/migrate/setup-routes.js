@@ -24,6 +24,8 @@ const sseClients = {
   ]
 };
 
+const serviceName = "Apply for a county court judgment";
+
 function setupMigrateRoutes(router) {
 
   // Email journey - automatically finds clients for the logged-in user
@@ -43,7 +45,7 @@ function setupMigrateRoutes(router) {
   // Select clients - GET
   router.get("/migrate/select-clients", (req, res) => {
     const foundClients = (req.session.data && req.session.data["found-clients"]) || [];
-    res.render("migrate/select-clients.html", { foundClients, error: null });
+    res.render("migrate/select-clients.html", { foundClients, error: null, serviceName });
   });
 
   // Select clients - POST
@@ -54,7 +56,8 @@ function setupMigrateRoutes(router) {
     if (!selected) {
       return res.render("migrate/select-clients.html", {
         foundClients,
-        error: "Select at least one integration to claim"
+        error: "Select at least one client to claim",
+        serviceName
       });
     }
 
@@ -69,7 +72,7 @@ function setupMigrateRoutes(router) {
   // Email claimed success
   router.get("/migrate/email-claimed", (req, res) => {
     const claimedClients = (req.session.data && req.session.data["email-claimed-clients"]) || [];
-    res.render("migrate/email-claimed.html", { claimedClients });
+    res.render("migrate/email-claimed.html", { claimedClients, serviceName });
   });
 
   // No clients found
@@ -140,7 +143,7 @@ function setupMigrateRoutes(router) {
 
   // Add another - GET
   router.get("/migrate/add-another", (req, res) => {
-    res.render("migrate/add-another.html");
+    res.render("migrate/add-another.html", { serviceName });
   });
 
   // Add another - POST
@@ -154,7 +157,7 @@ function setupMigrateRoutes(router) {
   // Success
   router.get("/migrate/claimed", (req, res) => {
     const claimedClients = (req.session.data && req.session.data["claimed-clients"]) || [];
-    res.render("migrate/claimed.html", { claimedClients });
+    res.render("migrate/claimed.html", { claimedClients, serviceName });
     // Reset for next time
     if (req.session.data) {
       req.session.data["claimed-clients"] = [];

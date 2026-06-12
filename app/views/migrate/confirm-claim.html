@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Confirm your integration" %}
+{% set pageName = "Confirm your client" %}
 
 {% block beforeContent %}
   {{ super() }}
@@ -14,9 +14,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">Is this your integration?</h1>
+      <h1 class="govuk-heading-l">Is this your client?</h1>
 
-      <p class="govuk-body">We found an integration matching that client ID. Check the details below before claiming it.</p>
+      <p class="govuk-body">We found a client matching that client ID. Check the details below before claiming it.</p>
 
       {{ govukSummaryList({
         rows: [
@@ -41,17 +41,17 @@
       }) }}
 
       {{ govukInsetText({
-        text: "Claiming this integration will add it to your service as a client."
+        text: "Claiming this client will add it to your service."
       }) }}
 
       <form method="post" action="/migrate/confirm-claim">
 
         {{ govukButton({
-          text: "Claim this integration"
+          text: "Claim this client"
         }) }}
 
         <p class="govuk-body">
-          <a href="/migrate/enter-client-id" class="govuk-link">This is not my integration</a>
+          <a href="/migrate/enter-client-id" class="govuk-link">This is not my client</a>
         </p>
 
       </form>

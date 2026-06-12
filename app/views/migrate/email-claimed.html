@@ -1,17 +1,17 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Integrations claimed" %}
+{% set pageName = "Clients claimed" %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       {{ govukPanel({
-        titleText: "Integrations claimed",
-        html: "You have claimed " + claimedClients.length + " " + ("integration" if claimedClients.length == 1 else "integrations")
+        titleText: "Clients claimed",
+        html: "You have claimed " + claimedClients.length + " " + ("client" if claimedClients.length == 1 else "clients")
       }) }}
 
-      <h2 class="govuk-heading-m">Integrations added to your service</h2>
+      <h2 class="govuk-heading-m">Clients added to {{ serviceName }}</h2>
 
       {% set tableRows = [] %}
       {% for client in claimedClients %}
