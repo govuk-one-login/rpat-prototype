@@ -4,13 +4,7 @@
   Question page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
-{% block beforeContent %}
-  {{ super() }}
-  {{ govukBackLink({
-    text: "Back",
-    href: "javascript:window.history.back()"
-  }) }}
-{% endblock %}
+
 
 {% block content %}
 
@@ -45,6 +39,8 @@
       {{ govukButton({
         text: "Continue"
       }) }}
+
+      <p class="govuk-body"><a href="/services/" class="govuk-link">Cancel</a></p>
 
     </form>
 
