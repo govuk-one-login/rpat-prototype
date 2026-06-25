@@ -21,27 +21,18 @@
       {{ govukSummaryList({
         rows: [
           {
-            key: { text: "Service name" },
+            key: { text: "Client name" },
             value: { text: "Apply for a county court judgment" }
           },
           {
             key: { text: "Client ID" },
             value: { html: '<code class="app-code">a1b2c3d4-e5f6-7890-abcd-ef1234567890</code>' }
-          },
-
-          {
-            key: { text: "Redirect URL" },
-            value: { text: "https://apply.example.justice.gov.uk/callback" }
-          },
-          {
-            key: { text: "Token authentication" },
-            value: { text: "Private key JWT" }
           }
         ]
       }) }}
 
       {{ govukInsetText({
-        text: "Claiming this client will add it to your service."
+        text: "Claiming this client will add it to your service: Example Service Name."
       }) }}
 
       <form method="post" action="/migrate/confirm-claim">
