@@ -39,6 +39,28 @@ function setupServiceRoutes(router) {
         res.render("services/invite-sent.html", { service, invitedEmail: email });
     });
 
+    // Remove team member - confirm page
+    router.get("/services/:serviceId/team-members/:memberIndex/remove", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        const memberIndex = parseInt(req.params.memberIndex);
+        const member = service.teamMembers[memberIndex];
+        if (!member) return res.redirect("/services/" + service.id + "/team-members");
+        res.render("services/remove-team-member.html", { service, member, memberIndex });
+    });
+
+    // Remove team member - submit
+    router.post("/services/:serviceId/team-members/:memberIndex/remove", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        const memberIndex = parseInt(req.params.memberIndex);
+        const member = service.teamMembers[memberIndex];
+        if (!member) return res.redirect("/services/" + service.id + "/team-members");
+        const name = member.name;
+        service.teamMembers.splice(memberIndex, 1);
+        res.redirect("/services/" + service.id + "/team-members?success=" + encodeURIComponent(name + " has been removed"));
+    });
+
     // Invite team member - confirmation (GET for direct linking)
     router.get("/services/:serviceId/team-members/invite/sent", (req, res) => {
         const service = services.find(s => s.id === req.params.serviceId);

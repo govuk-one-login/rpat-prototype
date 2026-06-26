@@ -24,11 +24,14 @@ const {
 const {
   setupNewUserServiceRoutes,
 } = require("./views/new-user/setup-routes");
+const { 
+  setupMigrateRoutes,
+} = require("./views/migrate/setup-routes");
 
 setupKeyWarningRoutes(router);
 setupKeyWarningHintRoutes(router);
 setupCreateClientIdentityFlowRoutes(router);
 setupViewClientEditableRoutes(router);
-
 setupServiceRoutes(router);
 setupNewUserServiceRoutes(router);
+setupMigrateRoutes(router);

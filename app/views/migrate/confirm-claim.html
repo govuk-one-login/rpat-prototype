@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Confirm your client" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Is this your client?</h1>
+
+      <p class="govuk-body">We found a client matching that client ID. Check the details below before claiming it.</p>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: "Client name" },
+            value: { text: "Apply for a county court judgment" }
+          },
+          {
+            key: { text: "Client ID" },
+            value: { html: '<code class="app-code">a1b2c3d4-e5f6-7890-abcd-ef1234567890</code>' }
+          }
+        ]
+      }) }}
+
+      {{ govukInsetText({
+        text: "Claiming this client will add it to your service: Example Service Name."
+      }) }}
+
+      <form method="post" action="/migrate/confirm-claim">
+
+        {{ govukButton({
+          text: "Claim this client"
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/migrate/enter-client-id" class="govuk-link">This is not my client</a>
+        </p>
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

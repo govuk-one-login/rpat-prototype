@@ -1,0 +1,34 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Get help claiming your client" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Get help claiming your client</h1>
+
+      <p class="govuk-body">If you cannot find your client ID, or we cannot match it to your account, you will need to <a href="/not-yet-built" class="govuk-link">contact the One Login team</a> to claim your client manually.</p>
+
+      <h2 class="govuk-heading-m">Where to find your client ID</h2>
+
+      <p class="govuk-body">Your client ID is a unique identifier assigned when your client was created. You can find it:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>in the previous admin tool, on your service page</li>
+        <li>in your application's configuration, usually labelled <code>client_id</code></li>
+        <li>by asking your technical team</li>
+      </ul>
+
+
+    </div>
+  </div>
+{% endblock %}

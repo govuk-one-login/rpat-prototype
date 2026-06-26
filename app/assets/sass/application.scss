@@ -40,6 +40,12 @@
 .govuk-service-navigation__item:last-child {
   margin-left: auto;
 }
+
+.app-code {
+  color: $govuk-error-colour;
+  background: govuk-colour("light-grey");
+  padding: 2px 6px;
+}
 // New header (2025)
 .govuk-header--with-sign-out-link {
    .govuk-header__content {

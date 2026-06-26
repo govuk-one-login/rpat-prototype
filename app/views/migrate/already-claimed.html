@@ -1,0 +1,27 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "This client has already been claimed" %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/migrate/enter-client-id"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">This client has already been claimed</h1>
+
+      <p class="govuk-body">The client ID you entered has already been added to another account.</p>
+
+      <p class="govuk-body">If you think you should have access to this client, <a href="/not-yet-built" class="govuk-link">contact the One Login team</a>.</p>
+
+      <p class="govuk-body"><a href="/migrate/enter-client-id" class="govuk-link">Try a different client ID</a></p>
+
+    </div>
+  </div>
+{% endblock %}
