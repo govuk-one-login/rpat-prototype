@@ -7,12 +7,6 @@ const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
 
 const {
-  setupKeyWarningRoutes,
-} = require("./views/create-client-key-warning/setup-routes");
-const {
-  setupKeyWarningHintRoutes,
-} = require("./views/create-client-key-warning-hint/setup-routes");
-const {
   setupCreateClientIdentityFlowRoutes,
 } = require("./views/create-client-identity-flow/setup-routes");
 const {
@@ -28,8 +22,6 @@ const {
   setupMigrateRoutes,
 } = require("./views/migrate/setup-routes");
 
-setupKeyWarningRoutes(router);
-setupKeyWarningHintRoutes(router);
 setupCreateClientIdentityFlowRoutes(router);
 setupViewClientEditableRoutes(router);
 setupServiceRoutes(router);
