@@ -33,6 +33,10 @@
       <h1 class="govuk-heading-l">{{ service.name }}</h1>
       <p class="govuk-body">{{ service.description }}</p>
 
+      {{ govukInsetText({
+        text: "A client is a technical configuration that connects your service to GOV.UK One Login. You'll usually have one production client and one or more integration clients for testing changes before they go live."
+      }) }}
+
       <h2 class="govuk-heading-m">Production Client</h2>
 
       {% if service.production %}
