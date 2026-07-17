@@ -31,7 +31,6 @@
       {% endif %}
 
       <h1 class="govuk-heading-l">{{ service.name }}</h1>
-      <p class="govuk-body">{{ service.description }}</p>
 
       <h2 class="govuk-heading-m">Production Client</h2>
 
@@ -53,14 +52,6 @@
             {
               key: { text: "Client ID" },
               value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + service.production.clientId + '</code>' }
-            },
-            {
-              key: { text: "Status" },
-              value: { html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' }
-            },
-            {
-              key: { text: "Identity verification" },
-              value: { text: "Yes" if service.production.identityVerificationSupported else "No" }
             }
           ]
         }) }}
@@ -90,10 +81,6 @@
           {
             key: { text: "Client ID" },
             value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + config.clientId + '</code>' }
-          },
-          {
-            key: { text: "Identity verification" },
-            value: { text: "Yes" if config.identityVerificationSupported else "No" }
           }
         ] %}
         {% if config.promotedToProd %}
