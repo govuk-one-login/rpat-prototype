@@ -50,7 +50,7 @@ function setupCreateClientIdentityFlowRoutes(router) {
           html:
             '<a href="/create-client-identity-flow/redirect-urls/delete/' +
             index +
-            '">Delete</a>',
+            '">Remove</a>',
         },
       ];
     });
