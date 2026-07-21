@@ -15,34 +15,21 @@
 
       <h1 class="govuk-heading-l">Your services</h1>
 
-      {% for service in services %}
-        {{ govukSummaryList({
-          card: {
-            title: { text: service.name },
-            actions: {
-              items: [
-                {
-                  href: "/services/" + service.id,
-                  text: "Manage",
-                  visuallyHiddenText: service.name
-                }
-              ]
-            }
-          },
-          rows: [
-            {
-              key: { text: "Integration clients" },
-              value: { text: service.integration | length | string }
-            },
-            {
-              key: { text: "Production" },
-              value: {
-                html: '<strong class="govuk-tag govuk-tag--green">Active</strong>' if service.production else '<strong class="govuk-tag govuk-tag--grey">Not yet created</strong>'
-              }
-            }
-          ]
-        }) }}
-      {% endfor %}
+      <ul class="govuk-list">
+        {% for service in services %}
+        {% set viewServiceUrl %}/services/{{ service.id }}{% endset %}
+          <li>
+            <a
+              class="govuk-body-l govuk-!-font-weight-bold govuk-link--no-visited-state"
+              href={{viewServiceUrl}}
+              >{{service.name }}</a
+            >
+          </li>
+          <hr
+            class="govuk-section-break govuk-section-break--visible govuk-section-break--l"
+          />
+        {% endfor %}
+      </ul>
 
       {{ govukButton({
         text: "Add a new service",

@@ -6,6 +6,13 @@
 
 {% block beforeContent %}
   {{ super() }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: "Apprenticeship service - Digital certification", href: "/services/apprenticeship-digital-cert" },
+      { text: "Create a client" }
+    ]
+  }) }}
   {{ govukBackLink({
     text: "Back",
     href: "javascript:window.history.back()"
@@ -17,6 +24,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="/create-client-identity-flow/is-identity-verification-supported" method="post">
+      <h1 class="govuk-heading-l">Select your scopes</h1>
+      {% call govukInsetText() %}
+        OpenID will be automatically added to your scopes as it is required to
+        sign in users
+      {% endcall %}
 
       {{ govukCheckboxes({
         name: "selectedScopes",
@@ -31,15 +43,6 @@
           text: "Select all that apply."
         },
         items: [
-          {
-            value: "openid",
-            text: "OpenID",
-            checked: true,
-            disabled: true,
-            hint: {
-              text: "Required to sign in users"
-            }
-          },
           {
             value: "Email address",
             text: "Email address"

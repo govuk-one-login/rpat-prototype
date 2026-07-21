@@ -6,6 +6,13 @@
 
 {% block beforeContent %}
   {{ super() }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: "Apprenticeship service - Digital certification", href: "/services/apprenticeship-digital-cert" },
+      { text: "Create a client" }
+    ]
+  }) }}
   {{ govukBackLink({
     text: "Back",
     href: "javascript:window.history.back()"

@@ -4,13 +4,23 @@
 Start page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: "Apprenticeship service - Digital certification", href: "/services/apprenticeship-digital-cert" },
+      { text: "Create a client" }
+    ]
+  }) }}
+{% endblock %}
+
 {% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
     <h1 class="govuk-heading-xl">
-      Add an integration client
+      Create an integration client
     </h1>
 
     <p>Use this service to create a configuration for your integration client. You will be able to create authentication-only or authentication and identity clients.</p>
