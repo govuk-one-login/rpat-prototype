@@ -17,38 +17,47 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/view-client/edit-all-details-with-sections-validation"method="post">
-        {% if tableList | length > 0 %}
-        {{ govukTable({
-              caption: "Post Logout Redirect URLs",
-              captionClasses: "govuk-table__caption--m",
-              head: [],
-              rows:  tableEntries
-            })
-          }}
-          {% endif %}
-          {{ govukInput({
+        {{
+          govukInput({
             label: {
               text: "Add a post logout redirect URL",
               classes: "govuk-label--l",
               isPageHeading: true
-            },
-            id: "newTableItem",
-            name: "newTableItem"
-          }) }}
-          {% if tableList | length > 0 %}
-            {{ govukButton({
-              text: "Add",
-              classes: "govuk-button--secondary"
-            }) }}
-            {{ govukButton({
-              text: "Confirm",
-              href: "/create-client-redirect-url-table/select-scopes"
-            }) }}
-          {% else %}
-            {{ govukButton({
-              text: "Add"
-            }) }}
-          {% endif %}
+            }
+          })
+        }}
+
+        {{ govukButton({
+          text: "Add",
+          classes: "govuk-button--secondary"
+        }) }}
+
+        {{ govukTable({
+              caption: "Post Logout Redirect URLs",
+              captionClasses: "govuk-table__caption--m",
+              head: [],
+              rows:  [
+                [
+                  {
+                    html: "test-url.com"
+                  },
+                  {
+                    html:
+                      '<a href="/view-client-editable/edit-post-logout-redirect-urls">Remove</a>'
+                  }
+                ]
+              ]
+            })
+          }}
+          
+          {{
+            govukButton({
+              text: "Continue",
+              type: "Submit",
+              name: "action",
+              value: "continue"
+            })
+          }}
       </form>
     </div>
   </div>
