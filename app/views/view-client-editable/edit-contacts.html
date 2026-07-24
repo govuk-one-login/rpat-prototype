@@ -16,39 +16,48 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/view-client-editable/edit-contacts"method="post">
-        {% if tableList | length > 0 %}
-        {{ govukTable({
-              caption: "Contact Emails",
-              captionClasses: "govuk-table__caption--m",
-              head: [],
-              rows:  tableEntries
-            })
-          }}
-          {% endif %}
-          {{ govukInput({
+      <form class="form" action="/view-client/edit-all-details-with-sections-validation" method="post">
+        {{
+          govukInput({
             label: {
               text: "Add a contact email",
               classes: "govuk-label--l",
               isPageHeading: true
-            },
-            id: "newTableItem",
-            name: "newTableItem"
-          }) }}
-          {% if tableList | length > 0 %}
-            {{ govukButton({
-              text: "Add",
-              classes: "govuk-button--secondary"
-            }) }}
-            {{ govukButton({
-              text: "Confirm",
-              href: "/view-client/edit-all-details-with-sections-validation"
-            }) }}
-          {% else %}
-            {{ govukButton({
-              text: "Add"
-            }) }}
-          {% endif %}
+            }
+          })
+        }}
+
+        {{ govukButton({
+          text: "Add",
+          classes: "govuk-button--secondary"
+        }) }}
+
+        {{ govukTable({
+              caption: "Contact Emails",
+              captionClasses: "govuk-table__caption--m",
+              head: [],
+              rows:  [
+                [
+                  {
+                    html: "test-email@email.com"
+                  },
+                  {
+                    html:
+                      '<a href="/view-client-editable/edit-contacts">Remove</a>'
+                  }
+                ]
+              ]
+            })
+          }}
+          
+          {{
+            govukButton({
+              text: "Continue",
+              type: "Submit",
+              name: "action",
+              value: "continue"
+            })
+          }}
       </form>
     </div>
   </div>

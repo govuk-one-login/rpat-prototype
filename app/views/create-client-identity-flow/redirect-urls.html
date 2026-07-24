@@ -23,7 +23,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/create-client-identity-flow/redirect-urls" method="post">
+      <form class="form" action="/create-client-identity-flow/select-scopes" method="post">
         {{
           govukInput({
             label: {
@@ -48,7 +48,17 @@
               caption: "Redirect URLs",
               captionClasses: "govuk-table__caption--m",
               head: [],
-              rows:  redirectUrlTableEntries
+              rows:  [
+                [
+                  {
+                    html: "test-url.com"
+                  },
+                  {
+                    html:
+                      '<a href="/create-client-identity-flow/redirect-urls">Remove</a>'
+                  }
+                ]
+              ]
             })
           }}
           
