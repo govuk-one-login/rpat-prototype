@@ -40,7 +40,6 @@
             name: "jwksEndpoint",
             autocomplete: "url",
             spellcheck: false,
-            classes: "govuk-!-width-one-third",
             label: {
               text: "JWKS endpoint URL"
             }
@@ -48,13 +47,12 @@
         {% endset -%}
 
         {% set staticKeyHtml %}
-          {{ govukInput({
+          {{ govukTextarea({
             id: "static-key",
             name: "staticKey",
             type: "key",
             autocomplete: "key",
             spellcheck: false,
-            classes: "govuk-!-width-one-third",
             label: {
               text: "Public key"
             }
@@ -68,7 +66,6 @@
             type: "secret",
             autocomplete: "secret",
             spellcheck: false,
-            classes: "govuk-!-width-one-third",
             label: {
               text: "Client secret"
             }
