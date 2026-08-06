@@ -26,36 +26,34 @@
     <form class="form" action="/create-client-identity-flow/is-identity-verification-supported" method="post">
       <h1 class="govuk-heading-l">Select your scopes</h1>
       {% call govukInsetText() %}
-        OpenID will be automatically added to your scopes as it is required to
+        <code class="red-code"
+          >openid</code
+        > will be automatically added to your scopes configuration as it is required to
         sign in users
       {% endcall %}
-      {{
-        govukCheckboxes({
+      {{ govukCheckboxes({
           name: "selected-scopes",
-          fieldset: {
-            legend: {
-              text: "What user information do you need?",
-              classes: "govuk-fieldset__legend--m"
-            }
-          },
           hint: {
             text: "Select all that apply."
           },
           items: [
             {
               value: "email",
-              text: "Email address"
+              html: "<code class='red-code'>email</code>",
+              hint: { html: "Returns the <code class='red-code'>email</code> claim and <code class='red-code'>email_verified</code>" }
             },
             {
               value: "phone",
-              text: "Phone number"
+              html: "<code class='red-code'>phone</code>",
+              hint: { html: "Returns the <code class='red-code'>phone_number</code> claim and <code class='red-code'>phone_number_verified</code>" }
             },
             {
-              value: "wallet_subject_id",
-              text: "Wallet subject ID"
+              value: "wallet-subject-id",
+              html: "<code class='red-code'>wallet-subject-id</code>",
+              hint: { html: "Returns the <code class='red-code'>wallet-subject-id</code> claim and is required if you plan to onboard with GOV.UK Wallet" }
             }
           ]
-        })
+        }) 
       }}
 
       {{ govukButton({
