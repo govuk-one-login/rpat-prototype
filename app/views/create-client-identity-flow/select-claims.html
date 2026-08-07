@@ -24,47 +24,40 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/create-client-identity-flow/landing-page-url" method="post">
-
         <h1 class="govuk-heading-l">Select your claims</h1>
         {% call govukInsetText() %}
-          <code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;"
+          <code class="red-code"
             >https://vocab.account.gov.uk/v1/coreIdentityJWT</code
           >
-          will be automatically added to your claims as it is required to prove your
+          will be automatically added to your claims configuration as it is required to prove your
           user’s identity
         {% endcall %}
         {{
           govukCheckboxes({
-            name: "selectedClaims",
-            fieldset: {
-              legend: {
-                text: "Which extra identity attributes does your client require?",
-                classes: "govuk-fieldset__legend--m"
-              }
-            },
+            name: "selected-claims",
             hint: {
               text: "Select all that apply"
             },
             items: [
               {
                 value: "https://vocab.account.gov.uk/v1/passport",
-                text: "Passport",
-                hint: { text: "https://vocab.account.gov.uk/v1/passport" }
+                html: "<code class='red-code'>https://vocab.account.gov.uk/v1/passport</code>",
+                hint: { text: "Returns the user’s passport details if GOV.UK One Login proved their identity using their passport" }
               },
               {
                 value: "https://vocab.account.gov.uk/v1/address",
-                text: "Address",
-                hint: { text: "https://vocab.account.gov.uk/v1/address" }
+                html: "<code class='red-code'>https://vocab.account.gov.uk/v1/address</code>",
+                hint: { text: "Returns the user’s postal addresses" }
               },
               {
                 value: "https://vocab.account.gov.uk/v1/drivingPermit",
-                text: "Driving Permit",
-                hint: { text: "https://vocab.account.gov.uk/v1/drivingPermit" }
+                html: "<code class='red-code'>https://vocab.account.gov.uk/v1/drivingPermit</code>",
+                hint: { text: "Returns the  user’s driving licence details if GOV.UK One Login proved their identity using their driving licence" }
               },
               {
                 value: "https://vocab.account.gov.uk/v1/returnCode",
-                text: "Return Code",
-                hint: { text: "https://vocab.account.gov.uk/v1/returnCode" }
+                html: "<code class='red-code'>https://vocab.account.gov.uk/v1/returnCode</code>",
+                hint: { text: "Returns information about any issues with the evidence your user provided to prove their identity" }
               }
             ]
           })
