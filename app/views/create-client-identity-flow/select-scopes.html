@@ -29,34 +29,34 @@
         OpenID will be automatically added to your scopes as it is required to
         sign in users
       {% endcall %}
-
-      {{ govukCheckboxes({
-        name: "selectedScopes",
-        fieldset: {
-          legend: {
-            text: "What user information do you need?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--l"
-          }
-        },
-        hint: {
-          text: "Select all that apply."
-        },
-        items: [
-          {
-            value: "Email address",
-            text: "Email address"
+      {{
+        govukCheckboxes({
+          name: "selected-scopes",
+          fieldset: {
+            legend: {
+              text: "What user information do you need?",
+              classes: "govuk-fieldset__legend--m"
+            }
           },
-          {
-            value: "Phone number",
-            text: "Phone number"
+          hint: {
+            text: "Select all that apply."
           },
-          {
-            value: "Wallet subject ID",
-            text: "Wallet subject ID"
-          }
-        ]
-      }) }}
+          items: [
+            {
+              value: "email",
+              text: "Email address"
+            },
+            {
+              value: "phone",
+              text: "Phone number"
+            },
+            {
+              value: "wallet_subject_id",
+              text: "Wallet subject ID"
+            }
+          ]
+        })
+      }}
 
       {{ govukButton({
         text: "Continue"

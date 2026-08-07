@@ -23,56 +23,68 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body"><a href="https://docs.sign-in.service.gov.uk/integrate-with-integration-environment/prove-users-identity/" class="govuk-link" rel="noreferrer noopener" target="_blank">Get guidance on identity claims (opens in a new tab)</a></p>
-
       <form class="form" action="/create-client-identity-flow/landing-page-url" method="post">
 
-        {{ govukCheckboxes({
-          name: "selectedClaims",
-          fieldset: {
-            legend: {
-              text: "Which claim(s) does your client require?",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          hint: {
-            text: "Select all that apply"
-          },
-          items: [
-            {
-              value: "https://vocab.account.gov.uk/v1/coreIdentityJWT",
-              text: "Core Identity",
-              hint: { text: "https://vocab.account.gov.uk/v1/coreIdentityJWT" },
-              checked: true,
-              disabled: true
+        <h1 class="govuk-heading-l">Select your claims</h1>
+        {% call govukInsetText() %}
+          <code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;"
+            >https://vocab.account.gov.uk/v1/coreIdentityJWT</code
+          >
+          will be automatically added to your claims as it is required to prove your
+          user’s identity
+        {% endcall %}
+        {{
+          govukCheckboxes({
+            name: "selectedClaims",
+            fieldset: {
+              legend: {
+                text: "Which extra identity attributes does your client require?",
+                classes: "govuk-fieldset__legend--m"
+              }
             },
-            {
-              value: "https://vocab.account.gov.uk/v1/passport",
-              text: "Passport",
-              hint: { text: "https://vocab.account.gov.uk/v1/passport" }
+            hint: {
+              text: "Select all that apply"
             },
-            {
-              value: "https://vocab.account.gov.uk/v1/address",
-              text: "Address",
-              hint: { text: "https://vocab.account.gov.uk/v1/address" }
-            },
-            {
-              value: "https://vocab.account.gov.uk/v1/drivingPermit",
-              text: "Driving Permit",
-              hint: { text: "https://vocab.account.gov.uk/v1/drivingPermit" }
-            },
-            {
-              value: "https://vocab.account.gov.uk/v1/returnCode",
-              text: "Return Code",
-              hint: { text: "https://vocab.account.gov.uk/v1/returnCode" }
-            }
-          ]
-        }) }}
+            items: [
+              {
+                value: "https://vocab.account.gov.uk/v1/passport",
+                text: "Passport",
+                hint: { text: "https://vocab.account.gov.uk/v1/passport" }
+              },
+              {
+                value: "https://vocab.account.gov.uk/v1/address",
+                text: "Address",
+                hint: { text: "https://vocab.account.gov.uk/v1/address" }
+              },
+              {
+                value: "https://vocab.account.gov.uk/v1/drivingPermit",
+                text: "Driving Permit",
+                hint: { text: "https://vocab.account.gov.uk/v1/drivingPermit" }
+              },
+              {
+                value: "https://vocab.account.gov.uk/v1/returnCode",
+                text: "Return Code",
+                hint: { text: "https://vocab.account.gov.uk/v1/returnCode" }
+              }
+            ]
+          })
+        }}
 
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+        {{
+          govukButton({
+            text: "Continue"
+          })
+        }}
+
+        <p class="govuk-body">
+          <a
+            href="https://docs.sign-in.service.gov.uk/integrate-with-integration-environment/prove-users-identity/"
+            class="govuk-link"
+            rel="noreferrer noopener"
+            target="_blank"
+            >Get guidance on identity claims (opens in a new tab)</a
+          >
+        </p>
 
       </form>
 
