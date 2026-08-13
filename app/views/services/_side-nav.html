@@ -7,4 +7,10 @@
       <a class="app-subnav__link" href="/services/{{ service.id }}/team-members">Team members</a>
     </li>
   </ul>
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <ul class="app-subnav__list">
+    <li class="app-subnav__list-item {{ 'app-subnav__list-item--current' if activePage == 'request-go-live' }}">
+      <a class="app-subnav__link" href="/services/{{ service.id }}/request-go-live">Go live with GOV.UK One Login</a>
+    </li>
+  </ul>
 </nav>

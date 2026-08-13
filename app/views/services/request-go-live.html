@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Request to go live – " + service.name %}
+{% set pageName = "Go live with GOV.UK One Login – " + service.name %}
 
 {% block beforeContent %}
   {{ govukPhaseBanner({
@@ -11,22 +11,22 @@
     items: [
       { text: "Your services", href: "/services" },
       { text: service.name, href: "/services/" + service.id },
-      { text: "Request to go live" }
+      { text: "Go live with GOV.UK One Login" }
     ]
   }) }}
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+      {% set activePage = 'request-go-live' %}
+      {% include "services/_side-nav.html" %}
+    </div>
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">Request to go live</h1>
+      <h1 class="govuk-heading-l">Go live with GOV.UK One Login</h1>
 
-      <p class="govuk-body">This feature is not yet available.</p>
-
-      <p class="govuk-body">
-        <a href="/services/{{ service.id }}" class="govuk-link">Return to {{ service.name }}</a>
-      </p>
+      <p class="govuk-body">To go live, get in touch with your Engagement Manager and they will guide you through the process. If you do not have an Engagement Manager, complete the form to <a href="#" class="govuk-link">register your interest</a> and we'll support you with integrating to the production environment.</p>
 
     </div>
   </div>
