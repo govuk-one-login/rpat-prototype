@@ -19,6 +19,8 @@
       <form class="form" action="/view-client/edit-all-details-with-sections-validation" method="post">
         {{
           govukInput({
+            id: "backchannel-logout-url",
+            name: "backchannel-logout-url",
             label: {
               text: "Add a backchannel logout URL",
               classes: "govuk-label--l",
@@ -26,38 +28,15 @@
             }
           })
         }}
-
-        {{ govukButton({
-          text: "Add",
-          classes: "govuk-button--secondary"
-        }) }}
-
-        {{ govukTable({
-              caption: "Backchannel logout URLs",
-              captionClasses: "govuk-table__caption--m",
-              head: [],
-              rows:  [
-                [
-                  {
-                    html: "test-url.com"
-                  },
-                  {
-                    html:
-                      '<a href="/view-client-editable/edit-back-channel-logout-urls">Remove</a>'
-                  }
-                ]
-              ]
-            })
-          }}
           
-          {{
-            govukButton({
-              text: "Continue",
-              type: "Submit",
-              name: "action",
-              value: "continue"
-            })
-          }}
+        {{
+          govukButton({
+            text: "Continue",
+            type: "Submit",
+            name: "action",
+            value: "continue"
+          })
+        }}
       </form>
     </div>
   </div>

@@ -17,36 +17,33 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" action="/view-client/edit-all-details-with-sections-validation"method="post">
+        <h1 class="govuk-heading-l">Is your client active?</h1>
 
-        <h1 class="govuk-heading-l">
-          Is Active
-        </h1>
-
-        {{ govukWarningText({
-          text: "Disabling this will stop all one login journeys",
-          iconFallbackText: "Warning"
-        }) }}
-
-        {{ govukRadios({
-          name: "is-active",
-          fieldset: {
-            legend: {
-              text: "Is your client active?",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          items: [
-            {
-              value: "true",
-              text: "Yes"
-            },
-            {
-              value: "false",
-              text: "No"
-            }
-          ]
-        }) }}
+        {{
+          govukWarningText({
+            text: "Disabling this will stop all one login journeys",
+            iconFallbackText: "Warning"
+          })
+        }}
+    
+        {{
+          govukRadios({
+            name: "is-active",
+            items: [
+              {
+                value: "true",
+                text: "Yes"
+              },
+              {
+                value: "false",
+                text: "No"
+              }
+            ],
+            errorMessage: {
+              text: errors["is-active"].text
+            } if (errors["is-active"])
+          })
+        }}
 
         {{ govukButton({
           text: "Confirm"
