@@ -1,0 +1,43 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Client activated – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: client.clientName }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+      titleText: "Client activated",
+      html: client.clientName + " is now active"
+    }) }}
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p class="govuk-body">
+      Your integration client is now active and can be used for testing against the One Login integration environment.
+    </p>
+
+    <p class="govuk-body">
+      You can continue to make changes to your client configuration at any time.
+    </p>
+
+    {{ govukButton({
+      text: "Go to client overview",
+      href: "/services/" + service.id + "/integration/" + client.id
+    }) }}
+
+  </div>
+</div>
+{% endblock %}

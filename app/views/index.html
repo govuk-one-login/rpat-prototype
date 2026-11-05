@@ -70,7 +70,39 @@
       </div>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <h3 class="govuk-heading-s">2.3 Create client (with identity flow)</h3>
+      <h3 class="govuk-heading-s">2.3 Create client (new simplified flow)</h3>
+
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Happy path — create, configure, activate</p>
+          <p class="govuk-hint">
+            <a href="/services/apprenticeship-digital-cert/create-client" class="govuk-link">Create client</a> &gt; 
+            Client created (with client ID) &gt; 
+            Client overview (with "Needs changing" tags) &gt; 
+            Edit fields &gt; 
+            Activate
+          </p>
+        </li>
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Activate with incomplete fields</p>
+          <p class="govuk-hint">
+            Create client &gt; 
+            Client overview &gt; 
+            Click "Activate" without completing required fields &gt; 
+            Error summary shown
+          </p>
+        </li>
+        <li>
+          <p class="govuk-body govuk-!-font-weight-bold">Auth-only client (not yet built)</p>
+          <p class="govuk-hint">
+            <a href="/services/apprenticeship-digital-cert/create-client" class="govuk-link">Create client</a> &gt; 
+            Select "Sign in only" &gt; 
+            <a href="/not-yet-built" class="govuk-link">404</a>
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="govuk-heading-s">2.3b Create client (old wizard flow - deprecated)</h3>
 
       <ul class="govuk-list govuk-list--spaced">
         <li>
@@ -85,17 +117,6 @@
             <a href="/create-client-identity-flow/landing-page-url" class="govuk-link">Landing page URL</a> &gt; 
             <a href="/create-client-identity-flow/select-levels-of-confidence" class="govuk-link">Levels of confidence</a> &gt; 
             <a href="/create-client-identity-flow/confirm" class="govuk-link">Confirm</a></p>
-        </li>
-      </ul>
-
-      <ul class="govuk-list govuk-list--spaced">
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">View and edit client details</p>
-          <p class="govuk-hint"><a href="/view-client/view-all-details-with-sections-cards" class="govuk-link">View client details</a> &gt; <a href="/view-client/edit-all-details-with-sections-validation" class="govuk-link">Edit client details (error states)</a></p>
-        </li>
-        <li>
-          <p class="govuk-body govuk-!-font-weight-bold">Post-create view</p>
-          <p class="govuk-hint"><a href="/view-client/view-all-details-with-sections-cards-post-create" class="govuk-link">View client details (post-create)</a></p>
         </li>
       </ul>
 

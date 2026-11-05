@@ -1,0 +1,227 @@
+{% extends "layouts/main.html" %}
+
+{% set isIntegration = true %}
+{% set editBase = "/services/" + service.id + "/integration/" + client.id + "/edit/" %}
+{% set pageName = client.clientName + " – " + service.name %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: { text: "Prototype" },
+    html: 'This is a prototype. Your <a class="govuk-link" href="#">feedback</a> will help us improve it.'
+  }) }}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: client.clientName }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      {% if success %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>" + success + "</p>",
+          type: "success"
+        }) }}
+      {% endif %}
+
+      {% if showErrors and incompleteFields.length > 0 %}
+        {% set errorListItems = [] %}
+        {% for field in incompleteFields %}
+          {% set errorListItems = errorListItems.concat([{
+            text: field.label + " needs changing",
+            href: editBase + field.editUrl
+          }]) %}
+        {% endfor %}
+        {{ govukErrorSummary({
+          titleText: "There are " + incompleteFields.length + " things to change before you can activate this client",
+          errorList: errorListItems
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">
+        {{ client.clientName }}
+        {% if client.isActive %}
+          <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Active</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Inactive</strong>
+        {% endif %}
+      </h1>
+
+      {% if not client.isActive and incompleteCount > 0 and not showErrors %}
+        {{ govukNotificationBanner({
+          html: "<p class='govuk-notification-banner__heading'>This client is inactive. " + incompleteCount + " thing" + ("s" if incompleteCount > 1 else "") + " need" + ("" if incompleteCount > 1 else "s") + " changing before you can activate it.</p>"
+        }) }}
+      {% endif %}
+
+      {# Helper macro for needs changing tag #}
+      {% macro valueOrNeedsChanging(value, isEmpty) %}
+        {% if isEmpty %}
+          <strong class="govuk-tag govuk-tag--yellow">Needs changing</strong>
+        {% else %}
+          {{ value | safe }}
+        {% endif %}
+      {% endmacro %}
+
+      {# Core configuration #}
+      {% set coreRows = [
+        {
+          key: { text: "Client ID" },
+          value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + client.clientId + '</code> <button class="govuk-link" style="border: none; background: none; cursor: pointer; text-decoration: underline; margin-left: 8px;" onclick="navigator.clipboard.writeText(\'' + client.clientId + '\'); this.textContent = \'Copied!\';">Copy</button>' }
+        },
+        {
+          key: { text: "Client name" },
+          value: { text: client.clientName },
+          actions: { items: [{ href: editBase + "client-name", text: "Change", visuallyHiddenText: "client name" }] }
+        },
+        {
+          key: { text: "Client type" },
+          value: { text: "Sign in and prove identity" if client.clientType == "identity" else "Sign in only" }
+        },
+        {
+          key: { text: "Redirect URIs" },
+          value: { html: valueOrNeedsChanging(client.redirectUrls | join("<br>") if client.redirectUrls and client.redirectUrls.length > 0 else "Not set", not client.redirectUrls or client.redirectUrls.length == 0) },
+          actions: { items: [{ href: editBase + "redirect-urls", text: "Change", visuallyHiddenText: "redirect URIs" }] }
+        },
+        {
+          key: { text: "Authentication method" },
+          value: { html: valueOrNeedsChanging(client.publicKeyType or "Not set", not client.publicKey and not client.jwksUrl) },
+          actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "authentication method" }] }
+        },
+        {
+          key: { text: "JWKS URL" },
+          value: { text: client.jwksUrl or "Not set" },
+          actions: { items: [{ href: editBase + "public-key-type", text: "Change", visuallyHiddenText: "JWKS URL" }] }
+        } if client.publicKeyType == "JWKS URL",
+        {
+          key: { text: "Scopes" },
+          value: { html: valueOrNeedsChanging(client.scopes | join("<br>") if client.scopes and client.scopes.length > 1 else "openid only", client.scopes.length <= 1) },
+          actions: { items: [{ href: editBase + "scopes", text: "Change", visuallyHiddenText: "scopes" }] }
+        },
+        {
+          key: { text: "Token authentication method" },
+          value: { text: client.tokenAuthMethod },
+          actions: { items: [{ href: editBase + "token-auth-method", text: "Change", visuallyHiddenText: "token authentication method" }] }
+        },
+        {
+          key: { text: "ID token signing algorithm" },
+          value: { text: client.idTokenSigningAlgorithm },
+          actions: { items: [{ href: editBase + "id-token-signing-algorithm", text: "Change", visuallyHiddenText: "ID token signing algorithm" }] }
+        },
+        {
+          key: { text: "Sector identifier URI" },
+          value: { text: client.sectorIdentifierUri or "Not set" },
+          actions: { items: [{ href: editBase + "sector-identifier-uri", text: "Change", visuallyHiddenText: "sector identifier URI" }] }
+        }
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Core configuration" } },
+        rows: coreRows | reject("falsy")
+      }) }}
+
+      {# Identity configuration - only show for identity clients #}
+      {% if client.clientType == "identity" %}
+        {% set identityRows = [
+          {
+            key: { text: "Identity verification" },
+            value: { text: "Yes" if client.identityVerificationSupported else "No" }
+          },
+          {
+            key: { text: "Claims" },
+            value: { html: client.claims | join("<br>") if client.claims and client.claims.length else "None" },
+            actions: { items: [{ href: editBase + "claims", text: "Change", visuallyHiddenText: "claims" }] }
+          },
+          {
+            key: { text: "Landing page URL" },
+            value: { text: client.landingPageUrl or "Not set" },
+            actions: { items: [{ href: editBase + "landing-page-url", text: "Change", visuallyHiddenText: "landing page URL" }] }
+          },
+          {
+            key: { text: "Levels of confidence" },
+            value: { html: client.levelsOfConfidence | join("<br>") if client.levelsOfConfidence and client.levelsOfConfidence.length else "None" },
+            actions: { items: [{ href: editBase + "levels-of-confidence", text: "Change", visuallyHiddenText: "levels of confidence" }] }
+          }
+        ] %}
+
+        {{ govukSummaryList({
+          card: { title: { text: "Identity configuration" } },
+          rows: identityRows | reject("falsy")
+        }) }}
+      {% endif %}
+
+      {# Additional configuration #}
+      {% set additionalRows = [
+        {
+          key: { text: "Contacts" },
+          value: { html: client.contacts | join("<br>") if client.contacts and client.contacts.length else "None" },
+          actions: { items: [{ href: editBase + "contacts", text: "Change", visuallyHiddenText: "contacts" }] }
+        },
+        {
+          key: { text: "Post logout redirect URLs" },
+          value: { html: client.postLogoutRedirectUrls | join("<br>") if client.postLogoutRedirectUrls and client.postLogoutRedirectUrls.length else "None" },
+          actions: { items: [{ href: editBase + "post-logout-redirect-urls", text: "Change", visuallyHiddenText: "post logout redirect URLs" }] }
+        },
+        {
+          key: { text: "Back channel logout URLs" },
+          value: { html: client.backChannelLogoutUrls | join("<br>") if client.backChannelLogoutUrls and client.backChannelLogoutUrls.length else "None" },
+          actions: { items: [{ href: editBase + "back-channel-logout-urls", text: "Change", visuallyHiddenText: "back channel logout URLs" }] }
+        },
+        {
+          key: { text: "Service type" },
+          value: { text: client.serviceType },
+          actions: { items: [{ href: editBase + "service-type", text: "Change", visuallyHiddenText: "service type" }] }
+        },
+        {
+          key: { text: "JAR validation required" },
+          value: { text: "Yes" if client.jarValidationRequired else "No" },
+          actions: { items: [{ href: editBase + "jar-validation-required", text: "Change", visuallyHiddenText: "JAR validation required" }] }
+        },
+        {
+          key: { text: "Channel" },
+          value: { text: client.channel },
+          actions: { items: [{ href: editBase + "channel", text: "Change", visuallyHiddenText: "channel" }] }
+        },
+        {
+          key: { text: "PKCE enforced" },
+          value: { text: "Yes" if client.pkceEnforced else "No" },
+          actions: { items: [{ href: editBase + "pkce-enforced", text: "Change", visuallyHiddenText: "PKCE enforced" }] }
+        },
+        {
+          key: { text: "Max age enabled" },
+          value: { text: "Yes" if client.maxAgeEnabled else "No" },
+          actions: { items: [{ href: editBase + "max-age-enabled", text: "Change", visuallyHiddenText: "max age enabled" }] }
+        },
+        {
+          key: { text: "Permit missing nonce" },
+          value: { text: "Yes" if client.permitMissingNonce else "No" },
+          actions: { items: [{ href: editBase + "permit-missing-nonce", text: "Change", visuallyHiddenText: "permit missing nonce" }] }
+        },
+        {
+          key: { text: "Rate limit" },
+          value: { text: client.rateLimit },
+          actions: { items: [{ href: "/not-yet-built", text: "Request change", visuallyHiddenText: "rate limit" }] }
+        }
+      ] %}
+
+      {{ govukSummaryList({
+        card: { title: { text: "Additional configuration" } },
+        rows: additionalRows | reject("falsy")
+      }) }}
+
+      {# Activate button #}
+      {% if not client.isActive %}
+        <form method="post" action="/services/{{ service.id }}/integration/{{ client.id }}/activate">
+          {{ govukButton({
+            text: "Activate client"
+          }) }}
+        </form>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

@@ -81,6 +81,10 @@
           {
             key: { text: "Client ID" },
             value: { html: '<code style="color: #d13118; background: #f3f2f1; padding: 2px 6px;">' + config.clientId + '</code>' }
+          },
+          {
+            key: { text: "Status" },
+            value: { html: '<strong class="govuk-tag ' + ('govuk-tag--green' if config.isActive else 'govuk-tag--grey') + '">' + ('Active' if config.isActive else 'Inactive') + '</strong>' }
           }
         ] %}
         {% if config.promotedToProd %}
@@ -92,18 +96,13 @@
 
         {{ govukSummaryList({
           card: {
-            title: { text: config.name },
+            title: { text: config.name or config.clientName },
             actions: {
               items: [
                 {
                   href: "/services/" + service.id + "/integration/" + config.id,
-                  text: "View",
-                  visuallyHiddenText: config.name + " client"
-                },
-                {
-                  href: "/services/" + service.id + "/integration/" + config.id + "/edit",
                   text: "Manage",
-                  visuallyHiddenText: config.name + " client"
+                  visuallyHiddenText: (config.name or config.clientName) + " client"
                 }
               ]
             }
@@ -114,7 +113,7 @@
 
       {{ govukButton({
         text: "Add a new integration client",
-        href: "/create-client-identity-flow/start-page",
+        href: "/services/" + service.id + "/create-client",
         classes: "govuk-button--secondary"
       }) }}
             <p class="govuk-body">

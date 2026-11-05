@@ -1,0 +1,66 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Create an integration client – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: "Create a client" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Create an integration client</h1>
+
+    <form method="post" action="/services/{{ service.id }}/create-client">
+
+      {{ govukInput({
+        label: {
+          text: "Client name",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "This is a tag name to help you identify this client. Your users will not see it."
+        },
+        id: "client-name",
+        name: "clientName",
+        value: data['clientName']
+      }) }}
+
+      {{ govukRadios({
+        name: "clientType",
+        fieldset: {
+          legend: {
+            text: "What do you need?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "auth",
+            text: "Sign in only"
+          },
+          {
+            value: "identity",
+            text: "Sign in and prove identity"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Create client"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

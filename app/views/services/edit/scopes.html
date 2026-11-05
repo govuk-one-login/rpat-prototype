@@ -1,0 +1,85 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Edit scopes – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + service.id + "/integration/" + client.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Scopes</h1>
+
+    <p class="govuk-body">
+      Scopes define what user information your client can request. The <code>openid</code> scope is always required and included automatically.
+    </p>
+
+    {{ govukDetails({
+      summaryText: "What do these scopes mean?",
+      html: "<p><strong>email</strong> - Access to the user's email address</p>
+      <p><strong>phone</strong> - Access to the user's phone number</p>
+      <p><strong>offline_access</strong> - Allows your client to request refresh tokens</p>
+      <p><a href='https://docs.sign-in.service.gov.uk/' class='govuk-link' target='_blank'>Read the technical documentation (opens in new tab)</a></p>"
+    }) }}
+
+    <form method="post" action="/services/{{ service.id }}/integration/{{ client.id }}/edit/scopes">
+
+      {% set currentScopes = client.scopes or ['openid'] %}
+
+      {{ govukCheckboxes({
+        name: "scopes",
+        fieldset: {
+          legend: {
+            text: "Select the scopes your client needs",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        hint: {
+          text: "Select all that apply"
+        },
+        items: [
+          {
+            value: "openid",
+            text: "openid",
+            hint: { text: "Required - always included" },
+            checked: true,
+            disabled: true
+          },
+          {
+            value: "email",
+            text: "email",
+            hint: { text: "Access to the user's email address" },
+            checked: "email" in currentScopes
+          },
+          {
+            value: "phone",
+            text: "phone",
+            hint: { text: "Access to the user's phone number" },
+            checked: "phone" in currentScopes
+          },
+          {
+            value: "offline_access",
+            text: "offline_access",
+            hint: { text: "Request refresh tokens for long-lived sessions" },
+            checked: "offline_access" in currentScopes
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}
