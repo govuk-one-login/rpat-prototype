@@ -1,0 +1,82 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Edit redirect URIs – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + service.id + "/integration/" + client.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Redirect URIs</h1>
+
+    <p class="govuk-body">
+      These are the URLs that users will be redirected to after they authenticate with One Login. You need at least one redirect URI for your client to work.
+    </p>
+
+    {{ govukDetails({
+      summaryText: "What is a valid redirect URI?",
+      html: "<p>A redirect URI must:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>use HTTPS (except for localhost during development)</li>
+        <li>be a full URL including the path</li>
+        <li>not contain fragments (#)</li>
+      </ul>
+      <p>Example: <code>https://your-service.gov.uk/auth/callback</code></p>
+      <p><a href='https://docs.sign-in.service.gov.uk/' class='govuk-link' target='_blank'>Read the technical documentation (opens in new tab)</a></p>"
+    }) }}
+
+    <form method="post" action="/services/{{ service.id }}/integration/{{ client.id }}/edit/redirect-urls">
+
+      {% set existingUrls = client.redirectUrls or [] %}
+
+      {{ govukInput({
+        label: {
+          text: "Redirect URI",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "Enter a redirect URI"
+        },
+        id: "redirect-url-1",
+        name: "redirectUrls",
+        value: existingUrls[0] if existingUrls.length > 0 else ""
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Redirect URI 2 (optional)",
+          classes: "govuk-label--s"
+        },
+        id: "redirect-url-2",
+        name: "redirectUrls",
+        value: existingUrls[1] if existingUrls.length > 1 else ""
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Redirect URI 3 (optional)",
+          classes: "govuk-label--s"
+        },
+        id: "redirect-url-3",
+        name: "redirectUrls",
+        value: existingUrls[2] if existingUrls.length > 2 else ""
+      }) }}
+
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

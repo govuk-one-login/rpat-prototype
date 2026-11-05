@@ -1,0 +1,133 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Edit authentication method – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/services/" + service.id + "/integration/" + client.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Authentication method</h1>
+
+    <p class="govuk-body">
+      Choose how your client will authenticate with One Login when exchanging tokens.
+    </p>
+
+    {{ govukDetails({
+      summaryText: "Help choosing an authentication method",
+      html: "<p><strong>Public key URL (JWKS)</strong> is recommended. One Login will automatically fetch your public keys from a URL you provide. This makes key rotation easier.</p>
+      <p><strong>Fixed public key</strong> uses a single uploaded public key. You'll need to contact support to rotate keys.</p>
+      <p><strong>Client secret</strong> uses a shared secret. This is simpler but less secure and cannot be used with identity verification.</p>
+      <p><a href='https://docs.sign-in.service.gov.uk/' class='govuk-link' target='_blank'>Read the technical documentation (opens in new tab)</a></p>"
+    }) }}
+
+    <form method="post" action="/services/{{ service.id }}/integration/{{ client.id }}/edit/public-key-type">
+
+      {% set jwksEndpointHtml %}
+        {{ govukInput({
+          id: "jwks-endpoint",
+          name: "jwksUrl",
+          autocomplete: "url",
+          spellcheck: false,
+          value: client.jwksUrl,
+          label: {
+            text: "JWKS endpoint URL"
+          },
+          hint: {
+            text: "Example: https://your-service.gov.uk/.well-known/jwks.json"
+          }
+        }) }}
+      {% endset %}
+
+      {% set staticKeyHtml %}
+        {{ govukTextarea({
+          id: "static-key",
+          name: "publicKey",
+          spellcheck: false,
+          value: client.publicKey if client.publicKeyType == "Fixed public key" else "",
+          label: {
+            text: "Public key"
+          },
+          hint: {
+            text: "Paste your PEM-encoded public key"
+          }
+        }) }}
+      {% endset %}
+
+      {% set clientSecretHtml %}
+        {{ govukInput({
+          id: "client-secret",
+          name: "clientSecret",
+          spellcheck: false,
+          label: {
+            text: "Client secret"
+          },
+          hint: {
+            text: "Enter a secure client secret"
+          }
+        }) }}
+      {% endset %}
+
+      {{ govukRadios({
+        name: "publicKeyType",
+        fieldset: {
+          legend: {
+            text: "How will your client authenticate?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "JWKS URL",
+            text: "Public key URL (JWKS)",
+            hint: {
+              text: "Recommended. We'll automatically fetch your public keys from a URL you provide."
+            },
+            checked: client.publicKeyType == "JWKS URL",
+            conditional: {
+              html: jwksEndpointHtml
+            }
+          },
+          {
+            value: "Fixed public key",
+            text: "Fixed public key",
+            hint: {
+              text: "Upload a single public key."
+            },
+            checked: client.publicKeyType == "Fixed public key",
+            conditional: {
+              html: staticKeyHtml
+            }
+          },
+          {
+            value: "Client secret",
+            text: "Client secret",
+            hint: {
+              text: "Use a shared secret. Cannot be used with identity verification."
+            },
+            checked: client.publicKeyType == "Client secret",
+            conditional: {
+              html: clientSecretHtml
+            }
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

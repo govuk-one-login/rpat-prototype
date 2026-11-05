@@ -1,0 +1,49 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Client created – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Your services", href: "/services" },
+      { text: service.name, href: "/services/" + service.id },
+      { text: client.clientName }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+      titleText: "Client created",
+      html: "Your client ID<br><strong>" + client.clientId + "</strong>"
+    }) }}
+
+    <p class="govuk-body">
+      <button class="govuk-link" style="border: none; background: none; cursor: pointer; text-decoration: underline;" onclick="navigator.clipboard.writeText('{{ client.clientId }}'); this.textContent = 'Copied!';">
+        Copy client ID to clipboard
+      </button>
+    </p>
+
+    <h2 class="govuk-heading-m">Client status</h2>
+
+    <p class="govuk-body">
+      <strong class="govuk-tag govuk-tag--grey">Inactive</strong>
+    </p>
+
+    <p class="govuk-body">
+      This client cannot be used for testing until it is activated. You need to complete the required configuration fields before you can activate it.
+    </p>
+
+    {{ govukButton({
+      text: "Go to client overview",
+      href: "/services/" + service.id + "/integration/" + client.id
+    }) }}
+
+  </div>
+</div>
+{% endblock %}

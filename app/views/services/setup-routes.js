@@ -1,6 +1,36 @@
 const { services } = require("../../data/services");
+const { 
+  newIdentityClientDefaults, 
+  generateClientId, 
+  countIncompleteFields, 
+  getIncompleteFields 
+} = require("../../data/client-config");
 
 function setupServiceRoutes(router) {
+
+    // Helper to get or initialize session clients
+    function getSessionClients(req, serviceId) {
+        req.session.data = req.session.data || {};
+        req.session.data.clients = req.session.data.clients || {};
+        req.session.data.clients[serviceId] = req.session.data.clients[serviceId] || [];
+        return req.session.data.clients[serviceId];
+    }
+
+    // Helper to find a client (session or mock data)
+    function findClient(req, serviceId, clientId) {
+        // Check session clients first
+        const sessionClients = getSessionClients(req, serviceId);
+        const sessionClient = sessionClients.find(c => c.id === clientId);
+        if (sessionClient) return { client: sessionClient, isSession: true };
+        
+        // Check mock data
+        const service = services.find(s => s.id === serviceId);
+        if (service) {
+            const mockClient = service.integration.find(c => c.id === clientId);
+            if (mockClient) return { client: mockClient, isSession: false };
+        }
+        return { client: null, isSession: false };
+    }
 
     // Services list (Level 1)
     router.get("/services", (req, res) => {
@@ -11,7 +41,182 @@ function setupServiceRoutes(router) {
     router.get("/services/:serviceId", (req, res) => {
         const service = services.find(s => s.id === req.params.serviceId);
         if (!service) return res.redirect("/services");
-        res.render("services/view-service.html", { service, success: req.query.success });
+        
+        // Merge session clients with mock data
+        const sessionClients = getSessionClients(req, service.id);
+        const allIntegrationClients = [...service.integration, ...sessionClients];
+        
+        res.render("services/view-service.html", { 
+            service: { ...service, integration: allIntegrationClients }, 
+            success: req.query.success 
+        });
+    });
+
+    // Create client - form
+    router.get("/services/:serviceId/create-client", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        res.render("services/create-client.html", { service });
+    });
+
+    // Create client - submit
+    router.post("/services/:serviceId/create-client", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { clientName, clientType } = req.body;
+        
+        // Auth-only clients go to 404 as per requirements
+        if (clientType === "auth") {
+            return res.redirect("/not-yet-built");
+        }
+        
+        // Create new identity client
+        const clientId = generateClientId();
+        const newClient = {
+            ...newIdentityClientDefaults,
+            id: clientId.replace(/[^a-z0-9-]/g, ''),
+            clientId: clientId,
+            clientName: clientName || "New client",
+            clientType: "identity"
+        };
+        
+        // Store in session
+        const sessionClients = getSessionClients(req, service.id);
+        sessionClients.push(newClient);
+        
+        res.render("services/client-created.html", { service, client: newClient });
+    });
+
+    // Client overview (new flow)
+    router.get("/services/:serviceId/integration/:clientId", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client, isSession } = findClient(req, service.id, req.params.clientId);
+        
+        // If not found in session, check if it's a mock client and redirect to old view
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        // For mock clients, use the old view
+        if (!isSession) {
+            return res.render("services/view-client.html", {
+                service,
+                envType: "integration",
+                config: client,
+                success: req.query.success,
+                showChangeLink: true
+            });
+        }
+        
+        // For session clients, use new overview
+        const incompleteFields = getIncompleteFields(client);
+        res.render("services/client-overview.html", { 
+            service, 
+            client,
+            incompleteCount: incompleteFields.length,
+            incompleteFields: incompleteFields,
+            showErrors: req.query.showErrors === "true",
+            success: req.query.success
+        });
+    });
+
+    // Activate client
+    router.post("/services/:serviceId/integration/:clientId/activate", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client } = findClient(req, service.id, req.params.clientId);
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        const incompleteFields = getIncompleteFields(client);
+        
+        if (incompleteFields.length > 0) {
+            // Show errors
+            return res.redirect("/services/" + service.id + "/integration/" + req.params.clientId + "?showErrors=true");
+        }
+        
+        // Activate the client
+        client.isActive = true;
+        
+        res.render("services/client-activated.html", { service, client });
+    });
+
+    // Edit screens for new clients
+    router.get("/services/:serviceId/integration/:clientId/edit/:field", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client } = findClient(req, service.id, req.params.clientId);
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        const field = req.params.field;
+        const templatePath = "services/edit/" + field + ".html";
+        
+        // Check if template exists by trying to render it
+        res.render(templatePath, { service, client }, (err, html) => {
+            if (err) {
+                // Fall back to not-yet-built for unimplemented edit screens
+                return res.render("not-yet-built.html");
+            }
+            res.send(html);
+        });
+    });
+
+    // Save redirect URLs
+    router.post("/services/:serviceId/integration/:clientId/edit/redirect-urls", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client } = findClient(req, service.id, req.params.clientId);
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        // Handle array or single value
+        let urls = req.body.redirectUrls;
+        if (!Array.isArray(urls)) urls = [urls];
+        client.redirectUrls = urls.filter(u => u && u.trim() !== "");
+        
+        res.redirect("/services/" + service.id + "/integration/" + req.params.clientId + "?success=Redirect URIs updated");
+    });
+
+    // Save authentication method
+    router.post("/services/:serviceId/integration/:clientId/edit/public-key-type", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client } = findClient(req, service.id, req.params.clientId);
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        client.publicKeyType = req.body.publicKeyType;
+        if (req.body.publicKeyType === "JWKS URL") {
+            client.jwksUrl = req.body.jwksUrl;
+            client.publicKey = "configured";
+        } else if (req.body.publicKeyType === "Fixed public key") {
+            client.publicKey = req.body.publicKey || "configured";
+            client.jwksUrl = null;
+        } else if (req.body.publicKeyType === "Client secret") {
+            client.publicKey = req.body.clientSecret || "configured";
+            client.jwksUrl = null;
+        }
+        
+        res.redirect("/services/" + service.id + "/integration/" + req.params.clientId + "?success=Authentication method updated");
+    });
+
+    // Save scopes
+    router.post("/services/:serviceId/integration/:clientId/edit/scopes", (req, res) => {
+        const service = services.find(s => s.id === req.params.serviceId);
+        if (!service) return res.redirect("/services");
+        
+        const { client } = findClient(req, service.id, req.params.clientId);
+        if (!client) return res.redirect("/services/" + service.id);
+        
+        let scopes = req.body.scopes;
+        if (!Array.isArray(scopes)) scopes = scopes ? [scopes] : [];
+        // Always include openid
+        if (!scopes.includes("openid")) scopes.unshift("openid");
+        client.scopes = scopes;
+        
+        res.redirect("/services/" + service.id + "/integration/" + req.params.clientId + "?success=Scopes updated");
     });
 
     // Team members
@@ -78,11 +283,6 @@ function setupServiceRoutes(router) {
         res.render("accept-invite/confirmed.html");
     });
 
-    // Catch-all: unbuilt edit screens
-    router.get("/services/:serviceId/integration/:configId/edit/:field", (req, res) => {
-        res.render("not-yet-built.html");
-    });
-
     // Request to go live (placeholder)
     router.get("/services/:serviceId/request-go-live", (req, res) => {
         const service = services.find(s => s.id === req.params.serviceId);
@@ -90,7 +290,7 @@ function setupServiceRoutes(router) {
         res.render("services/request-go-live.html", { service });
     });
 
-    // Edit config detail (Level 3)
+    // Edit config detail (Level 3) - for mock clients
     router.get("/services/:serviceId/:envType/:configId/edit", (req, res) => {
         const service = services.find(s => s.id === req.params.serviceId);
         if (!service) return res.redirect("/services");
@@ -111,21 +311,19 @@ function setupServiceRoutes(router) {
         });
     });
 
-    // View config detail (Level 3)
-    router.get("/services/:serviceId/:envType/:configId", (req, res) => {
+    // View config detail (Level 3) - for production
+    router.get("/services/:serviceId/production/:configId", (req, res) => {
         const service = services.find(s => s.id === req.params.serviceId);
         if (!service) return res.redirect("/services");
-        const { envType, configId } = req.params;
+        const { configId } = req.params;
         let config;
-        if (envType === "production" && service.production && service.production.id === configId) {
+        if (service.production && service.production.id === configId) {
             config = service.production;
-        } else if (envType === "integration") {
-            config = service.integration.find(c => c.id === configId);
         }
         if (!config) return res.redirect("/services/" + service.id);
         res.render("services/view-client.html", {
             service,
-            envType,
+            envType: "production",
             config,
             success: req.query.success,
             showChangeLink: false,
@@ -148,4 +346,4 @@ function setupServiceRoutes(router) {
 
 module.exports = {
     setupServiceRoutes,
-  };
+};
